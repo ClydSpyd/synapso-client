@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContextData, defaultAuthContext, User } from "./types";
+import { Loader } from "@mantine/core";
 
 const AuthContext = createContext<AuthContextData>(defaultAuthContext);
 
@@ -10,11 +11,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmititng] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (username: string, password: string) => {
     setError(null);
-    setLoading(true);
+    setSubmititng(true);
     try {
       const res = await axios.post(
         process.env.NEXT_PUBLIC_API_BASE_URL! + "auth/login/",
@@ -38,7 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(null);
       setError(err.response?.data?.detail || "Login failed");
     }
-    setLoading(false);
+    setSubmititng(false);
   };
   const handleLogout = async () => {
     try {
@@ -85,9 +87,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isAuthenticated: isAuthenticated,
         loading,
         error,
+        setError,
+        submitting,
       }}
     >
-      {!loading && children}
+      {loading ? (
+        <div className="h-screen w-screen flex items-center justify-center">
+          <Loader type="dots" color="grape" size={70} />
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

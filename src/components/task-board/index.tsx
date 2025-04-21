@@ -4,11 +4,11 @@ import {
   DragEndEvent,
   DragStartEvent,
   DragOverlay,
-  closestCorners,
   PointerSensor,
   useSensor,
   useSensors,
   DragOverEvent,
+  rectIntersection,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { Column, COLUMNS, Task } from "./config";
@@ -37,8 +37,9 @@ export default function TaskBoard() {
   };
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    setActiveId(null);
+    setOverId(null);
     if (!over) return;
-
     const activeTask = tasks.find((t) => t.id === active.id);
     const overTask = tasks.find((t) => t.id === over.id);
 
@@ -73,32 +74,30 @@ export default function TaskBoard() {
         )
       );
     }
-
-    setActiveId(null);
-    setOverId(null);
   };
 
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCorners}
+      collisionDetection={rectIntersection}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-2 p-10 w-full">
+      {/* <div>
+        <h6>active: {activeId}</h6>
+        <h6>over: {overId}</h6>
+      </div> */}
+      <div className="flex gap-2 p-4 w-full h-full">
         {COLUMNS.map((col: Column) => {
           const columnTasks = tasks.filter(
             (task) => task.status === col.status
           );
-          const itemIds = columnTasks.map((task) => task.id);
-
           return (
             <BoardColumn
               key={col.status}
               id={col.status}
               tasks={columnTasks}
-              itemIds={itemIds}
               overId={overId}
               activeId={activeId}
             />

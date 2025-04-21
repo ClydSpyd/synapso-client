@@ -22,6 +22,7 @@ export default function TaskItem({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    height: "60px",
     padding: "8px 12px",
     backgroundColor: "white",
     border: "1px solid #ccc",

@@ -10,7 +10,7 @@ export default function UnauthenticatedLayout({
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return redirect("/admin");
+    return redirect("/home");
   }
 
   return <>{children}</>;

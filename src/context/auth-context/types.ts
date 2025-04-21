@@ -5,11 +5,13 @@ export interface AuthContextData {
     logout: () => Promise<void>;
     loading: boolean;
     error: string | null;
+    setError: (error: string | null) => void;
+    submitting: boolean;
 }
 
 export interface User {
     id: string;
-    name: string;
+    username: string;
     email: string;
     role: string;
 }
@@ -25,4 +27,8 @@ export const defaultAuthContext: AuthContextData = {
   },
   loading: false,
   error: null,
+  setError: () => {
+    throw new Error("setError function not implemented");
+  },
+  submitting: false,
 };
