@@ -6,6 +6,7 @@ import Link from "next/link";
 import logo from "../../../../public/images/logo.png";
 import { FaApple, FaGoogle } from "react-icons/fa";
 import { useState } from "react";
+import ParticleField from "@/components/particle-field";
 
 export default function Home() {
   const [rememberMe, setRememberMe] = useState<boolean>(true);
@@ -26,77 +27,88 @@ export default function Home() {
   };
 
   return (
-    <div className="gradient-bg h-screen min-h-[700px] w-screen flex flex-col items-center justify-center overflow-hidden">
-      <div className="w-[450px] h-[650px] bg-white rounded-xl p-8 px-12 flex flex-col gap-6 items-center shadow-lg relative">
-        <Image src={logo} alt="logo" width={350} className="" />
-        <form
-          onSubmit={handleFormSubmission}
-          onChange={() => setError(null)}
-          className="w-full flex flex-col gap-2"
-        >
-          <div className="flex flex-col gap-1">
-            <label className="text-gray-600 text-sm">Username</label>
-            <input
-              required
-              type="text"
-              name="username"
-              placeholder="username"
-              className="border border-gray-300 rounded p-2"
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-gray-600 text-sm">Password</label>
-            <input
-              required
-              type="password"
-              name="password"
-              placeholder="password"
-              className="border border-gray-300 rounded p-2"
-            />
-          </div>
-          <div className="w-full flex justify-between items-center text-gray-600 text-sm">
-            <div
-              className="flex items-center gap-1 cursor-pointer"
-              onClick={() => setRememberMe(!rememberMe)}
+    // <div className=" h-screen min-h-[700px] w-screen flex flex-col items-center justify-center overflow-hidden">
+    <>
+      <div className=" h-screen min-h-[700px] w-screen flex flex-col items-center justify-center overflow-hidden gradient-bg-zen">
+        <div className="relative">
+          {/* <div className="rounded-xl absolute inset-0 -z-10 to-sky-400 scale-140 blur-3xl rotate-45 opacity-60 overflow-hidden rotate-alt pulsate">
+          <div className="gradient-bg-zen-three !abs-center" />
+        </div> */}
+
+          <div className="w-[450px] bg-white rounded-xl p-8 px-12 flex flex-col gap-6 items-center shadow-lg relative">
+            <Image src={logo} alt="logo" width={350} className="" />
+            <form
+              onSubmit={handleFormSubmission}
+              onChange={() => setError(null)}
+              className="w-full flex flex-col gap-2"
             >
-              <Checkbox
-                className="pointer-events-none"
-                color="oklch(74.6% 0.16 232.661)"
-                checked={rememberMe}
-                onChange={(event) => setRememberMe(event.currentTarget.checked)}
-              />
-              <p>Remember me</p>
-            </div>
-            <p className="text-sky-400 font-semibold cursor-pointer">
-              forgotten password?
-            </p>
-          </div>
-          <button
-            type="submit"
-            className="button-zen mt-2 mb-1 font-bold flex items-center justify-center h-[50px]"
-          >
-            {!submitting ? (
-              "Sign in"
-            ) : (
-              <Image
-                src={"/loaders/loader_rolling.svg"}
-                alt="loader"
-                width={30}
-                height={30}
-              />
-            )}
-          </button>
-          <div className="w-full flex items-center justify-center gap-2">
-            <p className="text-gray-400 text-sm">Don&apos;t have an account?</p>
-            <Link
-              href={"/register"}
-              className="text-fuchsia-500 font-bold text-sm"
-            >
-              Sign up
-            </Link>
-          </div>
-        </form>
-        <div className="flex flex-col w-full">
+              <div className="flex flex-col gap-1">
+                <label className="text-gray-600 text-sm">Username</label>
+                <input
+                  required
+                  type="text"
+                  name="username"
+                  placeholder="username"
+                  className="border border-gray-300 rounded p-2"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-gray-600 text-sm">Password</label>
+                <input
+                  required
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  className="border border-gray-300 rounded p-2"
+                />
+              </div>
+              <div className="w-full flex justify-between items-center text-gray-600 text-sm">
+                <div
+                  className="flex items-center gap-1 cursor-pointer"
+                  onClick={() => setRememberMe(!rememberMe)}
+                >
+                  <Checkbox
+                    className="pointer-events-none"
+                    color="oklch(74.6% 0.16 232.661)"
+                    checked={rememberMe}
+                    onChange={(event) =>
+                      setRememberMe(event.currentTarget.checked)
+                    }
+                  />
+                  <p>Remember me</p>
+                </div>
+                <p className="text-sky-400 font-semibold cursor-pointer">
+                  forgotten password?
+                </p>
+              </div>
+              <button
+                type="submit"
+                className="button-zen mt-2 mb-1 font-bold flex items-center justify-center h-[50px]"
+              >
+                {!submitting ? (
+                  "Sign in"
+                ) : (
+                  <Image
+                    src={"/loaders/loader_rolling.svg"}
+                    alt="loader"
+                    width={30}
+                    height={30}
+                  />
+                )}
+              </button>
+              <div className="w-full flex items-center justify-center gap-2">
+                <p className="text-gray-400 text-sm">
+                  Don&apos;t have an account?
+                </p>
+                <Link
+                  href={"/register"}
+                  className="text-fuchsia-500 font-bold text-sm"
+                >
+                  Sign up
+                </Link>
+              </div>
+            </form>
+            {/* <div className="flex flex-col w-full">
           <div className="flex items-center justify-center w-full relative mb-4">
             <div className="absolute h-[1px] w-full bg-gray-300" />
             <p className="px-2 bg-white text-gray-400 text-sm z-10">
@@ -112,13 +124,16 @@ export default function Home() {
               Continue with Apple
             </div>
           </div>
-        </div>
-        {error && (
-          <div className="text-red-500 absolute bottom-[12px] text-sm z-20">
-            <p>{error}</p>
+        </div> */}
+            {error && (
+              <div className="text-red-500 absolute bottom-[12px] text-xs z-20">
+                <p>{error}</p>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
-    </div>
+      <ParticleField />
+    </>
   );
 }

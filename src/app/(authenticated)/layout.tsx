@@ -23,7 +23,7 @@ export default function AuthenticatedLayout({
       </div>
       <div className="flex w-full grow">
         <div className="w-[250px] h-full border-r border-gray-200/80"></div>
-        <div className="h-full grow p-4">{children}</div>
+        <div className="h-full grow">{children}</div>
       </div>
     </div>
   );

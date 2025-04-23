@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TASK TRACKER",
-  description: "Track your tasks with ease",
+  title: "SYNAPSO",
+  description: "YOUR MIND, ORGANISED",
   icons: {
     icon: "/images/favicon.png",
   },
