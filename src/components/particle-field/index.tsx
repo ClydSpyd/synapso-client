@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { createRandomSpark, updateMorphingMatrix } from "./utils";
+import { updateMorphingMatrix } from "./elements/matrix";
+import { createRandomSpark } from "./elements/sparks";
 
 export default function ParticleField() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -111,7 +112,7 @@ export default function ParticleField() {
 
       updateMorphingMatrix({
         scene,
-        lineMesh: lineMeshRef,  // Pass the lineMeshRef to the function
+        lineMesh: lineMeshRef, // Pass the lineMeshRef to the function
       });
 
       // Update the target rotation based on current motion
