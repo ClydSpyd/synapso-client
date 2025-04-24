@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { createRandomSpark } from "./utils";
+import { createRandomSpark, updateMorphingMatrix } from "./utils";
 
 export default function ParticleField() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -8,6 +8,7 @@ export default function ParticleField() {
   const velocity = useRef({ x: 0, y: 0 });
   const drift = useRef({ x: 0.001, y: 0.001 });
   const targetRotation = useRef({ x: 0, y: 0 });
+  const lineMeshRef = useRef<THREE.LineSegments | null>(null);
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -83,73 +84,35 @@ export default function ParticleField() {
       velocity.current.x = deltaX;
       velocity.current.y = deltaY;
       const minDrift = 0.0005;
-      const maxDrift = 0.01; 
-      
+      const maxDrift = 0.005;
+
       // raw values based on mouse movement
       // 0.5 scaling factor to keep movement subtle
       const baseDriftX = deltaX * 0.5;
       const baseDriftY = deltaY * 0.5;
-      
+
       const clamp = (val: number) => {
         const abs = Math.abs(val); // -0.12 === 0.12 scale only, regardless of sign
         const clamped = Math.min(Math.max(abs, minDrift), maxDrift); // clamp to min/max drift values
         return Math.sign(val || 1) * clamped; // sign of initial input reassigned to calculate clamped value
       };
-      
+
       drift.current.x = clamp(baseDriftX);
       drift.current.y = clamp(baseDriftY);
-  
+
       mouse.current.x = x;
       mouse.current.y = y;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    const maxDistance = 1.5;
-    const linePositions = [];
-    const particlePositions = geometry.getAttribute("position");
-
-    for (let i = 0; i < particleCount; i++) {
-      for (let j = i + 1; j < particleCount; j++) {
-        const ix = i * 3,
-          jx = j * 3;
-
-        const dx = particlePositions.array[ix] - particlePositions.array[jx];
-        const dy =
-          particlePositions.array[ix + 1] - particlePositions.array[jx + 1];
-        const dz =
-          particlePositions.array[ix + 2] - particlePositions.array[jx + 2];
-        const distSq = dx * dx + dy * dy + dz * dz;
-
-        if (distSq < maxDistance * maxDistance) {
-          linePositions.push(
-            particlePositions.array[ix],
-            particlePositions.array[ix + 1],
-            particlePositions.array[ix + 2],
-            particlePositions.array[jx],
-            particlePositions.array[jx + 1],
-            particlePositions.array[jx + 2]
-          );
-        }
-      }
-    }
-
-    const lineGeometry = new THREE.BufferGeometry();
-    lineGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(new Float32Array(linePositions), 3)
-    );
-
-    const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.3,
-    });
-
-    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-    scene.add(lines);
 
     const animate = () => {
       requestAnimationFrame(animate);
+
+      updateMorphingMatrix({
+        scene,
+        lineMesh: lineMeshRef,  // Pass the lineMeshRef to the function
+      });
 
       // Update the target rotation based on current motion
       targetRotation.current.x += drift.current.y + velocity.current.y;
@@ -164,7 +127,8 @@ export default function ParticleField() {
       velocity.current.x *= 0.95;
       velocity.current.y *= 0.95;
 
-      if (Math.random() < 0.03) { // Adjust frequency (3% chance per frame)
+      if (Math.random() < 0.03) {
+        // Adjust frequency (3% chance per frame)
         createRandomSpark({
           scene,
           geometry,
@@ -180,6 +144,7 @@ export default function ParticleField() {
     const cleanup = () => {
       window.removeEventListener("mousemove", handleMouseMove);
       mountRef.current?.removeChild(renderer.domElement);
+      // clearInterval(linesInterval);
     };
 
     return cleanup;

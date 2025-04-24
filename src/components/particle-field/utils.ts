@@ -1,13 +1,13 @@
 import * as THREE from "three";
 
 export const createRandomSpark = ({
-    scene,
-    geometry,
-    particleCount,
-}:{
-    scene: THREE.Scene;
-    geometry: THREE.BufferGeometry;
-    particleCount: number;
+  scene,
+  geometry,
+  particleCount,
+}: {
+  scene: THREE.Scene;
+  geometry: THREE.BufferGeometry;
+  particleCount: number;
 }) => {
   const pos = geometry.getAttribute("position");
   let tries = 10; // limit attempts to avoid infinite loops
@@ -30,88 +30,113 @@ export const createRandomSpark = ({
 
     if (distSq <= 0.02) break; // max distance squared (e.g. √2 = ~1.41 units)
   }
-    if (!ax || !ay || !az || !bx || !by || !bz) return; // no valid points found, exit
-  
-    const sparkGeometry = new THREE.BufferGeometry();
-    sparkGeometry.setAttribute("position", new THREE.Float32BufferAttribute([ax, ay, az, bx, by, bz], 3));
-  
-    const sparkMaterial = new THREE.LineBasicMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 1,
-    });
-  
-    const sparkLine = new THREE.Line(sparkGeometry, sparkMaterial);
-    scene.add(sparkLine);
-  
-    setTimeout(() => {
-      scene.remove(sparkLine);
-      sparkGeometry.dispose();
-      sparkMaterial.dispose();
-    }, 50);
-  };
+  if (!ax || !ay || !az || !bx || !by || !bz) return; // no valid points found, exit
 
-  export const updateLineConnections = ({
-    scene,
-    geometry,
-    particleCount,
-    lineMeshRef,
-  }: {
-    scene: THREE.Scene;
-    geometry: THREE.BufferGeometry;
-    particleCount: number;
-    lineMeshRef: React.MutableRefObject<THREE.LineSegments | null>;
-  }) => {
-    const maxDistance = 1.5;
-    const linePositions = [];
-    const particlePositions = geometry.getAttribute("position");
+  const sparkGeometry = new THREE.BufferGeometry();
+  sparkGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute([ax, ay, az, bx, by, bz], 3)
+  );
 
-    for (let i = 0; i < particleCount; i++) {
-      for (let j = i + 1; j < particleCount; j++) {
-        const ix = i * 3,
-          jx = j * 3;
-        const dx = particlePositions.array[ix] - particlePositions.array[jx];
-        const dy =
-          particlePositions.array[ix + 1] - particlePositions.array[jx + 1];
-        const dz =
-          particlePositions.array[ix + 2] - particlePositions.array[jx + 2];
-        const distSq = dx * dx + dy * dy + dz * dz;
+  const sparkMaterial = new THREE.LineBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.75,
+  });
 
-        if (distSq < maxDistance * maxDistance) {
-          linePositions.push(
-            particlePositions.array[ix],
-            particlePositions.array[ix + 1],
-            particlePositions.array[ix + 2],
-            particlePositions.array[jx],
-            particlePositions.array[jx + 1],
-            particlePositions.array[jx + 2]
-          );
-        }
+  const sparkLine = new THREE.Line(sparkGeometry, sparkMaterial);
+  scene.add(sparkLine);
+
+  setTimeout(() => {
+    scene.remove(sparkLine);
+    sparkGeometry.dispose();
+    sparkMaterial.dispose();
+  }, 50);
+};
+// Configuration
+const pointCount = 120;
+const maxConnections = 500;
+const maxDist = 3.2;
+const morphOffset = 0.3; // how far each point oscillates from its base
+const morphSpeed = 0.3;  // speed of oscillation
+
+// Store base points and phase offsets
+const points = Array.from({ length: pointCount }, () => ({
+  base: new THREE.Vector3(
+    (Math.random() - 0.5) * 12, // Wider spread
+    (Math.random() - 0.5) * 12,
+    (Math.random() - 0.5) * 12
+  ),
+  phase: Math.random() * Math.PI * 2,
+}));
+
+export const updateMorphingMatrix = ({
+  scene,
+  lineMesh,
+}: {
+  scene: THREE.Scene;
+  lineMesh: React.RefObject<THREE.LineSegments | null>;
+}) => {
+  const time = performance.now() * 0.001;
+  const animatedPositions: THREE.Vector3[] = [];
+
+  // Animate each point smoothly around its base position
+  for (const p of points) {
+    const animated = new THREE.Vector3(
+      p.base.x + Math.sin(time * morphSpeed + p.phase) * morphOffset,
+      p.base.y + Math.cos(time * morphSpeed + p.phase * 1.2) * morphOffset,
+      p.base.z + Math.sin(time * morphSpeed + p.phase * 0.8) * morphOffset
+    );
+    animatedPositions.push(animated);
+  }
+
+  // Build new line geometry
+  const linePositions: number[] = [];
+  let linesAdded = 0;
+
+  for (let i = 0; i < pointCount; i++) {
+    for (let j = i + 1; j < pointCount; j++) {
+      if (linesAdded >= maxConnections) break;
+
+      const a = animatedPositions[i];
+      const b = animatedPositions[j];
+      const distSq = a.distanceToSquared(b);
+
+      if (distSq < maxDist * maxDist) {
+        linePositions.push(a.x, a.y, a.z, b.x, b.y, b.z);
+        linesAdded++;
       }
     }
+  }
 
-    const newLineGeometry = new THREE.BufferGeometry();
-    newLineGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(new Float32Array(linePositions), 3)
-    );
+  const lineGeometry = new THREE.BufferGeometry();
+  lineGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(linePositions, 3)
+  );
 
-    const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.1,
-    });
+  const lineMaterial = new THREE.LineBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.2,
+  });
 
-    const newLineMesh = new THREE.LineSegments(newLineGeometry, lineMaterial);
+  const newLineMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
 
-    // Remove old lines if present
-    if (lineMeshRef.current) {
-      scene.remove(lineMeshRef.current);
-      lineMeshRef.current.geometry.dispose();
-      lineMeshRef.current.material.dispose();
+  // Clean up previous mesh
+  if (lineMesh.current) {
+    scene.remove(lineMesh.current);
+    lineMesh.current.geometry.dispose();
+    if (Array.isArray(lineMesh.current.material)) {
+      lineMesh.current.material.forEach((m) => m.dispose());
+    } else {
+      lineMesh.current.material.dispose();
     }
+    lineMesh.current.visible = false;
+    lineMesh.current = null;
+  }
 
-    lineMeshRef.current = newLineMesh;
-    scene.add(newLineMesh);
-  };
-  
+  // Add new mesh
+  lineMesh.current = newLineMesh;
+  scene.add(lineMesh.current);
+};
