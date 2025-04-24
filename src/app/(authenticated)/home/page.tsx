@@ -51,7 +51,7 @@ export default function Home() {
     <div className="h-full w-full flex flex-col gap-4 bg-gray-100/40 p-4">
       {/* <TaskBoard /> */}
       <div className="w-full h-[130px] rounded-md !overflow-hidden px-6 flex flex-col justify-center relative z-10">
-        <div className="!absolute h-[1500px] w-[1500px] left-0 z-[-1] abs-center">
+        <div className="!absolute min-h-[100vw] min-w-screen left-0 z-[-1] abs-center">
           <div className="!absolute h-full w-full left-0 gradient-bg-zen-alt rotate-alt" />
         </div>
         <h1 className="text-3xl font-bold text-white">
@@ -90,7 +90,7 @@ export default function Home() {
           className="col-span-2"
         />
         <BoxModule
-          title="Thoghts"
+          title="Wiki"
           count={18}
           icon={<FaBrain className="text-xl text-sky-700" />}
           iconBoxClassName="bg-cyan-100"
