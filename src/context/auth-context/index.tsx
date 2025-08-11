@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
     setSubmititng(false);
   };
+  
   const handleLogout = async () => {
     try {
       await axios.post(

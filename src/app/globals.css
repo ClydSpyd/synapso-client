@@ -3,10 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --grad_one: #df2cf0;
-  --grad_two: #dc5cff;
-  --grad_three: #7acbff;
-  --grad_four: #41deff;
+  --accent-one: #df2cf0;
+  --accent-two: #dc5cff;
+  --accent-three: #432dd7;
+  --accent-four: #41deff;
+  --accent-light-one: #fcebff;
+  --accent-light-two: #f1eeff;
+  --accent-light-three: #e9f9fd;
+  --accent-light-four: #e2ebfb;
 }
 
 @theme inline {
@@ -138,7 +142,7 @@ body {
 
 .button-zen:hover {
   transform: scale(1.02);
-  border: 2px solid #cc66ff;
+  border: 2px solid #e976fa;
   background-position: 50% 50%;
 }
 
@@ -148,6 +152,12 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.vert-center{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .gradient-bg-zen-three {

@@ -25,7 +25,7 @@ export default function ParticleField() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     mountRef.current?.appendChild(renderer.domElement);
 
-    const particleCount = 500;
+    const particleCount = 400;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
@@ -112,7 +112,7 @@ export default function ParticleField() {
 
       updateMorphingMatrix({
         scene,
-        lineMesh: lineMeshRef, // Pass the lineMeshRef to the function
+        lineMesh: lineMeshRef, // pass lineMeshRef to the function
       });
 
       // Update the target rotation based on current motion
@@ -128,8 +128,8 @@ export default function ParticleField() {
       velocity.current.x *= 0.95;
       velocity.current.y *= 0.95;
 
-      if (Math.random() < 0.03) {
-        // Adjust frequency (3% chance per frame)
+      if (Math.random() < 0.05) {
+        // frequency - 5% chance per frame
         createRandomSpark({
           scene,
           geometry,
@@ -145,7 +145,6 @@ export default function ParticleField() {
     const cleanup = () => {
       window.removeEventListener("mousemove", handleMouseMove);
       mountRef.current?.removeChild(renderer.domElement);
-      // clearInterval(linesInterval);
     };
 
     return cleanup;

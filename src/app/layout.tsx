@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: "SYNAPSO",
   description: "YOUR MIND, ORGANISED",
   icons: {
-    icon: "/images/favicon.png",
+    icon: "/images/favicon_sq.png",
   },
 };
 

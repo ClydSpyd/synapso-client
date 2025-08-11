@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-export default function ParticleField() {
+export default function ParticleFieldBR() {
   const mountRef = useRef<HTMLDivElement>(null);
   const mouse = useRef({ x: 0, y: 0 });
   const velocity = useRef({ x: 0, y: 0 });

@@ -1,13 +1,15 @@
 "use client";
+import Navbar from "@/components/layout-comps/navbar";
+import QuickAccessBar from "@/components/layout-comps/quick-access-bar";
 import { useAuth } from "@/context/auth-context";
+import { QueryProvider } from "@/context/query-provider";
 import { redirect } from "next/navigation";
-
 export default function AuthenticatedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
     return redirect("/login");
@@ -15,15 +17,13 @@ export default function AuthenticatedLayout({
 
   return (
     <div className="flex flex-col h-screen w-screen">
-      <div className="w-full h-[50px] gap-4 flex items-center justify-end px-8 border-b border-gray-200/80 text-fuchsia-600">
-        {/* <Link href={"/home"}>home</Link> */}
-        <p className="cursor-pointer" onClick={logout}>
-          logout
-        </p>
-      </div>
+      <Navbar />
       <div className="flex w-full grow">
-        <div className="w-[250px] h-full border-r border-gray-200/80"></div>
-        <div className="h-full grow">{children}</div>
+        <QuickAccessBar />
+        <div className="h-full grow">
+          {" "}
+          <QueryProvider>{children}</QueryProvider>
+        </div>
       </div>
     </div>
   );

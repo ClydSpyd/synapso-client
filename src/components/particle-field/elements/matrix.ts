@@ -65,7 +65,7 @@ export const updateMorphingMatrix = ({
   const lineMaterial = new THREE.LineBasicMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.2,
+    opacity: 0.3,
   });
 
   const newLineMesh = new THREE.LineSegments(lineGeometry, lineMaterial);

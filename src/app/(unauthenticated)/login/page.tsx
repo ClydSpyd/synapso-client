@@ -1,14 +1,11 @@
 "use client";
 import { useAuth } from "@/context/auth-context";
-import { Checkbox } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../../../public/images/logo.png";
-import { useState } from "react";
-import ParticleField from "@/components/particle-field";
+// import ParticleFieldBR from "@/components/particle-field/dev_versions/black_rainbow";
 
 export default function Home() {
-  const [rememberMe, setRememberMe] = useState<boolean>(true);
   const { login, error, setError, submitting } = useAuth();
 
   const handleFormSubmission = async (
@@ -35,7 +32,7 @@ export default function Home() {
         </div> */}
 
           <div className="w-[450px] bg-white rounded-xl p-8 px-12 flex flex-col gap-6 items-center shadow-lg relative">
-            <Image src={logo} alt="logo" width={350} className="" />
+            <Image src={logo} alt="logo" width={250} className="" />
             <form
               onSubmit={handleFormSubmission}
               onChange={() => setError(null)}
@@ -47,7 +44,6 @@ export default function Home() {
                   required
                   type="text"
                   name="username"
-                  placeholder="username"
                   className="border border-gray-300 rounded p-2"
                 />
               </div>
@@ -57,26 +53,11 @@ export default function Home() {
                   required
                   type="password"
                   name="password"
-                  placeholder="password"
                   className="border border-gray-300 rounded p-2"
                 />
               </div>
-              <div className="w-full flex justify-between items-center text-gray-600 text-sm">
-                <div
-                  className="flex items-center gap-1 cursor-pointer"
-                  onClick={() => setRememberMe(!rememberMe)}
-                >
-                  <Checkbox
-                    className="pointer-events-none"
-                    color="oklch(74.6% 0.16 232.661)"
-                    checked={rememberMe}
-                    onChange={(event) =>
-                      setRememberMe(event.currentTarget.checked)
-                    }
-                  />
-                  <p>Remember me</p>
-                </div>
-                <p className="text-sky-400 font-semibold cursor-pointer">
+              <div className="w-full flex justify-end items-center text-gray-600 text-sm">
+                <p className="text-sky-400 cursor-pointer text-xs">
                   forgotten password?
                 </p>
               </div>
@@ -132,7 +113,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <ParticleField />
     </>
   );
 }

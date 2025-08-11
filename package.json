@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p6969",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -17,10 +17,12 @@
     "@mantine/hooks": "^7.17.4",
     "@mantine/notifications": "^7.17.4",
     "@mantine/nprogress": "^7.17.4",
+    "@tanstack/react-query": "^5.75.2",
     "@types/react-dnd": "^3.0.2",
     "@types/react-dnd-html5-backend": "^3.0.2",
     "@types/three": "^0.175.0",
     "axios": "^1.8.4",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "next": "15.2.4",
     "react": "^19.0.0",
@@ -28,6 +30,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "tailwind-merge": "^3.2.0",
     "three": "^0.176.0"
   },
   "devDependencies": {

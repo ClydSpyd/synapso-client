@@ -1,4 +1,5 @@
 "use client";
+import ParticleField from "@/components/particle-field";
 import { useAuth } from "@/context/auth-context";
 import { redirect } from "next/navigation";
 
@@ -13,5 +14,10 @@ export default function UnauthenticatedLayout({
     return redirect("/home");
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ParticleField />
+    </>
+  );
 }
