@@ -7,10 +7,20 @@
   --accent-two: #dc5cff;
   --accent-three: #432dd7;
   --accent-four: #41deff;
+  --accent-five: #6500d8;
+  --accent-six: #985cff;
+  --accent-mid-one: #f2b8fc;
+  --accent-mid-two: #feb5f6;
+  --accent-mid-three: #c9beff;
+  --accent-mid-four: #a0e8fa;
+  --accent-mid-five: #afb2fc;
+  --accent-mid-six: #abc8ff;
   --accent-light-one: #fcebff;
-  --accent-light-two: #f1eeff;
-  --accent-light-three: #e9f9fd;
-  --accent-light-four: #e2ebfb;
+  --accent-light-two: #fbe2f8;
+  --accent-light-three: #f1eeff;
+  --accent-light-four: #e9f9fd;
+  --accent-light-five: #e2e3fb;
+  --accent-light-six: #e2ebfb;
 }
 
 @theme inline {
@@ -40,11 +50,11 @@ body {
 .gradient-bg-zen::before {
   content: '';
   position: absolute;
-  width: 120vw;
-  height: 120vw;
-  background: linear-gradient(-45deg, #f87bdf, #66ccff,  #d07ef9, #66ccff);
+  width: 300vw;
+  height: 300vw;
+  background: linear-gradient(-45deg, #f87bdf, #66ccff, #d07ef9, #66ccff);
   /* background: linear-gradient(-45deg, #00CEC9, #6C5CE7, #FFBE0B, #00CEC9); */
-  background-size: 400%  400%;
+  background-size: 400% 400%;
   animation: gradientShift 10s ease-in-out infinite, rotateGradient 15s linear infinite;
   z-index: -1;
   /* opacity: 0.55; */
@@ -55,9 +65,11 @@ body {
     background-position: 0% 0%;
     /* transform: rotate(0deg); */
   }
+
   50% {
     background-position: 0% 100%;
   }
+
   100% {
     background-position: 0% 0%;
     /* transform: rotate(360deg); */
@@ -68,10 +80,12 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   50% {
     transform: rotate(360deg);
   }
 }
+
 .gradient-bg-zen-alt {
   position: relative;
 }
@@ -83,7 +97,7 @@ body {
   height: 120%;
   background: linear-gradient(-45deg, #ff9eec, #86d5fc, #bc97f3, #d48cf8, #88d7fe, #df9fff, #88d6fd);
   /* background: linear-gradient(-45deg, #00CEC9, #6C5CE7, #FFBE0B, #00CEC9); */
-  background-size: 400%  400%;
+  background-size: 400% 400%;
   animation: gradientShiftAlt 20s ease-in-out infinite;
   z-index: -1;
   top: 50%;
@@ -92,7 +106,7 @@ body {
   /* opacity: 0.55; */
 }
 
-.rotate-alt{
+.rotate-alt {
   animation: rotateGradient 30s linear infinite;
 }
 
@@ -101,28 +115,32 @@ body {
     background-position: 0% 0%;
     /* transform: rotate(0deg); */
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 0%;
     /* transform: rotate(360deg); */
   }
 }
+
 @keyframes rotateGradientAlt {
   0% {
     transform: rotate(0deg), translate(-50%, -50%);
   }
+
   50% {
     transform: rotate(360deg), translate(-50%, -50%);
   }
 }
 
-.gradient-zen{
+.gradient-zen {
   background: linear-gradient(-75deg, #ff00cc, #cc66ff, #66ccff);
 }
 
-.gradient-zen-light{
+.gradient-zen-light {
   background: linear-gradient(-165deg, #f89ee6, #e2aafe, #b8e0f4);
 }
 
@@ -146,15 +164,42 @@ body {
   background-position: 50% 50%;
 }
 
+.bg-zen-shift {
+  background: linear-gradient(90deg, #d65bff, #6e9eff, #48c6ff);
+  background-size: 300% 300%;
+  color: white;
+  /* padding: 12px 24px; */
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+  animation: gradientShift 5s ease infinite;
+}
 
-.abs-center{
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.abs-center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.vert-center{
+.vert-center {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -172,19 +217,19 @@ body {
   transform: translate(-50%, -50%);
   width: 120vw;
   height: 120vw;
-  background: linear-gradient(-45deg, #f87bdf, #66ccff,  #d07ef9, #66ccff);
+  background: linear-gradient(-45deg, #f87bdf, #66ccff, #d07ef9, #66ccff);
   /* background: linear-gradient(-45deg, #00CEC9, #6C5CE7, #FFBE0B, #00CEC9); */
-  background-size: 200%  200%;
+  background-size: 200% 200%;
   animation: gradientShift 10s ease-in-out infinite;
   z-index: -1;
   /* opacity: 0.55; */
 }
 
-.rotate-alt{
+.rotate-alt {
   animation: rotateGradient 30s linear infinite;
 }
 
-.pulsate{
+.pulsate {
   animation: pulsate 12s ease-in-out infinite;
 }
 
@@ -193,10 +238,30 @@ body {
   0% {
     background-position: 0% 0%;
   }
+
   50% {
     background-position: 50% 50%;
   }
+
   100% {
     background-position: 0% 0%;
   }
+}
+
+.mantine-Accordion-content,
+.mantine-Accordion-control{
+  padding: 0 10px !important;
+}
+
+.mantine-NumberInput-controls{
+  display: none !important;
+}
+
+.mantine-Checkbox-label{
+  padding-left: 8px !important;
+}
+
+.mantine-Checkbox-label,
+.mantine-Checkbox-input {
+  cursor: pointer !important;
 }

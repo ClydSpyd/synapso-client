@@ -5,7 +5,7 @@ import { API } from "@/api";
 import { useState } from "react";
 import ConfirmState from "./confirm-state";
 
-export default function AddHabbbitModal({
+export default function AddHabitModal({
   children,
   defaultData,
 }: {
@@ -19,7 +19,7 @@ export default function AddHabbbitModal({
 
   const handleSubmit = async (payload: HabitPayload) => {
     setSubmitting(true);
-    const { data, error } = await API.habbits.create(payload);
+    const { data, error } = await API.habits.create(payload);
     console.log({ data, error });
     if (error) {
       setSubmitError(error);

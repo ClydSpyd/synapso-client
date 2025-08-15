@@ -1,30 +1,39 @@
-'use-client'
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
-import MovieForm from "./movie-form";
 import { API } from "@/api";
 import { useState } from "react";
+import QuoteForm from "./quote-form";
+import ConfirmState from "./confirm-state";
 import { useQueryClient } from "@tanstack/react-query";
 
-export default function AddMovieModal({
+export default function AddQuoteModal({
   children,
 }: {
   children: React.ReactNode;
-  defaultData?: HabitPayload;
 }) {
   const [opened, { open, close }] = useDisclosure(false);
+  const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  const handleSubmit = async (imdbId: string, mediaType: MediaType) => {
-    const { data, error } = await API.wiki.media.add(imdbId, mediaType);
+  // useEffect(() => {
+  //   if(!opened) setInputVals(initialInputVals);
+  // }, [opened]);
+
+  const handleSubmit = async (payload: WikiQuote) => {
+    if (!payload.content || !payload.author) {
+      setSubmitError("Quote and author are required.");
+      return;
+    }
+    const { data, error } = await API.wiki.quotes.add(payload);
     console.log({ data, error });
     if (error) {
       setSubmitError(error);
     } else if (data) {
-      queryClient.invalidateQueries({ queryKey: ['wiki-items'] });
       setSubmitError(null);
-      close();
+      setSuccess(true);
+      queryClient.invalidateQueries({ queryKey: ['wiki-items'] });
+      // close();
     }
   };
 
@@ -38,7 +47,7 @@ export default function AddMovieModal({
             setSubmitError(null);
           }, 500);
         }}
-        title="Add Movies/Series"
+        title="Add Quote"
         centered
         transitionProps={{
           transition: "scale-y",
@@ -50,7 +59,15 @@ export default function AddMovieModal({
           blur: 3,
         }}
       >
-        <MovieForm handleFormSubmission={handleSubmit} />
+        {success ? (
+          <ConfirmState setSuccess={setSuccess} submitting={false} />
+        ) : (
+          <QuoteForm
+            handleSubmit={handleSubmit}
+            setSubmitError={setSubmitError}
+            opened={opened}
+          />
+        )}
         {submitError && (
           <p className="text-xs mx-auto text-center mt-2 text-red-500">
             {submitError}

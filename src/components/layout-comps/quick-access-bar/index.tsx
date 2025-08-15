@@ -11,8 +11,9 @@ import { FaBook } from "react-icons/fa6";
 import { TbLink, TbMovie, TbQuoteFilled } from "react-icons/tb";
 import { MdPlaylistAdd } from "react-icons/md";
 import QuickAccessItem from "./quick-access-item";
-import AddHabbbitModal from "./modals/add-habit-modal";
+import AddHabitModal from "./modals/add-habit-modal";
 import AddMovieModal from "./modals/add-movie-modal";
+import AddQuoteModal from "./modals/add-quote-modal";
 
 export default function QuickAccessBar() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -42,61 +43,63 @@ export default function QuickAccessBar() {
         <div className="py-2 flex flex-col gap-2">
           <QuickAccessItem
             text="Register Habit Activity"
-            accentColor="#432dd7"
-            hoverColor="var(--accent-light-two)"
+            accentColor="var(--accent-six)"
+            hoverColor="var(--accent-light-six)"
           >
             <FaRegCalendarCheck className="text-lg text-indigo-700" />
           </QuickAccessItem>
-          <AddHabbbitModal>
+          <AddHabitModal>
             <QuickAccessItem
               text="Add new Habit"
-              accentColor="#432dd7"
-              hoverColor="var(--accent-light-two)"
+            accentColor="var(--accent-six)"
+            hoverColor="var(--accent-light-six)"
             >
               <FaRegCalendarPlus className="text-lg text-indigo-700" />
             </QuickAccessItem>
-          </AddHabbbitModal>
+          </AddHabitModal>
           <QuickAccessItem
             text="Record Idea"
-            accentColor="#e12afb"
+            accentColor="var(--accent-one)"
             hoverColor="var(--accent-light-one)"
           >
             <FaLightbulb className="text-lg text-fuchsia-500" />
           </QuickAccessItem>
           <QuickAccessItem
             text="Wiki: Add Book"
-            accentColor="#26bebe"
-            hoverColor="var(--accent-light-three)"
+            accentColor="var(--accent-four)"
+            hoverColor="var(--accent-light-four)"
           >
             <FaBook className="text-lg text-cyan-500" />
           </QuickAccessItem>
-          <QuickAccessItem
-            text="Wiki: Add Quote"
-            accentColor="#26bebe"
-            hoverColor="var(--accent-light-three)"
-          >
-            <TbQuoteFilled className="text-xl text-cyan-500" />
-          </QuickAccessItem>
+          <AddQuoteModal>
+            <QuickAccessItem
+              text="Wiki: Add Quote"
+            accentColor="var(--accent-four)"
+            hoverColor="var(--accent-light-four)"
+            >
+              <TbQuoteFilled className="text-xl text-cyan-500" />
+            </QuickAccessItem>
+          </AddQuoteModal>
           <AddMovieModal>
             <QuickAccessItem
               text="Wiki: Add Movie/Series"
-              accentColor="#26bebe"
-              hoverColor="var(--accent-light-three)"
+            accentColor="var(--accent-four)"
+            hoverColor="var(--accent-light-four)"
             >
               <TbMovie className="text-xl text-cyan-500" />
             </QuickAccessItem>
           </AddMovieModal>
           <QuickAccessItem
             text="Wiki: Add Link"
-            accentColor="#26bebe"
-            hoverColor="var(--accent-light-three)"
+            accentColor="var(--accent-four)"
+            hoverColor="var(--accent-light-four)"
           >
             <TbLink className="text-xl text-cyan-500" />
           </QuickAccessItem>
           <QuickAccessItem
             text="Add Task"
-            accentColor="#615fff"
-            hoverColor="var(--accent-light-four)"
+            accentColor="var(--accent-three)"
+            hoverColor="var(--accent-light-three)"
           >
             <MdPlaylistAdd className="text-2xl text-indigo-500" />
           </QuickAccessItem>

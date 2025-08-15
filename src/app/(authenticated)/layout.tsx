@@ -16,15 +16,14 @@ export default function AuthenticatedLayout({
   }
 
   return (
-    <div className="flex flex-col h-screen w-screen">
-      <Navbar />
-      <div className="flex w-full grow">
-        <QuickAccessBar />
-        <div className="h-full grow">
-          {" "}
-          <QueryProvider>{children}</QueryProvider>
+    <QueryProvider>
+      <div className="flex flex-col h-screen w-screen">
+        <Navbar />
+        <div className="flex w-full grow">
+          <QuickAccessBar />
+          <div className="h-full grow"> {children}</div>
         </div>
       </div>
-    </div>
+    </QueryProvider>
   );
 }

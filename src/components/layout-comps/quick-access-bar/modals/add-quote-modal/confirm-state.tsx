@@ -11,7 +11,7 @@ export default function ConfirmState({
   return (
     <div className="flex flex-col items-center text-indigo-500 font-bold">
       <CircleTick height={100} width={100} color="var(--accent-three)" />
-      <p>Habit created</p>
+      <p>Quote created</p>
       <Button
         onClick={() => setSuccess(false)}
         loading={submitting}

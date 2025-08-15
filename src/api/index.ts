@@ -1,5 +1,9 @@
 import axios, { AxiosError } from "axios";
-import { title } from "process";
+import { habitMethods } from "./habits";
+import { focusMethods } from "./focus";
+import { omdbMethods } from "./omdb";
+import { mediaMethods } from "./media";
+import { quoteMethods } from "./quotes";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -16,7 +20,7 @@ const baseHeaders = {
   },
 };
 
-const baseClient = axios.create({
+export const baseClient = axios.create({
   baseURL: baseUrl,
   headers: baseHeaders,
   withCredentials: true,
@@ -56,141 +60,25 @@ baseClient.interceptors.response.use(
 );
 
 export const API = {
-  habbits: {
-    getAll: async (): Promise<ApiResponse<Habit[]>> => {
+  habits: habitMethods,
+  focus: focusMethods,
+  omdb: omdbMethods,
+  wiki: {
+    getAllItems: async (): Promise<ApiResponse<WikiItem[]>> => {
       try {
-        const response = await baseClient.get("habits/list/");
-        return {
-          status: response.status,
-          data: response.data,
-        };
+        const response = await baseClient.get("/wiki/");
+        console.log("Wiki items response:", response);
+        return {data: response.data, status: response.status};
       } catch (error) {
-        const err = error as AxiosError;
+        console.error("Error fetching wiki items:", error);
         return {
-          status: err.code || 500,
-          error: err.message,
+          status: (error as AxiosError).code || 500,
+          error: (error as AxiosError).message || "Unknown error",
         };
+        
       }
     },
-    create: async (payload: HabitPayload): Promise<ApiResponse<Habit>> => {
-      try {
-        const response = await baseClient.post("habits/add/", payload);
-        return {
-          status: response.status,
-          data: response.data,
-        };
-      } catch (error) {
-        const err = error as AxiosError;
-        return {
-          status: err.code || 500,
-          error: err.message,
-        };
-      }
-    },
-  },
-  focus: {
-    getAll: async (): Promise<ApiResponse<FocusItem[]>> => {
-      try {
-        const response = await baseClient.get("focus/");
-        return {
-          status: response.status,
-          data: response.data,
-        };
-      } catch (error) {
-        const err = error as AxiosError;
-        return {
-          status: err.code || 500,
-          error: err.message,
-        };
-      }
-    },
-    create: async (payload: FocusPayload): Promise<ApiResponse<FocusItem>> => {
-      try {
-        const response = await baseClient.post("focus/", payload);
-        return {
-          status: response.status,
-          data: response.data,
-        };
-      } catch (error) {
-        const err = error as AxiosError<{ non_field_errors: string[] }>;
-        console.log({ err });
-        return {
-          status: err.code || 500,
-          error: err.response?.data?.non_field_errors?.[0] || err.message,
-        };
-      }
-    },
-    update: async (
-      id: string,
-      payload: Partial<FocusPayload>
-    ): Promise<ApiResponse<FocusItem>> => {
-      try {
-        const response = await baseClient.patch(`focus/${id}/`, payload);
-        return {
-          status: response.status,
-          data: response.data,
-        };
-      } catch (error) {
-        const err = error as AxiosError<{ non_field_errors: string[] }>;
-        console.log({ err });
-        return {
-          status: err.code || 500,
-          error: err.response?.data?.non_field_errors?.[0] || err.message,
-        };
-      }
-    },
-  },
-  omdb: {
-    searchMovie: async (title: string): Promise<ApiResponse<OMDBMovie[]>> => {
-      try {
-        const response = await baseClient.get(
-          "media/omdb/search/?type=movie&s=" + title
-        );
-
-        if (response.data.Search.length === 0) {
-          throw new Error("No movies found for the given title.");
-        }
-
-        return {
-          status: response.status,
-          data: response.data?.Search?.filter(
-            (movie: OMDBMovie) => movie.Poster !== "N/A"
-          ) as OMDBMovie[],
-        };
-      } catch (error) {
-        const err = error as AxiosError;
-        return {
-          status: err.code || 500,
-          error: err.message,
-        };
-      }
-    },
-  },
-  movies: {
-    add: async (
-      payload: OMDBMovie
-    ): Promise<ApiResponse<Record<string, unknown>>> => {
-      try {
-
-        const movieData = {
-          title: payload.Title,
-          year: payload.Year,
-          imdb_id: payload.imdbID,
-          poster: payload.Poster,
-        };
-
-        const response = await baseClient.post("media/movies/add/", movieData);
-        return {
-          status: response.status,
-          data: response.data,
-        };
-      } catch (error) {
-        const err = error as AxiosError;
-        return {
-          status: err.code || 500,
-          error: err.message,
-        };
-      }
-    },
+    media: mediaMethods,
+    quotes: quoteMethods,
   },
 };
