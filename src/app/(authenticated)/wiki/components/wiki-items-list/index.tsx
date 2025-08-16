@@ -10,7 +10,14 @@ export default function WikiItemsList({
   error?: string;
 }) {
   if (isLoading) return <div>Loading...</div>;
-    if (error) return <div className="text-red-500">{error}</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+
+  if (items.length === 0) return (
+    <div className="text-gray-500 text-center h-full flex flex-col items-center justify-center pb-[15%]">
+      <p>No wiki items found.</p>
+      <p>Please add some items to your wiki.</p>
+    </div>
+  );
 
   return (
     <div className="w-full grid grid-cols-4 gap-2">

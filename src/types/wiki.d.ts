@@ -52,16 +52,18 @@ interface WikiQuote {
   type: "quote";
 }
 
-interface WikiBook {
+declare interface WikiBook {
   title: string;
-  author: string;
-  year: string;
-  genre?: string;
-  language?: string;
-  isbn?: string;
-  summary?: string;
+  authors: string[];
+  year: number;
+  cover: string;
+  work_key: string;
+  olid: string;
+  edition_key: string;
+  description?: string;
   type: "book";
 }
+
 
 interface WikiLink {
   title: string;

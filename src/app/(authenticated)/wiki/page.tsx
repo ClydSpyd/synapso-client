@@ -11,7 +11,7 @@ export default function WikiPage() {
   return (
     <div className="h-full w-full flex flex-col py-8 px-12">
       <PageHeader
-        title="Wisdon Wiki"
+        title="Wisdom Wiki"
         subtitle="Your collection of knowledge and insights"
         // addItemModal={<button>Add Item</button>}
       />

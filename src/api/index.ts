@@ -4,6 +4,7 @@ import { focusMethods } from "./focus";
 import { omdbMethods } from "./omdb";
 import { mediaMethods } from "./media";
 import { quoteMethods } from "./quotes";
+import { bookMethods } from "./books";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -80,5 +81,6 @@ export const API = {
     },
     media: mediaMethods,
     quotes: quoteMethods,
+    books: bookMethods,
   },
 };

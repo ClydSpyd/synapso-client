@@ -14,6 +14,7 @@ import QuickAccessItem from "./quick-access-item";
 import AddHabitModal from "./modals/add-habit-modal";
 import AddMovieModal from "./modals/add-movie-modal";
 import AddQuoteModal from "./modals/add-quote-modal";
+import AddBookModal from "./modals/add-book-modal";
 
 export default function QuickAccessBar() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -51,8 +52,8 @@ export default function QuickAccessBar() {
           <AddHabitModal>
             <QuickAccessItem
               text="Add new Habit"
-            accentColor="var(--accent-six)"
-            hoverColor="var(--accent-light-six)"
+              accentColor="var(--accent-six)"
+              hoverColor="var(--accent-light-six)"
             >
               <FaRegCalendarPlus className="text-lg text-indigo-700" />
             </QuickAccessItem>
@@ -64,18 +65,20 @@ export default function QuickAccessBar() {
           >
             <FaLightbulb className="text-lg text-fuchsia-500" />
           </QuickAccessItem>
-          <QuickAccessItem
-            text="Wiki: Add Book"
-            accentColor="var(--accent-four)"
-            hoverColor="var(--accent-light-four)"
-          >
-            <FaBook className="text-lg text-cyan-500" />
-          </QuickAccessItem>
+          <AddBookModal>
+            <QuickAccessItem
+              text="Wiki: Add Book"
+              accentColor="var(--accent-four)"
+              hoverColor="var(--accent-light-four)"
+            >
+              <FaBook className="text-lg text-cyan-500" />
+            </QuickAccessItem>
+          </AddBookModal>
           <AddQuoteModal>
             <QuickAccessItem
               text="Wiki: Add Quote"
-            accentColor="var(--accent-four)"
-            hoverColor="var(--accent-light-four)"
+              accentColor="var(--accent-four)"
+              hoverColor="var(--accent-light-four)"
             >
               <TbQuoteFilled className="text-xl text-cyan-500" />
             </QuickAccessItem>
@@ -83,8 +86,8 @@ export default function QuickAccessBar() {
           <AddMovieModal>
             <QuickAccessItem
               text="Wiki: Add Movie/Series"
-            accentColor="var(--accent-four)"
-            hoverColor="var(--accent-light-four)"
+              accentColor="var(--accent-four)"
+              hoverColor="var(--accent-light-four)"
             >
               <TbMovie className="text-xl text-cyan-500" />
             </QuickAccessItem>

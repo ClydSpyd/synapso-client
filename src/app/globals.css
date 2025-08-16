@@ -21,6 +21,24 @@
   --accent-light-four: #e9f9fd;
   --accent-light-five: #e2e3fb;
   --accent-light-six: #e2ebfb;
+
+  --wiki-main-one: #d648ff; 
+  --wiki-accent-one: #ecb8ff;
+
+  --wiki-main-two: #a64dff; 
+  --wiki-accent-two: #d4b8ff;
+
+  --wiki-main-three: #4db8ff; 
+  --wiki-accent-three: #b8e3ff;
+
+  --wiki-main-four: #008ae6; 
+  --wiki-accent-four: #b3c3f7;
+
+  --wiki-main-five: #ff4dd4; 
+  --wiki-accent-five: #ffb8ec;
+
+  --wiki-main-six: #6a5acd; 
+  --wiki-accent-six: #c2b8ff;
 }
 
 @theme inline {
