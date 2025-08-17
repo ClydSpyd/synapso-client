@@ -39,7 +39,7 @@ export default function RegisterActivityModal({
       setSubmitError(error);
     } else if (data) {
       setSubmitError(null);
-      queryClient.invalidateQueries({ queryKey: ["user-habits"] });
+      queryClient.invalidateQueries({ queryKey: ["user-habits", true, true] });
     }
   };
 

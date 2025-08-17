@@ -3,10 +3,21 @@ import PageHeader from "@/components/page-header";
 import WikiFilters from "./components/wiki-filters";
 import { useWikiItems } from "@/queries/useWiki";
 import WikiItemsList from "./components/wiki-items-list";
+import { useEffect, useState } from "react";
 
 export default function WikiPage() {
-  const { data: displayItems, isLoading } = useWikiItems();
+  const { data: allItems, isLoading } = useWikiItems();
+  const [displayItems, setDisplayItems] = useState<(WikiItem & { type: WikiType })[]>(allItems ?? []);
+  const [filterType, setFilterType] = useState<WikiType | null>(null);
   console.log("Wiki Data:", displayItems);
+
+  useEffect(() => {
+    if (filterType) {
+      setDisplayItems(allItems?.filter(item => item.type === filterType) ?? []);
+    } else {
+      setDisplayItems(allItems ?? []);
+    }
+  }, [filterType, allItems]);
 
   return (
     <div className="h-full w-full flex flex-col py-8 px-12">
@@ -20,7 +31,7 @@ export default function WikiPage() {
           </button>
         }
       />
-      <WikiFilters />
+      <WikiFilters setFilterType={setFilterType} activeFilter={filterType} />
       <WikiItemsList items={displayItems ?? []} isLoading={isLoading} />
     </div>
   );

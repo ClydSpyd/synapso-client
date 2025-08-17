@@ -4,6 +4,7 @@ import FocusBlocks from "./components/focus-blocks";
 import SummaryBlocks from "./components/summary-blocks";
 import { usePinnedItems } from "@/queries/usePinnedItems";
 import ListItem from "../wiki/components/wiki-items-list/list-item";
+import StaggerContainer from "@/components/utility-comps/stagger-container";
 
 export default function Home() {
   const { user } = useAuth();
@@ -36,15 +37,15 @@ export default function Home() {
       <div className="col-span-12 self-stretch pb-2 rounded-xl bg-white shadow-lg p-4 border border-gray-100">
         <h1 className="font-semibold text-slate-500 mb-3">Your Pinned Items</h1>
         <div className="grid grid-cols-4 min-h-[calc(100%-50px)] gap-2">
-          {
-            pinnedItems?.map((item) => (
-              <ListItem key={item.id} item={item.item} />
-            )) || (
-              <div className="col-span-3 text-center text-gray-400">
-                No pinned items yet.
-              </div>
-            )
-          }
+          {pinnedItems?.map((item) => (
+            <StaggerContainer key={item.id}>
+              <ListItem item={item.item} />
+            </StaggerContainer>
+          )) || (
+            <div className="col-span-3 text-center text-gray-400">
+              No pinned items yet.
+            </div>
+          )}
         </div>
         {/* <div className="h-full rounded-lg bg-[var(--accent-light-one)] shadow-md"></div>
         <div className="h-full rounded-lg bg-[var(--accent-light-three)] shadow-md"></div>

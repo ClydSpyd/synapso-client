@@ -4,6 +4,7 @@ import { cn, strToNumVal } from "@/lib/utils";
 import DayToggle from "./day-toggle";
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa6";
+import CircleTick from "@/components/ui/circle-tick";
 
 const successColorCombo: ColorCombo = {
   mainColor: "#84cc16",    // lime-500
@@ -48,16 +49,21 @@ export default function WeekBlock({
         >
           {goalReached && (
             <span
-              className="h-[22px] w-[22px] pulse-once top-[-8px] right-[-8px] absolute flex items-center justify-center rounded-full"
-              style={{
-                backgroundColor: successColorCombo.mainColor,
-              }}
+              className="pulse-once top-[-10px] right-[-10px] absolute flex items-center justify-center rounded-full"
+              // style={{
+              //   backgroundColor: successColorCombo.mainColor,
+              // }}
             >
-              <FaCheck
+              {/* <FaCheck
                 className="w-[13px] h-[13px]"
                 style={{
                   color: successColorCombo.accentColor,
                 }}
+              /> */}
+              <CircleTick
+                height={28}
+                width={28}
+                color={successColorCombo.mainColor}
               />
             </span>
           )}
