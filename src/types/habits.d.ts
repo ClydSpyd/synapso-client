@@ -15,3 +15,7 @@ declare interface Habit {
   updatedAt: Date;
   user: number;
 }
+
+declare type HabitActivity = Habit & {
+  records: string[];
+};

@@ -1,4 +1,5 @@
 import WikiBlockBook from "./blocks/wiki-block-book";
+import WikiBlockLink from "./blocks/wiki-block-link";
 import WikiBlockMovie from "./blocks/wiki-block-movie";
 import WikiBlockQuote from "./blocks/wiki-block-quote";
 import WikiBlockSeries from "./blocks/wiki-block-series";
@@ -14,14 +15,7 @@ export default function ListItem({ item }: { item: WikiItem }) {
     case "book":
       return <WikiBlockBook item={item} />;
     case "link":
-      return (
-        <>
-          <a href={item.url} target="_blank" rel="noopener noreferrer">
-            {item.title}
-          </a>
-          {item.description && <div>{item.description}</div>}
-        </>
-      );
+      return <WikiBlockLink item={item} />;
     default:
       return null;
   }

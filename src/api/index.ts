@@ -5,6 +5,8 @@ import { omdbMethods } from "./omdb";
 import { mediaMethods } from "./media";
 import { quoteMethods } from "./quotes";
 import { bookMethods } from "./books";
+import { linkMethods } from "./links";
+import { pinnedMethods } from "./pinned";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -50,11 +52,24 @@ baseClient.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     const err = error as AxiosError;
     if (err.response?.status === 401) {
-      console.error("Unauthorized access - redirecting to logout");
-      window.location.href = "/logout";
+      console.log("Unauthorized access - attempting token refresh");
+      try {
+        const tokenRes = await baseClient.post("/auth/token/refresh/");
+        console.log("Token refreshed successfully", tokenRes.data);
+        // retry the original request
+        if (err.config) {
+          console.log("Retrying original request");
+          return baseClient.request(err.config);
+        }
+        return Promise.reject(err);
+      } catch (refreshError) {
+        console.error("Token refresh failed - redirecting to logout");
+        console.error(refreshError);
+        window.location.href = "/logout";
+      }
     }
     return Promise.reject(err);
   }
@@ -81,6 +96,8 @@ export const API = {
     },
     media: mediaMethods,
     quotes: quoteMethods,
+    links: linkMethods,
     books: bookMethods,
+    pinned: pinnedMethods,
   },
 };

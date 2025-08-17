@@ -6,12 +6,14 @@ export default function Icon({
   className,
   size = 24,
   color = "currentColor",
+  style,
   ...props
 }: {
   name: string;
   className?: string;
   size?: number;
   color?: string;
+  style?: React.CSSProperties;
 }) {
   const IconComponent: IconType | null = getIconByName(name);
   
@@ -20,7 +22,13 @@ export default function Icon({
   }
 
   return (
-    <IconComponent size={size} color={color} className={className} {...props} />
+    <IconComponent
+      size={size}
+      color={color}
+      className={className}
+      style={style}
+      {...props}
+    />
   );
 
 }

@@ -3,7 +3,8 @@ import { Modal } from "@mantine/core";
 import HabitForm from "./habit-form";
 import { API } from "@/api";
 import { useState } from "react";
-import ConfirmState from "./confirm-state";
+import ModalConfirmState from "@/components/ui/modal-confirm-state";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function AddHabitModal({
   children,
@@ -16,6 +17,7 @@ export default function AddHabitModal({
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const queryClient = useQueryClient()
 
   const handleSubmit = async (payload: HabitPayload) => {
     setSubmitting(true);
@@ -26,6 +28,7 @@ export default function AddHabitModal({
     } else if (data) {
       setSubmitError(null);
       setSuccess(true);
+      queryClient.invalidateQueries({ queryKey: ["user-habits"] });
     }
     setSubmitting(false);
   };
@@ -55,7 +58,11 @@ export default function AddHabitModal({
         }}
       >
         {success ? (
-          <ConfirmState setSuccess={setSuccess} submitting={submitting} />
+          <ModalConfirmState
+            itemType="Habit"
+            setSuccess={setSuccess}
+            submitting={submitting}
+          />
         ) : (
           <HabitForm
             handleFormSubmission={handleSubmit}

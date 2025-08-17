@@ -15,6 +15,8 @@ import AddHabitModal from "./modals/add-habit-modal";
 import AddMovieModal from "./modals/add-movie-modal";
 import AddQuoteModal from "./modals/add-quote-modal";
 import AddBookModal from "./modals/add-book-modal";
+import AddLinkModal from "./modals/add-link-modal";
+import RegisterActivityModal from "./modals/register-activity-modal";
 
 export default function QuickAccessBar() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -42,13 +44,15 @@ export default function QuickAccessBar() {
       >
         <h1>QUICK ACCESS</h1>
         <div className="py-2 flex flex-col gap-2">
-          <QuickAccessItem
-            text="Register Habit Activity"
-            accentColor="var(--accent-six)"
-            hoverColor="var(--accent-light-six)"
-          >
-            <FaRegCalendarCheck className="text-lg text-indigo-700" />
-          </QuickAccessItem>
+          <RegisterActivityModal>
+            <QuickAccessItem
+              text="Register Habit Activity"
+              accentColor="var(--accent-six)"
+              hoverColor="var(--accent-light-six)"
+            >
+              <FaRegCalendarCheck className="text-lg text-indigo-700" />
+            </QuickAccessItem>
+          </RegisterActivityModal>
           <AddHabitModal>
             <QuickAccessItem
               text="Add new Habit"
@@ -92,13 +96,15 @@ export default function QuickAccessBar() {
               <TbMovie className="text-xl text-cyan-500" />
             </QuickAccessItem>
           </AddMovieModal>
-          <QuickAccessItem
-            text="Wiki: Add Link"
-            accentColor="var(--accent-four)"
-            hoverColor="var(--accent-light-four)"
-          >
-            <TbLink className="text-xl text-cyan-500" />
-          </QuickAccessItem>
+          <AddLinkModal>
+            <QuickAccessItem
+              text="Wiki: Add Link"
+              accentColor="var(--accent-four)"
+              hoverColor="var(--accent-light-four)"
+            >
+              <TbLink className="text-xl text-cyan-500" />
+            </QuickAccessItem>
+          </AddLinkModal>
           <QuickAccessItem
             text="Add Task"
             accentColor="var(--accent-three)"

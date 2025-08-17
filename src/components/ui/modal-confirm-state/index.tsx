@@ -1,17 +1,19 @@
 import CircleTick from "@/components/ui/circle-tick";
 import { Button } from "@mantine/core";
 
-export default function ConfirmState({
+export default function ModalConfirmState({
   setSuccess,
   submitting,
+  itemType,
 }: {
   setSuccess: (state: boolean) => void;
   submitting: boolean;
+  itemType: string;
 }) {
   return (
     <div className="flex flex-col items-center text-indigo-500 font-bold">
       <CircleTick height={100} width={100} color="var(--accent-three)" />
-      <p>Quote created</p>
+      <p>{itemType} added</p>
       <Button
         onClick={() => setSuccess(false)}
         loading={submitting}
@@ -20,7 +22,7 @@ export default function ConfirmState({
         variant="gradient"
         gradient={{ from: "indigo", to: "grape", deg: 147 }}
       >
-        Create Another
+        Add Another
       </Button>
     </div>
   );

@@ -14,9 +14,11 @@ declare interface WikiItemConfig {
   label: string;
   mainColor: string;
   accentColor: string;
+  icon: IconType;
 }
 
 interface MediaBase {
+  id: string;
   title: string;
   year: string;
   released?: string;
@@ -53,6 +55,7 @@ interface WikiQuote {
 }
 
 declare interface WikiBook {
+  id: string;
   title: string;
   authors: string[];
   year: number;
@@ -66,9 +69,25 @@ declare interface WikiBook {
 
 
 interface WikiLink {
+  id: string;
   title: string;
   url: string;
   description?: string;
   tags?: string[];
   type: "link";
 }
+
+interface PinPayload {
+  item_id: string;
+  item_type: WikiType;
+  created_at: string;
+}
+
+interface WikiPin {
+  id: string;
+  item_type: WikiType;
+  item_id: string;
+  created_at: string;
+  item: WikiItem;
+}
+

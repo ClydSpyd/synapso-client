@@ -1,10 +1,11 @@
-'use-client'
+"use-client";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import MovieForm from "./movie-form";
 import { API } from "@/api";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import ModalConfirmState from "@/components/ui/modal-confirm-state";
 
 export default function AddMovieModal({
   children,
@@ -13,6 +14,7 @@ export default function AddMovieModal({
   defaultData?: HabitPayload;
 }) {
   const [opened, { open, close }] = useDisclosure(false);
+  const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
@@ -22,9 +24,9 @@ export default function AddMovieModal({
     if (error) {
       setSubmitError(error);
     } else if (data) {
-      queryClient.invalidateQueries({ queryKey: ['wiki-items'] });
+      queryClient.invalidateQueries({ queryKey: ["wiki-items"] });
       setSubmitError(null);
-      close();
+      setSuccess(true);
     }
   };
 
@@ -50,11 +52,17 @@ export default function AddMovieModal({
           blur: 3,
         }}
       >
-        <MovieForm handleFormSubmission={handleSubmit} />
-        {submitError && (
-          <p className="text-xs mx-auto text-center mt-2 text-red-500">
-            {submitError}
-          </p>
+        {success ? (
+          <ModalConfirmState
+            itemType="Movie/Series"
+            setSuccess={setSuccess}
+            submitting={false}
+          />
+        ) : (
+          <MovieForm
+            handleFormSubmission={handleSubmit}
+            submitError={submitError}
+          />
         )}
       </Modal>
       <div onClick={open}>{children}</div>

@@ -6,8 +6,10 @@ import { cn } from "@/lib/utils";
 
 export default function MovieForm({
   handleFormSubmission,
+  submitError,
 }: {
   handleFormSubmission: (imdbId: string, mediaType: MediaType) => void;
+  submitError?: string | null;
 }) {
   const [textInput, setTextInput] = useState<string>("");
   const [results, setResults] = useState<OMDBMovie[]>([]);
@@ -89,6 +91,7 @@ export default function MovieForm({
             />
           </div>
           <Button
+            type="submit"
             loading={submittingSearch}
             className="button-zen h-[50px]"
             fullWidth
@@ -98,6 +101,11 @@ export default function MovieForm({
             SUBMIT
           </Button>
         </div>
+        {submitError && (
+          <p className="text-xs mx-auto text-center mb-1 text-red-500">
+            {submitError}
+          </p>
+        )}
         <div
           className={cn(
             "w-full transition-all duration-500 ease-in-out flex flex-wrap gap-2",
@@ -107,15 +115,15 @@ export default function MovieForm({
           {error ? (
             <p className="w-full text-center text-red-500 text-xs">{error}</p>
           ) : (
-            results.map((item: OMDBMovie) => (
+            results.map((item: OMDBMovie, idx: number) => (
               <div
                 onClick={() => {
                   handleFormSubmission(item.imdbID, searchType);
                 }}
-                key={item.imdbID}
-                className="flex flex-col justify-start text-center items-center w-[31%]"
+                key={item.imdbID + "_" + idx}
+                className="flex flex-col justify-start text-center items-center w-[31%] group cursor-pointer"
               >
-                <div className="bg-indigo-400/40 w-full h-[200px] box-border rounded-md overflow-hidden text-sm">
+                <div className="bg-indigo-400/40 w-full h-[200px] box-border rounded-md overflow-hidden text-sm  border-2 border-transparent group-hover:border-indigo-500 transition-colors">
                   <img
                     className="w-full h-full object-fill"
                     src={item.Poster}

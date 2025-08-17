@@ -1,3 +1,4 @@
+import StaggerContainer from "@/components/utility-comps/stagger-container";
 import ListItem from "./list-item";
 
 export default function WikiItemsList({
@@ -22,7 +23,9 @@ export default function WikiItemsList({
   return (
     <div className="w-full grid grid-cols-4 gap-2">
       {items.map((item, idx) => (
-        <ListItem key={idx} item={item} />
+        <StaggerContainer key={idx}>
+          <ListItem item={item} />
+        </StaggerContainer>
       ))}
     </div>
   );

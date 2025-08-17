@@ -1,12 +1,12 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { API } from "@/api";
-import { useState } from "react";
-import QuoteForm from "./quote-form";
+import { useEffect, useState } from "react";
+import LinkForm from "./link-form";
 import { useQueryClient } from "@tanstack/react-query";
 import ModalConfirmState from "@/components/ui/modal-confirm-state";
 
-export default function AddQuoteModal({
+export default function AddLinkModal({
   children,
 }: {
   children: React.ReactNode;
@@ -20,12 +20,12 @@ export default function AddQuoteModal({
   //   if(!opened) setInputVals(initialInputVals);
   // }, [opened]);
 
-  const handleSubmit = async (payload: WikiQuote) => {
-    if (!payload.content || !payload.author) {
-      setSubmitError("Quote and author are required.");
+  const handleSubmit = async (payload: WikiLink) => {
+    if (!payload.title || !payload.url) {
+      setSubmitError("Title and URL are required.");
       return;
     }
-    const { data, error } = await API.wiki.quotes.add(payload);
+    const { data, error } = await API.wiki.links.add(payload);
     console.log({ data, error });
     if (error) {
       setSubmitError(error);
@@ -36,6 +36,13 @@ export default function AddQuoteModal({
       // close();
     }
   };
+
+  useEffect(() => {
+    if (!opened) {
+      setSuccess(false);
+      setSubmitError(null);
+    }
+  }, [opened]);
 
   return (
     <>
@@ -61,12 +68,12 @@ export default function AddQuoteModal({
       >
         {success ? (
           <ModalConfirmState
-            itemType="Quote"
+            itemType="Link"
             setSuccess={setSuccess}
             submitting={false}
           />
         ) : (
-          <QuoteForm
+          <LinkForm
             handleSubmit={handleSubmit}
             setSubmitError={setSubmitError}
             opened={opened}
