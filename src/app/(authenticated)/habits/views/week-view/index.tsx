@@ -17,6 +17,18 @@ const getMondayOfWeek = (weekOffset: number) => {
   return `${yyyy}-${mm}-${dd}`;
 };
 
+export const getFirstMondayOfMonth = (month: number, year: number) => {
+  const firstDay = new Date(year, month, 1);
+  const currentDay = firstDay.getDay();
+  const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
+  const monday = new Date(firstDay);
+  monday.setDate(firstDay.getDate() + mondayOffset);
+  const yyyy = monday.getFullYear();
+  const mm = String(monday.getMonth() + 1).padStart(2, "0");
+  const dd = String(monday.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+};
+
 // array YYYY-DD-MM format for the week
 const getDatesOfWeek = (weekOffset: number) => {
   const dates: string[] = [];
@@ -42,13 +54,17 @@ export default function WeekView() {
   });
 
   return (
-    <div className="w-full flex flex-col gap-3">
+    <div className="w-full flex flex-col gap-3 py-4">
       <WeekHeader weekIdx={weekIdx} setWeekIdx={setWeekIdx} />
       <div className="flex flex-col gap-3">
         {habitsData?.map((habit) => (
-          <StaggerContainer key={habit.id}>
+          <StaggerContainer
+            key={habit.id + weekIdx}
+            staggerDelay={100}
+            randomFactor={0}
+          >
             <WeekBlock
-              key={habit.id}
+              key={"block" + habit.id + weekIdx}
               habitData={habit}
               dates={getDatesOfWeek(weekIdx)}
             />

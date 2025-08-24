@@ -21,13 +21,9 @@ export default function SelectPill({
       className={`px-2 py-1 rounded-lg text-sm cursor-pointer transition-colors flex items-center h-fit`}
       style={{
         fontWeight: "500",
-        // borderColor: isSelected ? "transparent" : colorConfig.mainColor,
-        backgroundColor: isSelected
-          ? colorConfig.mainColor
-          : hovered
-          ? colorConfig.accentColor
-          : "transparent",
-        color: isSelected ? "white": colorConfig.mainColor,
+        border: `1px solid ${hovered ? colorConfig.accentColor : "transparent"}`,
+        backgroundColor: isSelected ? colorConfig.mainColor : "transparent",
+        color: isSelected ? "white" : colorConfig.mainColor,
         ...css,
       }}
       onClick={onClick}

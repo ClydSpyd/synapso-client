@@ -8,6 +8,7 @@ export default function StaggerContainer({
   staggerDelay = 50,
   randomFactor = 300,
   className,
+  ...rest
 }: StaggerContainerProps) {
   const [display, setDisplay] = useState<boolean>(false);
 
@@ -25,6 +26,7 @@ export default function StaggerContainer({
         display ? "opacity-100 right-0" : "opacity-0 right-1",
         className
       )}
+      {...rest}
     >
       {children}
     </div>

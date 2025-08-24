@@ -19,29 +19,45 @@ export default function RegisterActivityModal({
   const [opened, { open, close }] = useDisclosure(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const queryClient = useQueryClient();
-  const { data: habbits } = useHabits({
+  const { data: habits } = useHabits({
     withActivity: true,
+    startDate: "2025-08-24",
     dateRange: 1,
   });
+  console.log({Ö:habits})
 
-  const handleToggle = async (habitId: string) => {
-    if (!habitId) {
-      setSubmitError("Habit ID is required.");
-      return;
-    }
-    const oneWeekFromNow = new Date();
-    oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7);
-    const { data, error } = await API.habits.toggleActivity(
-      habitId,
-      formatDatePayload(0)
+  function patchHabitRecords(habits: HabitActivity[], habitId: string, date: string) {
+    return habits.map((h) =>
+      h.id === habitId
+        ? {
+            ...h,
+            records: h.records?.includes(date)
+              ? h.records.filter((d) => d !== date)
+              : [...[h.records ?? []], date],
+          }
+        : h
     );
-    if (error) {
-      setSubmitError(error);
-    } else if (data) {
-      setSubmitError(null);
-      queryClient.invalidateQueries({ queryKey: ["user-habits", true, true] });
-    }
-  };
+  }
+const handleToggle = async (habitId: string) => {
+  const date = formatDatePayload(0);
+
+  // optimistic update
+  queryClient.setQueriesData<unknown>(
+    { queryKey: ["user-habits"], exact: false },
+    (old: HabitActivity[]) =>
+      old ? patchHabitRecords(old, habitId, date) : old
+  );
+
+  const { error } = await API.habits.toggleActivity(habitId, date);
+
+  if (error) {
+    // rollback if needed
+    queryClient.invalidateQueries({ queryKey: ["user-habits"], exact: false });
+    setSubmitError(error);
+  } else {
+    queryClient.invalidateQueries({ queryKey: ["user-habits"], exact: false });
+  }
+};
 
   return (
     <>
@@ -95,7 +111,7 @@ export default function RegisterActivityModal({
           <p className="text-gray-200">{formatTodayString()}</p>
         </div>
         <div className="w-full flex flex-col gap-2 p-4">
-          {habbits?.map((habit) => (
+          {habits?.map((habit) => (
             <HabitItem
               defaultChecked={
                 !!habit.records.find(

@@ -22,7 +22,7 @@ export default function QuickAccessBar() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   return (
     <div
-      className={`relative h-full border-r border-gray-200/80 p-4 text-slate-500 font-semibold text-sm transition-all duration-300 ease-out ${
+      className={`relative h-full p-4 text-slate-500 font-semibold text-sm transition-all duration-300 ease-out ${
         sidebarOpen ? "w-[250px]" : "w-0"
       }`}
     >
@@ -43,7 +43,11 @@ export default function QuickAccessBar() {
         )}
       >
         <h1>QUICK ACCESS</h1>
-        <div className="py-2 flex flex-col gap-2">
+        <div
+          className={cn("py-2 flex flex-col gap-2", {
+            "pointer-events-none": !sidebarOpen,
+          })}
+        >
           <RegisterActivityModal>
             <QuickAccessItem
               text="Register Habit Activity"

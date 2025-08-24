@@ -17,11 +17,14 @@ export default function AuthenticatedLayout({
 
   return (
     <QueryProvider>
-      <div className="flex flex-col h-screen w-screen">
+      <div className="flex flex-col h-screen w-screen overflow-hidden">
         <Navbar />
-        <div className="flex w-full grow">
+        <div className="flex w-full h-fit">
           <QuickAccessBar />
-          <div className="h-full grow"> {children}</div>
+          <div className="h-[calc(100vh-4rem)] grow overflow-y-auto border-l border-t border-gray-200/80 ">
+            {" "}
+            {children}
+          </div>
         </div>
       </div>
     </QueryProvider>

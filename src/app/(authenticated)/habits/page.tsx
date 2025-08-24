@@ -7,6 +7,8 @@ import SelectPill from "@/components/ui/select-pill";
 import WeekView from "./views/week-view";
 import MonthView from "./views/month-view";
 import { useQueryClient } from "@tanstack/react-query";
+import useLocalStorage from "@/hooks/use-local-state";
+import AddHabitModal from "@/components/layout-comps/quick-access-bar/modals/add-habit-modal";
 
 type View = "month" | "week";
 const compMap: Record<View, React.ReactNode> = {
@@ -14,19 +16,17 @@ const compMap: Record<View, React.ReactNode> = {
   week: <WeekView />,
 };
 
-export default function TestPage() {
+export default function HabitsPage() {
   const queryClient = useQueryClient();
-  const { data, error, isLoading } = useHabits({
-    withActivity: true,
-    dateRange: 7,
-  });
-  const [selectedView, setSelectedView] = useState<View>("week");
-
+  // const { data, error, isLoading } = useHabits({
+  //   withActivity: true,
+  //   dateRange: 7,
+  // });
+  const [selectedView, setSelectedView] = useLocalStorage<View>("synapso-view", "week");
   useEffect(() => {
     queryClient.refetchQueries({ queryKey: ["user-habits"] });
   }, [selectedView]);
 
-  console.log({ Ö: data });
   return (
     <div className="h-full w-full flex flex-col py-8 px-12 bg-slate-50/50">
       <PageHeader
@@ -45,7 +45,7 @@ export default function TestPage() {
                 onClick={() => setSelectedView("month")}
                 label="Month View"
                 value="month"
-                colorConfig={colorCombos[0]}
+                colorConfig={colorCombos[7]}
               />
               <SelectPill
                 css={{
@@ -57,17 +57,19 @@ export default function TestPage() {
                 onClick={() => setSelectedView("week")}
                 label="Week View"
                 value="week"
-                colorConfig={colorCombos[0]}
+                colorConfig={colorCombos[7]}
               />
             </div>
-            <button className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 py-1 hover:scale-105 !transition-transform ease-in-out !duration-300 cursor-pointer">
-              <h1 className="text-2xl m-0 relative bottom-0.5">+</h1>
-              <p className="m-0 text.md font-semibold">New Habit</p>
-            </button>
+            <AddHabitModal>
+              <button className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 py-1 hover:scale-105 !transition-transform ease-in-out !duration-300 cursor-pointer">
+                <h1 className="text-2xl m-0 relative bottom-0.5">+</h1>
+                <p className="m-0 text.md font-semibold">New Habit</p>
+              </button>
+            </AddHabitModal>
           </div>
         }
       />
-      <div className="py-4">
+      <div>
         {compMap[selectedView] ? (
           compMap[selectedView]
         ) : (

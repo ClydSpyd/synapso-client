@@ -2,42 +2,54 @@ export const colorCombos: ColorCombo[] = [
   {
     mainColor: "var(--wiki-main-one)",
     accentColor: "var(--wiki-accent-one)",
-    hintColor: "rgba(236, 184, 255, 0.15)",
+    hintColor: "#f7e6fc", 
   },
   {
     mainColor: "var(--wiki-main-two)",
     accentColor: "var(--wiki-accent-two)",
-    hintColor: "rgba(212, 184, 255, 0.15)",
+    hintColor: "#f0e6fc",
   },
   {
     mainColor: "var(--wiki-main-three)",
     accentColor: "var(--wiki-accent-three)",
-    hintColor: "rgba(184, 227, 255, 0.15)",
+    hintColor: "#e6f4fc",
   },
   {
     mainColor: "var(--wiki-main-four)",
     accentColor: "var(--wiki-accent-four)",
-    hintColor: "rgba(179, 195, 247, 0.15)",
+    hintColor: "#e6ebfa",
   },
   {
     mainColor: "var(--wiki-main-five)",
     accentColor: "var(--wiki-accent-five)",
-    hintColor: "rgba(255, 184, 236, 0.15)",
+    hintColor: "#ffe6f7",
   },
   {
     mainColor: "var(--wiki-main-six)",
     accentColor: "var(--wiki-accent-six)",
-    hintColor: "rgba(194, 184, 255, 0.15)",
+    hintColor: "#f0e6fc",
   },
   {
     mainColor: "#2a4cff",
-    accentColor: "#cffafe",
-    hintColor: "rgba(207, 250, 254, 0.15)",
+    accentColor: "#b9cdfe",
+    hintColor: "#f0fcfd",
   },
   {
     mainColor: "rgb(172, 77, 255)",
-    accentColor: "#b700ff35",
-    hintColor: "rgba(221, 195, 232, 0.15)",
+    accentColor: "#EDD1FD",
+    hintColor: "#f4ebf7",
   },
 ];
 
+
+export const successColorCombo: ColorCombo = {
+  mainColor: "#84cc16",    // lime-500
+  accentColor: "#d9f99d",  // lime-200
+  hintColor: "rgba(247, 254, 231, 0.5)", // lime-100 at 50% opacity
+}
+
+export const disabledColorCombo: ColorCombo = {
+  mainColor: "#d1d5db",    // gray-400
+  accentColor: "#f3f4f6",  // gray-200
+  hintColor: "rgba(209, 213, 219, 0.5)", // gray-100 at 50% opacity
+}

@@ -27,9 +27,9 @@ export default function DayToggle({
   const outerRef = useRef<HTMLDivElement | null>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
-  const handleToggle = () => {
+  const handleToggle = async () => {
     onChange(date);
-    API.habits.toggleActivity(habitId, date);
+    await API.habits.toggleActivity(habitId, date);
     setLoclalVal(!localVal);
     if (!localVal) {
       setNoEvents(true)

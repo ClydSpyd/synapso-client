@@ -1,4 +1,12 @@
-import { startOfWeek, endOfWeek, format } from 'date-fns';
+import {
+  startOfWeek,
+  endOfWeek,
+  format,
+  eachDayOfInterval,
+  startOfMonth,
+  endOfMonth,
+  getDay,
+} from "date-fns";
 
 export const getThisWeekRange = (): string => {
   const today = new Date();
@@ -20,7 +28,7 @@ export const getMonday = (date = new Date()): string => {
   const day = date.getDay(); // 0 (Sun) - 6 (Sat)
   const diff = date.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
   const monday = new Date(date.setDate(diff));
-  monday.setHours(0, 0, 0, 0); 
+  monday.setHours(0, 0, 0, 0);
 
   // 🧠 construct ISO string using local values
   const year = monday.getFullYear();
@@ -40,10 +48,14 @@ export const formatTodayString = () => {
   const getDaySuffix = (d: number) => {
     if (d >= 11 && d <= 13) return "th";
     switch (d % 10) {
-      case 1: return "st";
-      case 2: return "nd";
-      case 3: return "rd";
-      default: return "th";
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
     }
   };
 
@@ -51,13 +63,13 @@ export const formatTodayString = () => {
   const weekday = today.toLocaleString("en-US", { weekday: "long" });
 
   return `${weekday} ${monthName.toLowerCase()} ${day}${daySuffix}, ${year}`;
-}
+};
 
 export const formatDatePayload = (dateOffset: number): string => {
   const date = new Date();
   date.setDate(date.getDate() + dateOffset);
   return format(date, "yyyy-MM-dd");
-}
+};
 
 export const formatWeek = (weekOffset: number = 0) => {
   const today = new Date();
@@ -72,5 +84,20 @@ export const formatWeek = (weekOffset: number = 0) => {
   const endDay = format(end, "d");
   const year = format(end, "yyyy");
 
-  return `${startMonth.charAt(0).toUpperCase() + startMonth.slice(1)} ${startDay}-${endDay}, ${year}`;
+  return `${
+    startMonth.charAt(0).toUpperCase() + startMonth.slice(1)
+  } ${startDay}-${endDay}, ${year}`;
+};
+
+// Get config data for given month
+export function getMonthData(year: number, month: number): MonthConfig {
+  const start = startOfMonth(new Date(year, month, 1));
+  const end = endOfMonth(start);
+  return {
+    dates: eachDayOfInterval({ start, end }).map((date) =>
+      format(date, "yyyy-MM-dd")
+    ),
+    firstDay: getDay(start),
+  };
 }
+
