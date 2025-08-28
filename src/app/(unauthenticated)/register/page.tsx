@@ -6,7 +6,7 @@ import logo from "../../../../public/images/logo.png";
 import DecoyInput from "@/components/decoy-input";
 
 export default function Home() {
-  const { login, error, setError, submitting } = useAuth();
+  const { signup, error, setError, submitting } = useAuth();
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>
@@ -15,10 +15,15 @@ export default function Home() {
     const formData = new FormData(event.currentTarget);
     const username = formData.get("username");
     const password = formData.get("password");
+    const repeatPassword = formData.get("repeatPassword");
+    if (password !== repeatPassword) {
+      setError("Passwords do not match");
+      return;
+    }
     try {
-      await login(username as string, password as string);
+      await signup(username as string, password as string);
     } catch (error) {
-      console.error("Login failed", error);
+      console.error("Signup failed", error);
     }
   };
 

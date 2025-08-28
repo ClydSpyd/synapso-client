@@ -3,6 +3,7 @@ export interface AuthContextData {
     user: User | null;
     login: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
+    signup: (username: string, password: string) => Promise<void>;
     loading: boolean;
     error: string | null;
     setError: (error: string | null) => void;
@@ -24,6 +25,9 @@ export const defaultAuthContext: AuthContextData = {
   },
   logout: async () => {
     throw new Error("logout function not implemented");
+  },
+  signup: async () => {
+    throw new Error("signup function not implemented");
   },
   loading: false,
   error: null,

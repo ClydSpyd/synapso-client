@@ -1,9 +1,11 @@
 import Icon from "@/components/icon-picker/icon";
 import { colorCombos } from "@/config/color-config";
-import { cn, strToNumVal } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import DayToggle from "./day-toggle";
 import { useMemo, useState } from "react";
 import CircleTick from "@/components/ui/circle-tick";
+import AddHabitModal from "@/components/layout-comps/quick-access-bar/modals/add-habit-modal";
+import { BiSolidEdit } from "react-icons/bi";
 
 const successColorCombo: ColorCombo = {
   mainColor: "#84cc16",    // lime-500
@@ -20,57 +22,53 @@ export default function WeekBlock({
 }) {
   const [localRecords, setLocalRecords] = useState<string[]>(habitData.records);
 
-  const colorConfig =
-    colorCombos[strToNumVal(habitData.title) % colorCombos.length];
-
   const goalReached = useMemo(
     () => localRecords.length >= habitData.target,
     [localRecords, habitData.target]
   );
 
+  const colorConfig = goalReached
+    ? successColorCombo
+    : colorCombos[habitData.colorScheme];
+
+
   return (
     habitData && (
       <div
         className={cn(
-          "w-full flex items-center justify-between py-6 px-4 border bg-white rounded-lg shadow-sm relative",
+          "w-full flex items-center justify-between py-6 px-4 border bg-white rounded-lg shadow-sm relative group",
           {
             "pulse-once-sm": goalReached,
           }
         )}
         style={{
-          backgroundColor: goalReached
-            ? successColorCombo.hintColor
-            : colorConfig.hintColor,
-          borderColor: goalReached
-            ? successColorCombo.accentColor
-            : colorConfig.accentColor,
+          backgroundColor: colorConfig.hintColor,
+          borderColor: colorConfig.accentColor,
         }}
       >
+        <div className="absolute top-2 right-2">
+          <AddHabitModal defaultData={habitData}>
+            <BiSolidEdit
+              size={20}
+              className="text-md cursor-pointer transition opacity-0 group-hover:opacity-100"
+              style={{
+                color: colorConfig.mainColor,
+              }}
+            />
+          </AddHabitModal>
+        </div>
         <div className="flex items-center gap-4">
           <div
-            className="h-18 w-18 rounded-lg flex items-center justify-center "
+            className="h-18 w-18 rounded-lg flex items-center justify-center relative"
             style={{
-              backgroundColor: goalReached
-                ? successColorCombo.accentColor
-                : colorConfig.accentColor,
+              backgroundColor: colorConfig.accentColor,
             }}
           >
             {goalReached && (
-              <span
-                className="pulse-once top-[-10px] right-[-10px] absolute flex items-center justify-center rounded-full"
-                // style={{
-                //   backgroundColor: successColorCombo.mainColor,
-                // }}
-              >
-                {/* <FaCheck
-                className="w-[13px] h-[13px]"
-                style={{
-                  color: successColorCombo.accentColor,
-                }}
-              /> */}
+              <span className="pulse-once top-[-8px] right-[-8px] absolute flex items-center justify-center rounded-full">
                 <CircleTick
-                  height={28}
-                  width={28}
+                  height={24}
+                  width={24}
                   color={successColorCombo.mainColor}
                 />
               </span>
@@ -79,9 +77,7 @@ export default function WeekBlock({
               name={habitData.icon}
               className="w-[42px] h-[42px]"
               style={{
-                color: goalReached
-                  ? successColorCombo.mainColor
-                  : colorConfig.mainColor,
+                color: colorConfig.mainColor,
               }}
             />
           </div>
@@ -98,12 +94,8 @@ export default function WeekBlock({
                   width: "fit-content",
                   fontWeight: "700",
                   fontSize: "12px",
-                  backgroundColor: goalReached
-                    ? successColorCombo.accentColor
-                    : colorConfig.accentColor,
-                  color: goalReached
-                    ? successColorCombo.mainColor
-                    : colorConfig.mainColor,
+                  backgroundColor: colorConfig.accentColor,
+                  color: colorConfig.mainColor,
                 }}
               >
                 {habitData.target}x/week
@@ -122,7 +114,7 @@ export default function WeekBlock({
                     : [...prev, val]
                 );
               }}
-              colorConfig={goalReached ? successColorCombo : colorConfig}
+              colorConfig={colorConfig}
               habitId={habitData.id}
               key={date}
               date={date}

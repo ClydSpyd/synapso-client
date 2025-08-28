@@ -2,8 +2,8 @@ import Icon from "@/components/icon-picker/icon";
 import AddHabitModal from "@/components/layout-comps/quick-access-bar/modals/add-habit-modal";
 import StaggerContainer from "@/components/utility-comps/stagger-container";
 import { colorCombos, disabledColorCombo } from "@/config/color-config";
-import { strToNumVal } from "@/lib/utils";
 import { useHabits } from "@/queries/useHabits";
+import React, { useRef, useState } from "react";
 import { BiSolidEdit } from "react-icons/bi";
 
 export default function HabitToggles({
@@ -15,7 +15,15 @@ export default function HabitToggles({
   setDisplayHabits: React.Dispatch<React.SetStateAction<string[]>>;
   setHighlightHabit: React.Dispatch<React.SetStateAction<string | null>>;
 }) {
+  const [selectedHabit, setSelectedHabit] = useState<Habit | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const { data } = useHabits({ withActivity: false });
+
+  const handleHabitClick = (habit: Habit) => {
+    setSelectedHabit(habit);
+    modalRef.current?.click();
+  };
+
   return (
     data && (
       <div className="w-[300px] bg-white border border-slate-200 rounded-xl shadow-md gap-2 p-4 flex flex-col justify-start relative">
@@ -25,7 +33,7 @@ export default function HabitToggles({
         <div className="w-full gap-2 flex flex-col justify-start sticky top-2">
           {data.map((habit: Habit, idx: number) => {
             const handleClick = () => {
-              setHighlightHabit(habit.id);
+              setHighlightHabit(null);
               setDisplayHabits((prev) =>
                 prev.includes(habit.id)
                   ? prev.filter((h) => h !== habit.id)
@@ -33,72 +41,81 @@ export default function HabitToggles({
               );
             };
             const colorConfig = displayHabits.includes(habit.id)
-              ? colorCombos[strToNumVal(habit.title) % colorCombos.length]
+              ? colorCombos[habit.colorScheme]
               : disabledColorCombo;
 
             return (
-              <StaggerContainer
-                key={habit.id + idx}
-                className="h-fit relative group"
-              >
-                <div
-                  key={habit.id + idx}
-                  onClick={handleClick}
-                  onMouseOver={() =>
-                    displayHabits.includes(habit.id) &&
-                    setHighlightHabit(habit.id)
-                  }
-                  onMouseLeave={() => setHighlightHabit(null)}
-                  className="flex gap-2 items-center rounded-xl border p-2 cursor-pointer hover:shadow-sm"
-                  style={{
-                    borderColor: colorConfig.accentColor,
-                    backgroundColor: displayHabits.includes(habit.id)
-                      ? colorConfig.hintColor
-                      : "transparent",
-                  }}
-                >
+              <React.Fragment key={habit.id + idx}>
+                <StaggerContainer className="h-fit relative group">
                   <div
-                    className="absolute top-2 right-2"
-                    onClick={(e) => e.stopPropagation()}
+                    key={habit.id + idx}
+                    onClick={handleClick}
+                    onMouseOver={() =>
+                      displayHabits.includes(habit.id) &&
+                      setHighlightHabit(habit.id)
+                    }
+                    onMouseLeave={() => setHighlightHabit(null)}
+                    className="flex gap-2 items-center rounded-xl border p-2 cursor-pointer hover:shadow-sm"
+                    style={{
+                      borderColor: colorConfig.accentColor,
+                      backgroundColor: displayHabits.includes(habit.id)
+                        ? colorConfig.hintColor
+                        : "transparent",
+                    }}
                   >
-                    <AddHabitModal defaultData={habit}>
+                    <div
+                      className="absolute top-2 right-2"
+                      onMouseOver={() => setHighlightHabit(null)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setHighlightHabit(null);
+                        handleHabitClick(habit);
+                      }}
+                    >
                       <BiSolidEdit
                         className="text-md cursor-pointer transition opacity-0 group-hover:opacity-100"
                         style={{
                           color: colorConfig.mainColor,
                         }}
                       />
-                    </AddHabitModal>
-                  </div>
-                  <div
-                    className="h-12 w-12 rounded-lg flex items-center justify-center "
-                    style={{
-                      backgroundColor: colorConfig.accentColor,
-                    }}
-                  >
-                    <Icon
-                      name={habit.icon}
-                      className="w-[32px] h-[32px]"
+                    </div>
+                    <div
+                      className="h-12 w-12 rounded-lg flex items-center justify-center "
                       style={{
-                        color: colorConfig.mainColor,
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <h1
-                      style={{
-                        color: colorConfig.mainColor,
-                        fontWeight: 700,
+                        backgroundColor: colorConfig.accentColor,
                       }}
                     >
-                      {habit.title}
-                    </h1>
-                    <p className="text-xs text-slate-400">
-                      {habit.target}x per week
-                    </p>
+                      <Icon
+                        name={habit.icon}
+                        className="w-[32px] h-[32px]"
+                        style={{
+                          color: colorConfig.mainColor,
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <h1
+                        style={{
+                          color: colorConfig.mainColor,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {habit.title}
+                      </h1>
+                      <p className="text-xs text-slate-400">
+                        {habit.target}x per week
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </StaggerContainer>
+                </StaggerContainer>
+
+                <AddHabitModal
+                  onClose={() => setSelectedHabit(null)}
+                  defaultData={selectedHabit ?? undefined}
+                >
+                  <div ref={modalRef} className="absolute" />
+                </AddHabitModal>
+              </React.Fragment>
             );
           })}
         </div>

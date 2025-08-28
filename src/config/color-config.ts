@@ -2,7 +2,7 @@ export const colorCombos: ColorCombo[] = [
   {
     mainColor: "var(--wiki-main-one)",
     accentColor: "var(--wiki-accent-one)",
-    hintColor: "#f7e6fc", 
+    hintColor: "#f7e6fc",
   },
   {
     mainColor: "var(--wiki-main-two)",
@@ -38,6 +38,11 @@ export const colorCombos: ColorCombo[] = [
     mainColor: "rgb(172, 77, 255)",
     accentColor: "#EDD1FD",
     hintColor: "#f4ebf7",
+  },
+  {
+    mainColor: "#7dddee",
+    accentColor: "#c7f1f8",
+    hintColor: "#eefafc",
   },
 ];
 

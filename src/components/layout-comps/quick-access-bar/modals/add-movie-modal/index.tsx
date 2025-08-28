@@ -6,6 +6,8 @@ import { API } from "@/api";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import ModalConfirmState from "@/components/ui/modal-confirm-state";
+import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
+import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
 
 export default function AddMovieModal({
   children,
@@ -33,37 +35,32 @@ export default function AddMovieModal({
   return (
     <>
       <Modal
+        {...modalConfig}
         opened={opened}
         onClose={() => {
           close();
           setTimeout(() => {
             setSubmitError(null);
+            setSuccess(false);
           }, 500);
         }}
-        title="Add Movies/Series"
-        centered
-        transitionProps={{
-          transition: "scale-y",
-          duration: 200,
-          timingFunction: "ease",
-        }}
-        overlayProps={{
-          backgroundOpacity: 0.55,
-          blur: 3,
-        }}
       >
-        {success ? (
-          <ModalConfirmState
-            itemType="Movie/Series"
-            setSuccess={setSuccess}
-            submitting={false}
-          />
-        ) : (
-          <MovieForm
-            handleFormSubmission={handleSubmit}
-            submitError={submitError}
-          />
-        )}
+        <ModalContentWrapper title="Add movie/series" close={close}>
+          <>
+            {success ? (
+              <ModalConfirmState
+                itemType="Movie/Series"
+                setSuccess={setSuccess}
+                submitting={false}
+              />
+            ) : (
+              <MovieForm
+                handleFormSubmission={handleSubmit}
+                submitError={submitError}
+              />
+            )}
+          </>
+        </ModalContentWrapper>
       </Modal>
       <div onClick={open}>{children}</div>
     </>

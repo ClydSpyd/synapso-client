@@ -18,7 +18,7 @@ const Block = ({
   className?: string;
 }) => {
   return (
-    <div className="w-full h-full bg-white border border-gray-100 rounded-md shadow-md flex flex-col gap-4 p-4">
+    <div className="w-full h-full flex flex-col gap-4 p-4 border border-slate-100 rounded-md">
       <div className="flex justify-between items-center w-full">
         <div className={`w-[50px] h-[50px] rounded-md flex items-center justify-center ${iconBoxClassName}`}>
           {icon}
@@ -32,7 +32,7 @@ const Block = ({
 
 export default function SummaryBlocks() {
   return (
-    <div className="w-full grid grid-cols-2 grid-rows-2 gap-4 h-[270px]">
+    <div className="w-full grid grid-cols-2 grid-rows-2 gap-4 h-full p-4 bg-white border border-gray-100 rounded-md shadow-md">
       <Block
         title="Habits"
         count={5}

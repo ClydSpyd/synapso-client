@@ -5,6 +5,7 @@ import SummaryBlocks from "./components/summary-blocks";
 import { usePinnedItems } from "@/queries/usePinnedItems";
 import ListItem from "../wiki/components/wiki-items-list/list-item";
 import StaggerContainer from "@/components/utility-comps/stagger-container";
+import BrainCloud from "./components/brain-cloud";
 
 export default function Home() {
   const { user } = useAuth();
@@ -14,23 +15,26 @@ export default function Home() {
   return (
     <div className="h-[calc(100vh-60px)] w-full grid grid-rows-[auto_1fr] grid-cols-12 gap-4 bg-gray-100/40 p-4">
       {/* Row 1: Two columns side-by-side */}
-      <div className="col-span-6 flex flex-col gap-4">
+      <div className="col-span-8 flex flex-col gap-4">
         <div className="w-full h-[130px] rounded-md !overflow-hidden px-6 flex flex-col justify-center relative z-10">
           <div className="!absolute min-h-[50vw] min-w-[50vw] left-0 z-[-1] abs-center">
             <div className="!absolute h-full w-full left-0 gradient-bg-zen-alt rotate-alt" />
           </div>
-          <h1 className="text-3xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-white">
             Welcome back, {user?.username}!
           </h1>
-          <p className="text-lg text-white">
+          <p className="text-md text-white">
             Let&apos;s get those thoughts organised.
           </p>
         </div>
-        <SummaryBlocks />
+        <div className="grid grid-cols-2 gap-4">
+          <FocusBlocks />
+          <SummaryBlocks />
+        </div>
       </div>
 
-      <div className="col-span-6">
-        <FocusBlocks />
+      <div className="col-span-4">
+        <BrainCloud />
       </div>
 
       {/* Row 2: Stretches and fills remaining height */}

@@ -60,6 +60,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const handleSignup = async (username: string, password: string) => {
+    setError(null);
+    setSubmititng(true);
+    try {
+      const res = await axios.post(
+        process.env.NEXT_PUBLIC_API_BASE_URL! + "auth/register/",
+        {
+          username,
+          password,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log("res", res);
+      setIsAuthenticated(true);
+      setUser(res.data.user);
+      
+    } catch (error) {
+      console.error("Signup failed", error);
+      setError("Signup failed");
+    } finally {
+      setSubmititng(false);
+    }
+  };
+
   const getUserData = async () => {
     console.log("getUserData");
     await axios
@@ -85,6 +112,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user,
         login: handleLogin,
         logout: handleLogout,
+        signup: handleSignup,
         isAuthenticated: isAuthenticated,
         loading,
         error,

@@ -96,18 +96,19 @@ export default function MonthView() {
             <div className="text-center text-xs font-semibold text-gray-500">
               SUN
             </div>
-            {Array.from({ length: monthData.firstDay - 1 }).map((_, index) => (
-              <div
-                key={"empty-before-" + index}
-                className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 bg-gray-50/30 py-2 rounded-lg relative"
-                style={{
-                  gridTemplateColumns: `repeat(${2}, minmax(0, 1fr))`,
-                }}
-              >
-                <div className="w-[20px]" />
-                <div className="w-[20px]" />
-              </div>
-            ))}
+            {monthData.firstDay - 1 < 7 &&
+              Array.from({ length: monthData.firstDay - 1 }).map((_, index) => (
+                <div
+                  key={"empty-before-" + index}
+                  className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 bg-gray-50/30 py-2 rounded-lg relative"
+                  style={{
+                    gridTemplateColumns: `repeat(${2}, minmax(0, 1fr))`,
+                  }}
+                >
+                  <div className="w-[20px]" />
+                  <div className="w-[20px]" />
+                </div>
+              ))}
             {monthData.dates.map((date, idx) => (
               <StaggerContainer key={"date-" + idx}>
                 <DayBlock
@@ -120,21 +121,23 @@ export default function MonthView() {
                   highlightHabit={highlightHabit}
                   hoveredItem={hoveredItem}
                   setHoveredItem={setHoveredItem}
+                  count={displayHabits.length}
                 />
               </StaggerContainer>
             ))}
-            {Array.from({ length: emptyEndCount }).map((_, index) => (
-              <div
-                key={"empty-after-" + index}
-                className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 bg-gray-50/30 py-2 rounded-lg relative"
-                style={{
-                  gridTemplateColumns: `repeat(${2}, minmax(0, 1fr))`,
-                }}
-              >
-                <div className="w-[20px]" />
-                <div className="w-[20px]" />
-              </div>
-            ))}
+            {emptyEndCount < 7 &&
+              Array.from({ length: emptyEndCount }).map((_, index) => (
+                <div
+                  key={"empty-after-" + index}
+                  className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 bg-gray-50/30 py-2 rounded-lg relative"
+                  style={{
+                    gridTemplateColumns: `repeat(${2}, minmax(0, 1fr))`,
+                  }}
+                >
+                  <div className="w-[20px]" />
+                  <div className="w-[20px]" />
+                </div>
+              ))}
           </div>
         </div>
       </div>

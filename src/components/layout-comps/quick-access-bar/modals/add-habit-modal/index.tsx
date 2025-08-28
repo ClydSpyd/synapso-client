@@ -2,16 +2,21 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import HabitForm from "./habit-form";
 import { API } from "@/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalConfirmState from "@/components/ui/modal-confirm-state";
 import { useQueryClient } from "@tanstack/react-query";
+import { RxCross2 } from "react-icons/rx";
+import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
+import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
 
 export default function AddHabitModal({
   children,
   defaultData,
+  onClose
 }: {
   children: React.ReactNode;
   defaultData?: HabitPayload;
+  onClose?: () => void;
 }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [submitting, setSubmitting] = useState(false);
@@ -21,7 +26,12 @@ export default function AddHabitModal({
 
   const handleSubmit = async (payload: HabitPayload) => {
     setSubmitting(true);
-    const { data, error } = await API.habits.create(payload);
+    let data, error;
+    if (defaultData?.id) {
+      ({ data, error } = await API.habits.update(payload));
+    } else {
+      ({ data, error } = await API.habits.create(payload));
+    }
     console.log({ data, error });
     if (error) {
       setSubmitError(error);
@@ -33,9 +43,16 @@ export default function AddHabitModal({
     setSubmitting(false);
   };
 
+  useEffect(() => {
+    if (!opened) {
+      onClose?.();
+    }
+  }, [opened])
+
   return (
     <>
       <Modal
+        {...modalConfig}
         opened={opened}
         onClose={() => {
           close();
@@ -45,36 +62,34 @@ export default function AddHabitModal({
             setSuccess(false);
           }, 500);
         }}
-        title="New Habit"
-        centered
-        transitionProps={{
-          transition: "scale-y",
-          duration: 200,
-          timingFunction: "ease",
-        }}
-        overlayProps={{
-          backgroundOpacity: 0.55,
-          blur: 3,
-        }}
       >
-        {success ? (
-          <ModalConfirmState
-            itemType="Habit"
-            setSuccess={setSuccess}
-            submitting={submitting}
-          />
-        ) : (
-          <HabitForm
-            handleFormSubmission={handleSubmit}
-            defaultData={defaultData}
-            submitting={submitting}
-          />
-        )}
-        {submitError && (
-          <p className="text-xs mx-auto text-center mt-2 text-red-500">
-            {submitError}
-          </p>
-        )}
+        <ModalContentWrapper
+          title={defaultData ? "Edit habit" : "Add new habit"}
+          close={close}
+        >
+          <>
+            {success && !defaultData ? (
+              <ModalConfirmState
+                itemType="Habit"
+                setSuccess={setSuccess}
+                submitting={submitting}
+              />
+            ) : (
+              <HabitForm
+                handleFormSubmission={handleSubmit}
+                defaultData={defaultData}
+                submitting={submitting}
+                confirm={success}
+                resetSuccess={() => setSuccess(false)}
+              />
+            )}
+            {submitError && (
+              <p className="text-xs mx-auto text-center mt-2 text-red-500">
+                {submitError}
+              </p>
+            )}
+          </>
+        </ModalContentWrapper>
       </Modal>
       <div onClick={open}>{children}</div>
     </>

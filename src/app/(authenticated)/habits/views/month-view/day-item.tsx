@@ -2,7 +2,6 @@ import { API } from "@/api";
 import Icon from "@/components/icon-picker/icon";
 import StaggerContainer from "@/components/utility-comps/stagger-container";
 import { colorCombos, disabledColorCombo } from "@/config/color-config";
-import { strToNumVal } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
@@ -34,7 +33,7 @@ export default function DayItem({
   }, [habit.records, date]);
 
   const highlighted = highlightHabit === habit.id;
-  const colorCombo = colorCombos[strToNumVal(habit.title) % colorCombos.length];
+  const colorCombo = colorCombos[habit.colorScheme];
   const colorConfig: ColorCombo = {
     mainColor:
       completed || hovered

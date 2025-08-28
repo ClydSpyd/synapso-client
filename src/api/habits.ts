@@ -47,6 +47,21 @@ export const habitMethods = {
       };
     }
   },
+  update: async (payload: HabitPayload): Promise<ApiResponse<Habit>> => {
+    try {
+      const response = await baseClient.patch(`habits/${payload.id}/`, payload);
+      return {
+        status: response.status,
+        data: response.data,
+      };
+    } catch (error) {
+      const err = error as AxiosError;
+      return {
+        status: err.code || 500,
+        error: err.message,
+      };
+    }
+  },
   toggleActivity: async (
     habitId: string,
     date: string // 'YYYY-MM-DD'

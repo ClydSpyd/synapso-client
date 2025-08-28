@@ -1,36 +1,22 @@
 import Icon from "@/components/icon-picker/icon";
 import AddFocusModal from "@/components/layout-comps/quick-access-bar/modals/add-focus-modal";
+import { colorCombos } from "@/config/color-config";
 import { getThisWeekRange } from "@/lib/dates";
 import { useFocusItems } from "@/queries/useFocusItems";
 import { Button, Menu } from "@mantine/core";
 import { useRef } from "react";
 import { BiDotsVertical } from "react-icons/bi";
 
-interface ColorCombo {
-  main: string;
-  accent: string;
-}
-
-const colorCombos: ColorCombo[] = [
-  {
-    main: "var(--accent-three)",
-    accent: "var(--accent-light-two)",
-  },
-  {
-    main: "var(--accent-two)",
-    accent: "var(--accent-light-one)",
-  },
-  {
-    main: "var(--accent-four)",
-    accent: "var(--accent-light-four)",
-  }
+const colorOptions: ColorCombo[] = [
+  colorCombos[0],
+  colorCombos[1],
+  colorCombos[3],
 ]
-
 const BlockSkeleton = ({ accentColor }: { accentColor: string }) => {
   return (
     <div
       className="w-full h-full flex gap-4 items-center rounded-lg p-4 bg-slate-50/50"
-      style={{ border: `2px solid ${accentColor}` }}
+      style={{ border: `1px solid ${accentColor}` }}
     >
       <div
         className="w-[70px] h-[70px] rounded-lg"
@@ -59,16 +45,19 @@ const FocusBlock = ({
   return (
     <>
       <div
-        className="w-full h-full flex gap-4 items-center rounded-lg p-4 bg-slate-50/50"
-        style={{ border: `2px solid ${colorConfig.accent}` }}
+        className="w-full h-full flex gap-4 items-center rounded-lg p-4 py-2 bg-slate-50/50"
+        style={{
+          // border: `1px solid ${colorConfig.accentColor}`,
+          backgroundColor: colorConfig.hintColor,
+        }}
       >
         <div
-          className="w-[70px] h-[70px] rounded-lg flex items-center justify-center"
+          className="w-[50px] h-[50px] rounded-lg flex items-center justify-center"
           style={{
-            background: colorConfig.accent,
+            background: colorConfig.accentColor,
           }}
         >
-          <Icon name={data.icon} size={30} color={colorConfig.main} />
+          <Icon name={data.icon} size={30} color={colorConfig.mainColor} />
         </div>
         <div className="grow">
           <h1 className="text-sm font-semibold">{data.title}</h1>
@@ -76,7 +65,7 @@ const FocusBlock = ({
         </div>
         <Menu trigger="hover">
           <Menu.Target>
-            <div className="h-[30px] w-[30px] border border-slate-500 rounded-sm flex items-center justify-center cursor-pointer">
+            <div className="h-[30px] w-[30px] rounded-sm flex items-center justify-center cursor-pointer">
               <BiDotsVertical className="text-slate-500" size={18} />
             </div>
           </Menu.Target>
@@ -116,14 +105,14 @@ export default function FocusBlocks() {
               <FocusBlock
                 key={item.id ?? index}
                 data={item}
-                colorConfig={colorCombos[index]}
+                colorConfig={colorOptions[index]}
               />
             ))}
             {Array.from({ length: 3 - focusItems.length }).map((_, index) => (
               <BlockSkeleton
                 key={`skeleton-${index}`}
                 accentColor={
-                  colorCombos[(focusItems.length + index) % 3].accent
+                  colorOptions[index].hintColor
                 }
               />
             ))}

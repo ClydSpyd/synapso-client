@@ -17,6 +17,7 @@ import AddQuoteModal from "./modals/add-quote-modal";
 import AddBookModal from "./modals/add-book-modal";
 import AddLinkModal from "./modals/add-link-modal";
 import RegisterActivityModal from "./modals/register-activity-modal";
+import { colorCombos } from "@/config/color-config";
 
 export default function QuickAccessBar() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -42,7 +43,7 @@ export default function QuickAccessBar() {
           sidebarOpen ? "opacity-100" : "opacity-0"
         )}
       >
-        <h1>QUICK ACCESS</h1>
+        <h1>QUICK ACTIONS</h1>
         <div
           className={cn("py-2 flex flex-col gap-2", {
             "pointer-events-none": !sidebarOpen,
@@ -51,68 +52,90 @@ export default function QuickAccessBar() {
           <RegisterActivityModal>
             <QuickAccessItem
               text="Register Habit Activity"
-              accentColor="var(--accent-six)"
-              hoverColor="var(--accent-light-six)"
+              colorConfig={colorCombos[1]}
             >
-              <FaRegCalendarCheck className="text-lg text-indigo-700" />
+              <FaRegCalendarCheck
+                className="text-lg"
+                style={{
+                  color: colorCombos[1].mainColor,
+                }}
+              />
             </QuickAccessItem>
           </RegisterActivityModal>
           <AddHabitModal>
             <QuickAccessItem
               text="Add new Habit"
-              accentColor="var(--accent-six)"
-              hoverColor="var(--accent-light-six)"
+              colorConfig={colorCombos[1]}
             >
-              <FaRegCalendarPlus className="text-lg text-indigo-700" />
+              <FaRegCalendarPlus
+                className="text-lg"
+                style={{
+                  color: colorCombos[1].mainColor,
+                }}
+              />
             </QuickAccessItem>
           </AddHabitModal>
           <QuickAccessItem
             text="Record Idea"
-            accentColor="var(--accent-one)"
-            hoverColor="var(--accent-light-one)"
+            colorConfig={colorCombos[4]}
           >
             <FaLightbulb className="text-lg text-fuchsia-500" />
           </QuickAccessItem>
           <AddBookModal>
             <QuickAccessItem
               text="Wiki: Add Book"
-              accentColor="var(--accent-four)"
-              hoverColor="var(--accent-light-four)"
+              colorConfig={colorCombos[2]}
             >
-              <FaBook className="text-lg text-cyan-500" />
+              <FaBook
+                className="text-lg"
+                style={{
+                  color: colorCombos[2].mainColor,
+                }}
+              />
             </QuickAccessItem>
           </AddBookModal>
           <AddQuoteModal>
             <QuickAccessItem
               text="Wiki: Add Quote"
-              accentColor="var(--accent-four)"
-              hoverColor="var(--accent-light-four)"
+              colorConfig={colorCombos[2]}
             >
-              <TbQuoteFilled className="text-xl text-cyan-500" />
+              <TbQuoteFilled
+                className="text-xl"
+                style={{
+                  color: colorCombos[2].mainColor,
+                }}
+              />
             </QuickAccessItem>
           </AddQuoteModal>
           <AddMovieModal>
             <QuickAccessItem
               text="Wiki: Add Movie/Series"
-              accentColor="var(--accent-four)"
-              hoverColor="var(--accent-light-four)"
+              colorConfig={colorCombos[2]}
             >
-              <TbMovie className="text-xl text-cyan-500" />
+              <TbMovie
+                className="text-xl"
+                style={{
+                  color: colorCombos[2].mainColor,
+                }}
+              />
             </QuickAccessItem>
           </AddMovieModal>
           <AddLinkModal>
             <QuickAccessItem
               text="Wiki: Add Link"
-              accentColor="var(--accent-four)"
-              hoverColor="var(--accent-light-four)"
+              colorConfig={colorCombos[2]}
             >
-              <TbLink className="text-xl text-cyan-500" />
+              <TbLink
+                className="text-xl"
+                style={{
+                  color: colorCombos[2].mainColor,
+                }}
+              />
             </QuickAccessItem>
           </AddLinkModal>
           <QuickAccessItem
             text="Add Task"
-            accentColor="var(--accent-three)"
-            hoverColor="var(--accent-light-three)"
+            colorConfig={colorCombos[7]}
           >
             <MdPlaylistAdd className="text-2xl text-indigo-500" />
           </QuickAccessItem>

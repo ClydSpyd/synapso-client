@@ -5,6 +5,8 @@ import BookForm from "./book-form";
 import { API } from "@/api";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
+import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
 
 export default function AddBookModal({
   children,
@@ -32,6 +34,7 @@ export default function AddBookModal({
   return (
     <>
       <Modal
+        {...modalConfig}
         opened={opened}
         onClose={() => {
           close();
@@ -39,24 +42,15 @@ export default function AddBookModal({
             setSubmitError(null);
           }, 500);
         }}
-        title="Add Book"
-        centered
-        transitionProps={{
-          transition: "scale-y",
-          duration: 200,
-          timingFunction: "ease",
-        }}
-        overlayProps={{
-          backgroundOpacity: 0.55,
-          blur: 3,
-        }}
       >
-        <BookForm handleFormSubmission={handleSubmit} />
-        {submitError && (
-          <p className="text-xs mx-auto text-center mt-2 text-red-500">
-            {submitError}
-          </p>
-        )}
+        <ModalContentWrapper title="Add book" close={close}>
+          <BookForm handleFormSubmission={handleSubmit} />
+          {submitError && (
+            <p className="text-xs mx-auto text-center mt-2 text-red-500">
+              {submitError}
+            </p>
+          )}
+        </ModalContentWrapper>
       </Modal>
       <div onClick={open}>{children}</div>
     </>

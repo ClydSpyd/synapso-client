@@ -1,6 +1,5 @@
 import { colorCombos } from "@/config/color-config";
 import DayItem from "./day-item";
-import { strToNumVal } from "@/lib/utils";
 
 export default function DayBlock({
   habitData,
@@ -8,7 +7,8 @@ export default function DayBlock({
   highlightHabit,
   idx,
   hoveredItem,
-  setHoveredItem
+  setHoveredItem,
+  count
 }: {
   date: string;
   habitData: HabitActivity[];
@@ -16,6 +16,7 @@ export default function DayBlock({
   idx: number;
   hoveredItem: string | null;
   setHoveredItem: (item: string | null) => void;
+  count: number;
 }) {
   const highlightedData = !!highlightHabit
     ? habitData.find((h) => h.id === highlightHabit)
@@ -23,7 +24,7 @@ export default function DayBlock({
 
   const highlightBlock = highlightedData?.records.find((r) => r === date);
   const highlightColorConfig = highlightedData
-    ? colorCombos[strToNumVal(highlightedData.title) % colorCombos.length]
+    ? colorCombos[highlightedData.colorScheme]
     : null;
   return (
     <div
@@ -42,24 +43,28 @@ export default function DayBlock({
             ? {
                 color: highlightColorConfig?.mainColor,
                 backgroundColor: highlightColorConfig?.accentColor,
-                border: `1px solid ${highlightColorConfig?.hintColor}`
+                border: `1px solid ${highlightColorConfig?.hintColor}`,
               }
             : {}
         }
       >
         <p className="text-xs font-bold">{idx + 1}</p>
       </div>
-      {habitData.map((habit: HabitActivity, idx: number) => (
-        <DayItem
-          key={habit.id}
-          habit={habit}
-          date={date}
-          highlightHabit={highlightHabit}
-          idx={idx}
-          hoveredItem={hoveredItem}
-          setHoveredItem={setHoveredItem}
-        />
-      ))}
+      {habitData.length > 0
+        ? habitData.map((habit: HabitActivity, idx: number) => (
+            <DayItem
+              key={habit.id}
+              habit={habit}
+              date={date}
+              highlightHabit={highlightHabit}
+              idx={idx}
+              hoveredItem={hoveredItem}
+              setHoveredItem={setHoveredItem}
+            />
+          ))
+        : Array.from({ length: count }).map((_, index) => (
+            <div className="w-11 h-11" key={index} />
+          ))}
     </div>
   );
 }

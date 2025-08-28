@@ -5,6 +5,8 @@ import { useState } from "react";
 import QuoteForm from "./quote-form";
 import { useQueryClient } from "@tanstack/react-query";
 import ModalConfirmState from "@/components/ui/modal-confirm-state";
+import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
+import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
 
 export default function AddQuoteModal({
   children,
@@ -15,10 +17,6 @@ export default function AddQuoteModal({
   const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const queryClient = useQueryClient();
-
-  // useEffect(() => {
-  //   if(!opened) setInputVals(initialInputVals);
-  // }, [opened]);
 
   const handleSubmit = async (payload: WikiQuote) => {
     if (!payload.content || !payload.author) {
@@ -40,6 +38,7 @@ export default function AddQuoteModal({
   return (
     <>
       <Modal
+        {...modalConfig}
         opened={opened}
         onClose={() => {
           close();
@@ -47,36 +46,29 @@ export default function AddQuoteModal({
             setSubmitError(null);
           }, 500);
         }}
-        title="Add Quote"
-        centered
-        transitionProps={{
-          transition: "scale-y",
-          duration: 200,
-          timingFunction: "ease",
-        }}
-        overlayProps={{
-          backgroundOpacity: 0.55,
-          blur: 3,
-        }}
       >
-        {success ? (
-          <ModalConfirmState
-            itemType="Quote"
-            setSuccess={setSuccess}
-            submitting={false}
-          />
-        ) : (
-          <QuoteForm
-            handleSubmit={handleSubmit}
-            setSubmitError={setSubmitError}
-            opened={opened}
-          />
-        )}
-        {submitError && (
-          <p className="text-xs mx-auto text-center mt-2 text-red-500">
-            {submitError}
-          </p>
-        )}
+        <ModalContentWrapper title="Add quote" close={close}>
+          <>
+            {success ? (
+              <ModalConfirmState
+                itemType="Quote"
+                setSuccess={setSuccess}
+                submitting={false}
+              />
+            ) : (
+              <QuoteForm
+                handleSubmit={handleSubmit}
+                setSubmitError={setSubmitError}
+                opened={opened}
+              />
+            )}
+            {submitError && (
+              <p className="text-xs mx-auto text-center mt-2 text-red-500">
+                {submitError}
+              </p>
+            )}
+          </>
+        </ModalContentWrapper>
       </Modal>
       <div onClick={open}>{children}</div>
     </>

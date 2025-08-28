@@ -3,14 +3,12 @@ import { useState } from "react";
 
 export default function QuickAccessItem({
   children,
-  accentColor,
-  hoverColor,
   text,
+  colorConfig
 }: {
   children: React.ReactNode;
-  accentColor: string;
-  hoverColor: string;
   text: string;
+  colorConfig: ColorCombo;
 }) {
   const [mouseOver, setMouseOver] = useState(false);
   return (
@@ -18,11 +16,13 @@ export default function QuickAccessItem({
       onMouseEnter={() => setMouseOver(true)}
       onMouseLeave={() => setMouseOver(false)}
       style={{
-        borderColor: accentColor,
-        backgroundColor: mouseOver ? hoverColor : "transparent",
+        borderColor: !mouseOver
+          ? colorConfig.accentColor
+          : colorConfig.mainColor,
+        backgroundColor: colorConfig.hintColor,
       }}
       className={cn(
-        `w-[200px] flex items-center gap-2 py-2 px-2 cursor-pointer transition-all duration-300 ease-in-out border rounded-sm opacity-70 hover:opacity-100`
+        `w-[200px] flex items-center gap-2 py-2 px-2 cursor-pointer transition-all duration-300 ease-in-out border rounded-sm opacity-70 hover:opacity-90`
       )}
     >
       {children}

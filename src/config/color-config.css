@@ -1,0 +1,36 @@
+.tri-wrap {
+  position: relative;
+  width: 40px;
+  aspect-ratio: 1;
+}
+.tri {
+  position: absolute;
+  inset: 0;
+}
+/* ColorCombo 1 */
+.t1-1 { background: var(--wiki-main-one); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.t2-1 { background: var(--wiki-accent-one); clip-path: polygon(100% 100%, 100% 0, 0 100%); }
+/* ColorCombo 2 */
+.t1-2 { background: var(--wiki-main-two); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.t2-2 { background: var(--wiki-accent-two); clip-path: polygon(100% 100%, 100% 0, 0 100%); }
+/* ColorCombo 3 */
+.t1-3 { background: var(--wiki-main-three); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.t2-3 { background: var(--wiki-accent-three); clip-path: polygon(100% 100%, 100% 0, 0 100%); }
+/* ColorCombo 4 */
+.t1-4 { background: var(--wiki-main-four); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.t2-4 { background: var(--wiki-accent-four); clip-path: polygon(100% 100%, 100% 0, 0 100%); }
+/* ColorCombo 5 */
+.t1-5 { background: var(--wiki-main-five); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.t2-5 { background: var(--wiki-accent-five); clip-path: polygon(100% 100%, 100% 0, 0 100%); }
+/* ColorCombo 6 */
+.t1-6 { background: var(--wiki-main-six); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.t2-6 { background: var(--wiki-accent-six); clip-path: polygon(100% 100%, 100% 0, 0 100%); }
+/* ColorCombo 7 */
+.t1-7 { background: #2a4cff; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.t2-7 { background: #cffafe; clip-path: polygon(100% 100%, 100% 0, 0 100%); }
+/* ColorCombo 8 */
+.t1-8 { background: rgb(172, 77, 255); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.t2-8 { background: #EDD1FD; clip-path: polygon(100% 100%, 100% 0, 0 100%); }
+/* ColorCombo 9 */
+.t1-9 { background: #7dddee; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.t2-9 { background: #c7f1f8; clip-path: polygon(100% 100%, 100% 0, 0 100%); }
