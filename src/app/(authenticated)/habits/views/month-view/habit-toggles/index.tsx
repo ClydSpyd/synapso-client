@@ -30,7 +30,7 @@ export default function HabitToggles({
         <h3 className="text-slate-400 text-sm font-semibold">
           Show/hide habits:
         </h3>
-        <div className="w-full gap-2 flex flex-col justify-start sticky top-2">
+        <div className="w-full gap-1 flex flex-col justify-start sticky top-2">
           {data.map((habit: Habit, idx: number) => {
             const handleClick = () => {
               setHighlightHabit(null);

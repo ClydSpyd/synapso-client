@@ -19,22 +19,3 @@ export const useWikiItems = () => {
     refetchOnWindowFocus: false,
   });
 };
-
-export const useWikiMovies = () => {
-  return useQuery<WikiMovie[], Error>({
-    queryKey: ["wiki-movies"],
-    queryFn: async () => {
-      const response = await API.wiki.movies.getAll();
-      if (response.error)
-        throw new Error(
-          response.error
-            ? "Error occurred while fetching wiki movies"
-            : "Unknown error"
-        );
-      return response.data!;
-    },
-    retry: 1,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    refetchOnWindowFocus: false,
-  });
-};

@@ -7,6 +7,8 @@ import { quoteMethods } from "./quotes";
 import { bookMethods } from "./books";
 import { linkMethods } from "./links";
 import { pinnedMethods } from "./pinned";
+import { checkinMethods } from "./checkin";
+import { statsMethods } from "./stats";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -54,7 +56,12 @@ baseClient.interceptors.response.use(
   },
   async (error) => {
     const err = error as AxiosError;
-    if (err.response?.status === 401) {
+    // const hasRefreshToken = document.cookie
+    //   .split(";")
+    //   .some((c) => c.trim().startsWith("refresh_token="));
+
+    //   console.log("Response error intercepted:", { err, hasRefreshToken, cookie: document.cookie });
+    if (err.response?.status === 401 ) {
       console.log("Unauthorized access - attempting token refresh");
       try {
         const tokenRes = await baseClient.post("/auth/token/refresh/");
@@ -84,20 +91,21 @@ export const API = {
       try {
         const response = await baseClient.get("/wiki/");
         console.log("Wiki items response:", response);
-        return {data: response.data, status: response.status};
+        return { data: response.data, status: response.status };
       } catch (error) {
         console.error("Error fetching wiki items:", error);
         return {
           status: (error as AxiosError).code || 500,
           error: (error as AxiosError).message || "Unknown error",
         };
-        
       }
     },
-    media: mediaMethods,
-    quotes: quoteMethods,
-    links: linkMethods,
-    books: bookMethods,
-    pinned: pinnedMethods,
   },
+  media: mediaMethods,
+  quotes: quoteMethods,
+  links: linkMethods,
+  books: bookMethods,
+  pinned: pinnedMethods,
+  checkin: checkinMethods,
+  stats: statsMethods,
 };

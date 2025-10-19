@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 // import { FaRegLightbulb } from "react-icons/fa";
-import { BiBrain } from "react-icons/bi";
+import { BiAtom, BiBrain } from "react-icons/bi";
 
 import { TbCalendarRepeat } from "react-icons/tb";
 import NavLink from "@/components/navlink";
@@ -32,10 +32,10 @@ export default function Navbar() {
             <p className="text-sm font-[500]">Ideas</p>
           </div>
         </NavLink> */}
-        <NavLink href="/wiki">
+        <NavLink href="/atoms">
           <div className="flex items-center gap-2">
-            <BiBrain className="text-lg" />
-            <p className="text-sm font-[500]">Wiki</p>
+            <BiAtom className="text-lg" />
+            <p className="text-sm font-[500]">Atoms</p>
           </div>
         </NavLink>
         {/* <NavLink href="/tasks">

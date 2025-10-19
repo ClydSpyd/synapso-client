@@ -65,10 +65,10 @@ export const formatTodayString = () => {
   return `${weekday} ${monthName.toLowerCase()} ${day}${daySuffix}, ${year}`;
 };
 
-export const formatDatePayload = (dateOffset: number): string => {
+export const formatDatePayload = (dateOffset: number, noneUS?: boolean): string => {
   const date = new Date();
   date.setDate(date.getDate() + dateOffset);
-  return format(date, "yyyy-MM-dd");
+  return format(date, !noneUS ? "yyyy-MM-dd" : "dd-MM-yyyy");
 };
 
 export const formatWeek = (weekOffset: number = 0) => {

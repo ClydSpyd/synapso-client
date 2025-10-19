@@ -1,10 +1,8 @@
-import WikiBlockWrapper from "./block-wrapper";
-
 export default function WikiBlockMovie({ item }: { item: WikiMovie }) {
   const maximumPlotLength = 120;
 
   return (
-    <WikiBlockWrapper type={item.type} id={item.id}>
+    <>
       <h3 className="text-xl font-bold text-gray-800 mb-2">
         {item.title}
         <span className="text-sm">{item.year && ` (${item.year})`}</span>
@@ -13,6 +11,6 @@ export default function WikiBlockMovie({ item }: { item: WikiMovie }) {
         {item.plot?.slice(0, maximumPlotLength)}
         {item.plot && item.plot.length > maximumPlotLength ? "..." : ""}
       </p>
-    </WikiBlockWrapper>
+    </>
   );
 }

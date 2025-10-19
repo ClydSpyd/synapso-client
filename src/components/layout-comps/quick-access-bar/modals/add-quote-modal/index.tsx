@@ -23,7 +23,7 @@ export default function AddQuoteModal({
       setSubmitError("Quote and author are required.");
       return;
     }
-    const { data, error } = await API.wiki.quotes.add(payload);
+    const { data, error } = await API.quotes.add(payload);
     console.log({ data, error });
     if (error) {
       setSubmitError(error);

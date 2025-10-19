@@ -2,41 +2,58 @@ import { cn } from "@/lib/utils";
 import { wikiItemsConfig } from "../../../config";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdOutlinePushPin } from "react-icons/md";
+import { PiPushPinSlashLight } from "react-icons/pi";
 import { MdDeleteForever } from "react-icons/md";
 import { Menu, Text } from '@mantine/core';
 import { API } from "@/api";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function WikiBlockWrapper({
   type,
-  id,
+  pinId,
+  itemId,
   iconClass,
   children,
+  pinned,
 }: {
   type: WikiType;
-  id: string;
+  pinId: string;
+  itemId: string;
   iconClass?: string;
   children: React.ReactNode;
+  pinned?: boolean;
 }) {
   const config = wikiItemsConfig[type];
-
+  const queryClient = useQueryClient();
   const handlePin = async () => {
-    // Logic to pin the item
-    console.log(`Pinning item of type: ${type}`);
+    console.log(`${pinned ? "unpinning" : "pinning"} item of type: ${type}`);
     const payload: Partial<PinPayload> = {
-      item_id: id,
+      item_id: itemId,
       item_type: type,
     };
 
-    const {data, error} = await API.wiki.pinned.add(payload);
+    let data, error;
+
+    if (pinned) {
+      const deleteRes = await API.pinned.delete(pinId);
+      data = deleteRes.data;
+      error = deleteRes.error;
+    } else {
+      const addRes = await API.pinned.add(payload);
+      data = addRes.data;
+      error = addRes.error;
+    }
+
     if (error) {
       console.error("Error pinning item:", error);
-    }
-    else {
+    } else {
       console.log("Item pinned successfully:", data);
+      queryClient.invalidateQueries({ queryKey: ["pinned-items"] });
     }
   };
   return (
     <div
+      id={`pin_${pinId}`}
       className="w-full rounded-lg px-8 py-4 min-h-[200px] flex flex-col relative"
       style={{ backgroundColor: config.accentColor }}
     >
@@ -65,18 +82,24 @@ export default function WikiBlockWrapper({
               <Menu.Item
                 onClick={handlePin}
                 leftSection={
-                  <MdOutlinePushPin className="text-lg text-slate-500 cursor-pointer" />
+                  pinned ? (
+                    <PiPushPinSlashLight className="text-lg text-slate-500 cursor-pointer" />
+                  ) : (
+                    <MdOutlinePushPin className="text-lg text-slate-500 cursor-pointer" />
+                  )
                 }
               >
-                <Text size="xs">Pin to dash</Text>
+                <Text size="xs">{pinned ? "Unpin" : "Pin to dash"}</Text>
               </Menu.Item>
-              <Menu.Item
-                leftSection={
-                  <MdDeleteForever className="text-lg text-slate-500 cursor-pointer" />
-                }
-              >
-                <Text size="xs">Delete item</Text>
-              </Menu.Item>
+              {!pinned && (
+                <Menu.Item
+                  leftSection={
+                    <MdDeleteForever className="text-lg text-slate-500 cursor-pointer" />
+                  }
+                >
+                  <Text size="xs">Delete item</Text>
+                </Menu.Item>
+              )}
             </Menu.Dropdown>
           </Menu>
         </div>

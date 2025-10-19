@@ -20,7 +20,7 @@ export default function AddBookModal({
 
   const handleSubmit = async (bookData: OpenLibBook) => {
     console.log("Adding book with OLID:", bookData.olid);
-    const { data, error } = await API.wiki.books.add(bookData);
+    const { data, error } = await API.books.add(bookData);
     console.log({ data, error });
     if (error) {
       setSubmitError(error);

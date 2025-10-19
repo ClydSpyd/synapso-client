@@ -1,10 +1,8 @@
 import Link from "next/link";
-import WikiBlockWrapper from "./block-wrapper";
 
 export default function WikiBlockLink({ item }: { item: WikiLink }) {
   const maximumURLLength = 120;
   return (
-    <WikiBlockWrapper type={item.type} id={item.id}>
       <div className="flex flex-col justify-center flex-1">
         <div className="flex flex-col mb-2">
           <h3 className="text-xl font-bold text-gray-800">{item.title}</h3>
@@ -21,6 +19,5 @@ export default function WikiBlockLink({ item }: { item: WikiLink }) {
           <p className="text-xs leading-relaxed">{item.description}</p>
         )}
       </div>
-    </WikiBlockWrapper>
   );
 }

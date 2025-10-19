@@ -23,7 +23,7 @@ export default function AddLinkModal({
       setSubmitError("Title and URL are required.");
       return;
     }
-    const { data, error } = await API.wiki.links.add(payload);
+    const { data, error } = await API.links.add(payload);
     console.log({ data, error });
     if (error) {
       setSubmitError(error);

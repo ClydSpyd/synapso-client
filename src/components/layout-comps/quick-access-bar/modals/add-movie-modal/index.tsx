@@ -21,7 +21,7 @@ export default function AddMovieModal({
   const queryClient = useQueryClient();
 
   const handleSubmit = async (imdbId: string, mediaType: MediaType) => {
-    const { data, error } = await API.wiki.media.add(imdbId, mediaType);
+    const { data, error } = await API.media.add(imdbId, mediaType);
     console.log({ data, error });
     if (error) {
       setSubmitError(error);

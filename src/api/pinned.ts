@@ -22,6 +22,25 @@ export const pinnedMethods = {
       };
     }
   },
+  delete: async (
+    id:string,  
+  ): Promise<ApiResponse<Record<string, unknown>>> => {
+    try {
+      const response = await baseClient.delete(
+        "/wiki/pinned-items/delete/" + id + "/"
+      );
+      return {
+        status: response.status,
+        data: response.data,
+      };
+    } catch (error) {
+      const err = error as AxiosError;
+      return {
+        status: err.code || 500,
+        error: err.message,
+      };
+    }
+  },
   getAll: async ({
     enriched,
   }: {

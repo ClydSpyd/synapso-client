@@ -1,60 +1,83 @@
 "use client";
 import { useAuth } from "@/context/auth-context";
-import FocusBlocks from "./components/focus-blocks";
+import WeekGlance from "./components/week-glance";
 import SummaryBlocks from "./components/summary-blocks";
-import { usePinnedItems } from "@/queries/usePinnedItems";
-import ListItem from "../wiki/components/wiki-items-list/list-item";
-import StaggerContainer from "@/components/utility-comps/stagger-container";
 import BrainCloud from "./components/brain-cloud";
+import PinnedItems from "./components/pinned-items";
+import { CheckIn } from "./components/check-in";
+import StaggerContainer from "@/components/utility-comps/stagger-container";
 
 export default function Home() {
   const { user } = useAuth();
-  const { data: pinnedItems } = usePinnedItems(true);
-  console.log("Pinned Items:", pinnedItems);
 
   return (
     <div className="h-[calc(100vh-60px)] w-full grid grid-rows-[auto_1fr] grid-cols-12 gap-4 bg-gray-100/40 p-4">
-      {/* Row 1: Two columns side-by-side */}
-      <div className="col-span-8 flex flex-col gap-4">
-        <div className="w-full h-[130px] rounded-md !overflow-hidden px-6 flex flex-col justify-center relative z-10">
-          <div className="!absolute min-h-[50vw] min-w-[50vw] left-0 z-[-1] abs-center">
-            <div className="!absolute h-full w-full left-0 gradient-bg-zen-alt rotate-alt" />
-          </div>
-          <h1 className="text-2xl font-bold text-white">
-            Welcome back, {user?.username}!
-          </h1>
-          <p className="text-md text-white">
-            Let&apos;s get those thoughts organised.
-          </p>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <FocusBlocks />
-          <SummaryBlocks />
-        </div>
-      </div>
-
-      <div className="col-span-4">
-        <BrainCloud />
-      </div>
-
-      {/* Row 2: Stretches and fills remaining height */}
-      <div className="col-span-12 self-stretch pb-2 rounded-xl bg-white shadow-lg p-4 border border-gray-100">
-        <h1 className="font-semibold text-slate-500 mb-3">Your Pinned Items</h1>
-        <div className="grid grid-cols-4 min-h-[calc(100%-50px)] gap-2">
-          {pinnedItems?.map((item) => (
-            <StaggerContainer key={item.id}>
-              <ListItem item={item.item} />
-            </StaggerContainer>
-          )) || (
-            <div className="col-span-3 text-center text-gray-400">
-              No pinned items yet.
+      <div className="col-span-8 flex flex-col gap-4 pb-4">
+        <StaggerContainer>
+          <div className="w-full h-[130px] rounded-xl !overflow-hidden px-6 flex flex-col justify-center relative z-10">
+            <div className="!absolute min-h-[50vw] min-w-[50vw] left-0 z-[-1] abs-center">
+              <div className="!absolute h-full w-full left-0 gradient-bg-zen-alt rotate-alt" />
             </div>
-          )}
-        </div>
-        {/* <div className="h-full rounded-lg bg-[var(--accent-light-one)] shadow-md"></div>
-        <div className="h-full rounded-lg bg-[var(--accent-light-three)] shadow-md"></div>
-        <div className="h-full rounded-lg bg-[var(--accent-light-four)] shadow-md"></div> */}
+            <h1 className="text-2xl font-bold text-white">
+              Welcome back, {user?.username}!
+            </h1>
+            <p className="text-md text-white">
+              Let&apos;s get those thoughts organised.
+            </p>
+          </div>
+        </StaggerContainer>
+        <WeekGlance />
+        <PinnedItems />
+      </div>
+      <div className="flex flex-col col-span-4 gap-5 pb-4">
+        {/* <SummaryBlocks /> */}
+        <CheckIn />
+        <BrainCloud />
       </div>
     </div>
   );
 }
+
+// <div className="h-[calc(100vh-60px)] w-full grid grid-rows-[auto_1fr] grid-cols-12 gap-4 bg-gray-100/40 p-4">
+//   {/* Row 1: Two columns side-by-side */}
+//   <div className="col-span-8 flex flex-col gap-4">
+//     <div className="w-full h-[130px] rounded-md !overflow-hidden px-6 flex flex-col justify-center relative z-10">
+//       <div className="!absolute min-h-[50vw] min-w-[50vw] left-0 z-[-1] abs-center">
+//         <div className="!absolute h-full w-full left-0 gradient-bg-zen-alt rotate-alt" />
+//       </div>
+//       <h1 className="text-2xl font-bold text-white">
+//         Welcome back, {user?.username}!
+//       </h1>
+//       <p className="text-md text-white">
+//         Let&apos;s get those thoughts organised.
+//       </p>
+//     </div>
+//     <div className="grid grid-cols-2 gap-4">
+//       <WeekGlance />
+//       <SummaryBlocks />
+//     </div>
+//   </div>
+
+//   <div className="col-span-4">
+//     <BrainCloud />
+//   </div>
+
+//   {/* Row 2: Stretches and fills remaining height */}
+//   <div className="col-span-12 self-stretch pb-2 rounded-xl bg-white shadow-lg p-4 border border-gray-100">
+//     <h1 className="font-semibold text-slate-500 mb-3">Your Pinned Items</h1>
+//     <div className="grid grid-cols-4 min-h-[calc(100%-50px)] gap-2">
+//       {pinnedItems?.map((item) => (
+//         <StaggerContainer key={item.id}>
+//           <ListItem item={item.item} />
+//         </StaggerContainer>
+//       )) || (
+//         <div className="col-span-3 text-center text-gray-400">
+//           No pinned items yet.
+//         </div>
+//       )}
+//     </div>
+//     {/* <div className="h-full rounded-lg bg-[var(--accent-light-one)] shadow-md"></div>
+//     <div className="h-full rounded-lg bg-[var(--accent-light-three)] shadow-md"></div>
+//     <div className="h-full rounded-lg bg-[var(--accent-light-four)] shadow-md"></div> */}
+//   </div>
+// </div>

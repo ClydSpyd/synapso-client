@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContextData, defaultAuthContext, User } from "./types";
 import { Loader } from "@mantine/core";
+import { baseClient } from "@/api";
 
 const AuthContext = createContext<AuthContextData>(defaultAuthContext);
 
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsAuthenticated(true);
       setUser(res.data.user);
     } catch (error) {
-    const err = error as { response: { data: { detail: string } } };
+      const err = error as { response: { data: { detail: string } } };
       console.error("Login failed", error);
       setIsAuthenticated(false);
       setUser(null);
@@ -42,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
     setSubmititng(false);
   };
-  
+
   const handleLogout = async () => {
     try {
       await axios.post(
@@ -78,7 +79,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("res", res);
       setIsAuthenticated(true);
       setUser(res.data.user);
-      
     } catch (error) {
       console.error("Signup failed", error);
       setError("Signup failed");
@@ -89,8 +89,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getUserData = async () => {
     console.log("getUserData");
-    await axios
-      .get(process.env.NEXT_PUBLIC_API_BASE_URL! + "auth/me/", {
+    await baseClient
+      .get("auth/me/", {
         withCredentials: true,
       })
       .then((res) => {
@@ -98,7 +98,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(res.data);
         setIsAuthenticated(true);
       })
-      .catch(() => setUser(null));
+      .catch(() => {
+        console.error("Failed to fetch user data");
+        setUser(null);
+        setIsAuthenticated(false);
+      });
     setLoading(false);
   };
 

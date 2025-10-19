@@ -63,10 +63,7 @@ export default function QuickAccessBar() {
             </QuickAccessItem>
           </RegisterActivityModal>
           <AddHabitModal>
-            <QuickAccessItem
-              text="Add new Habit"
-              colorConfig={colorCombos[1]}
-            >
+            <QuickAccessItem text="Add new Habit" colorConfig={colorCombos[1]}>
               <FaRegCalendarPlus
                 className="text-lg"
                 style={{
@@ -75,17 +72,8 @@ export default function QuickAccessBar() {
               />
             </QuickAccessItem>
           </AddHabitModal>
-          <QuickAccessItem
-            text="Record Idea"
-            colorConfig={colorCombos[4]}
-          >
-            <FaLightbulb className="text-lg text-fuchsia-500" />
-          </QuickAccessItem>
           <AddBookModal>
-            <QuickAccessItem
-              text="Wiki: Add Book"
-              colorConfig={colorCombos[2]}
-            >
+            <QuickAccessItem text="Atom: Book" colorConfig={colorCombos[2]}>
               <FaBook
                 className="text-lg"
                 style={{
@@ -96,7 +84,7 @@ export default function QuickAccessBar() {
           </AddBookModal>
           <AddQuoteModal>
             <QuickAccessItem
-              text="Wiki: Add Quote"
+              text="Atom: Quote"
               colorConfig={colorCombos[2]}
             >
               <TbQuoteFilled
@@ -109,7 +97,7 @@ export default function QuickAccessBar() {
           </AddQuoteModal>
           <AddMovieModal>
             <QuickAccessItem
-              text="Wiki: Add Movie/Series"
+              text="Atom: Movie/Series"
               colorConfig={colorCombos[2]}
             >
               <TbMovie
@@ -121,10 +109,7 @@ export default function QuickAccessBar() {
             </QuickAccessItem>
           </AddMovieModal>
           <AddLinkModal>
-            <QuickAccessItem
-              text="Wiki: Add Link"
-              colorConfig={colorCombos[2]}
-            >
+            <QuickAccessItem text="Atom: Link" colorConfig={colorCombos[2]}>
               <TbLink
                 className="text-xl"
                 style={{
@@ -133,10 +118,10 @@ export default function QuickAccessBar() {
               />
             </QuickAccessItem>
           </AddLinkModal>
-          <QuickAccessItem
-            text="Add Task"
-            colorConfig={colorCombos[7]}
-          >
+          <QuickAccessItem text="Record Idea" colorConfig={colorCombos[4]}>
+            <FaLightbulb className="text-lg text-fuchsia-500" />
+          </QuickAccessItem>
+          <QuickAccessItem text="Add Task" colorConfig={colorCombos[7]}>
             <MdPlaylistAdd className="text-2xl text-indigo-500" />
           </QuickAccessItem>
         </div>

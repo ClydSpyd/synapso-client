@@ -11,7 +11,7 @@ export function usePinnedItems(enriched?: boolean) {
   return useQuery({
     queryKey: ["pinned-items", enriched ? "enriched" : "basic"] as const,
     queryFn: async () => {
-      const response = await API.wiki.pinned.getAll({ enriched: !!enriched });
+      const response = await API.pinned.getAll({ enriched: !!enriched });
       if (response.error) {
         throw new Error("Error occurred while fetching settings");
       }

@@ -5,7 +5,7 @@ export const habitMethods = {
   getAll: async ({
     withActivity,
     startDate, // 'YYYY-MM-DD'
-    dateRange
+    dateRange,
   }: {
     withActivity: boolean;
     startDate?: string;
@@ -71,6 +71,21 @@ export const habitMethods = {
         date,
         habit_id: habitId,
       });
+      return {
+        status: response.status,
+        data: response.data,
+      };
+    } catch (error) {
+      const err = error as AxiosError;
+      return {
+        status: err.code || 500,
+        error: err.message,
+      };
+    }
+  },
+  getStats: async (): Promise<ApiResponse<Record<string, number>>> => {
+    try {
+      const response = await baseClient.get("habits/stats/");
       return {
         status: response.status,
         data: response.data,

@@ -18,7 +18,7 @@ export default function AddBookModal({
     setError(null);
     setSubmittingSearch(true);
     setResults([]);
-    const { data, error } = await API.wiki.books.searchBook(textInput);
+    const { data, error } = await API.books.searchBook(textInput);
     console.log({ data, error });
 
     if (error) {
