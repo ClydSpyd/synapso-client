@@ -9,7 +9,7 @@ export default function PinnedItems() {
   return (
     <ModuleWrapper>
       <h1 className="font-semibold text-slate-500 mb-3">Your Pinned Items</h1>
-      <div className="grid grid-cols-2 min-h-[calc(100%-50px)] gap-2">
+      <div className="grid grid-cols-1 min-h-[calc(100%-50px)] gap-2">
         {pinnedItems?.map((item) => (
           <StaggerContainer staggerDelay={200} randomFactor={500} key={item.id}>
             <ListItem pinId={item.id} item={item.item} pinned />

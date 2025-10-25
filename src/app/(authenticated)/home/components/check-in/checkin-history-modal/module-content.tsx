@@ -95,8 +95,6 @@ export default function CheckinModuleContent({ date }: { date: string }) {
     "saving" | "saved" | "error" | "ready"
   >("ready");
 
-  console.log("CheckinModuleContent:", { data });
-  // Sync inputVals with data when data is loaded
   useEffect(() => {
     if (data) {
       setInputVals(data);
@@ -198,6 +196,9 @@ export default function CheckinModuleContent({ date }: { date: string }) {
           autosize
           minRows={4}
           maxRows={6}
+          classNames={{
+            input: "!border-gray-200 !rounded-lg",
+          }}
         />
       </div>
       {/* <div className="flex w-full justify-end">

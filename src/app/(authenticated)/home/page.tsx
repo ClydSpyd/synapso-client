@@ -1,7 +1,7 @@
 "use client";
 import { useAuth } from "@/context/auth-context";
 import WeekGlance from "./components/week-glance";
-import BrainCloud from "./components/brain-cloud";
+import BrainDump from "./components/brain-dump";
 import PinnedItems from "./components/pinned-items";
 import { CheckIn } from "./components/check-in";
 import StaggerContainer from "@/components/utility-comps/stagger-container";
@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className="h-[calc(100vh-60px)] w-full grid grid-rows-[auto_1fr] grid-cols-12 gap-4 bg-gray-100/40 p-4">
       <div className="col-span-8 flex flex-col gap-4 pb-4">
-        <StaggerContainer>
+        <StaggerContainer className="h-fit">
           <div className="w-full h-[130px] rounded-xl !overflow-hidden px-6 flex flex-col justify-center relative z-10">
             <div className="!absolute min-h-[50vw] min-w-[50vw] left-0 z-[-1] abs-center">
               <div className="!absolute h-full w-full left-0 gradient-bg-zen-alt rotate-alt" />
@@ -26,12 +26,12 @@ export default function Home() {
           </div>
         </StaggerContainer>
         <WeekGlance />
-        <PinnedItems />
+        <BrainDump />
       </div>
       <div className="flex flex-col col-span-4 gap-5 pb-4">
         {/* <SummaryBlocks /> */}
         <CheckIn />
-        <BrainCloud />
+        <PinnedItems />
       </div>
     </div>
   );
