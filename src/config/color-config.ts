@@ -78,9 +78,9 @@ export const errorColorCombo: ColorCombo = {
 };
 
 export const moodScale: string[] = [
-  "#f87171", // red-400
-  "#f59e42", // orange-400
-  "#fbbf24", // yellow-400
-  "#6ae635", // lime-400
-  "#00ff1e", // green-400
+  "#fa5e5e", 
+  "#f99830", 
+  "#fbbf24", 
+  "#8ffc60", 
+  "#00ff1e", 
 ];

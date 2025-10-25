@@ -1,36 +1,42 @@
+import "react-datepicker/dist/react-datepicker.css";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
-import { API } from "@/api";
 import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
 import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
 import CheckinModuleContent from "./module-content";
 import { cn } from "@/lib/utils";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import { formatDatePayload } from "@/lib/dates";
+import {
+  formatDatePayload,
+  getCurrentMonthInt,
+  getCurrentYear,
+} from "@/lib/dates";
+import DatePicker from "react-datepicker";
+import { useMonthlyCheckins } from "@/queries/useCheckin";
+import { format } from "date-fns";
 
 export default function CheckinHistoryModal({
   children,
-  defaultData,
 }: {
   children: React.ReactNode;
-  defaultData?: FocusItem;
 }) {
   const [dateOffset, setDateOffset] = useState(0);
+  const [month, setMonth] = useState(getCurrentMonthInt());
+  const [year, setYear] = useState(getCurrentYear());
   const [opened, { open, close }] = useDisclosure(false);
-  const [submitting, setSubmitting] = useState(false);
-  const queryClient = useQueryClient();
   const handleMonthArrow = (direction: "prev" | "next") => {
     if (direction === "prev") {
-      console.log("prev month");
       setDateOffset((prev) => prev - 1);
     } else {
       if (dateOffset === 0) return;
-      console.log("next month");
       setDateOffset((prev) => prev + 1);
     }
   };
+
+  const { data: checkinsByMonth } = useMonthlyCheckins(month, year);
+
+  console.log("ö checkinsByMonth:", checkinsByMonth);
 
   return (
     <>
@@ -40,7 +46,6 @@ export default function CheckinHistoryModal({
         onClose={() => {
           close();
           setTimeout(() => {
-            setSubmitting(false);
             setDateOffset(0);
           }, 500);
         }}
@@ -51,9 +56,40 @@ export default function CheckinHistoryModal({
               className={cn("text-xl text-indigo-600 cursor-pointer")}
               onClick={() => handleMonthArrow("prev")}
             />
-            <p className="font-semibold w-[120px] text-center text-slate-500 p-1 border border-gray-300 rounded-sm cursor-pointer">
-              {formatDatePayload(dateOffset, true)}
-            </p>
+            <div className="relative z-20">
+              <DatePicker
+                calendarStartDay={1}
+                onMonthChange={(date: Date) => {
+                  setMonth(date.getMonth() + 1);
+                }}
+                onYearChange={(date: Date) => {
+                  setYear(date.getFullYear());
+                }}
+                dayClassName={(date: Date) => {
+                  const hasCheckin = checkinsByMonth?.includes(
+                    format(date, "yyyy-MM-dd")
+                  );
+                  return hasCheckin ? "date-with-checkin" : "";
+                }}
+                showPopperArrow={false}
+                disabledKeyboardNavigation
+                preventOpenOnFocus
+                autoFocus={false}
+                selected={new Date(formatDatePayload(dateOffset, false))}
+                onChange={(date: Date | null) => {
+                  if (!date) return;
+                  const today = new Date();
+                  const selectedDate = new Date(date);
+                  const timeDiff = today.getTime() - selectedDate.getTime();
+                  const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+                  setDateOffset(-dayDiff);
+                }}
+                maxDate={new Date()}
+                dateFormat="dd-MM-yyyy"
+                className="font-bold w-[120px] text-center text-slate-500 p-1 border border-gray-300 rounded-sm cursor-pointer"
+                customInput={<p>{formatDatePayload(dateOffset, true)}</p>}
+              />
+            </div>
             <BiChevronRight
               className={cn("text-xl text-indigo-600 cursor-pointer", {
                 "opacity-40 pointer-events-none": dateOffset === 0,
@@ -61,7 +97,10 @@ export default function CheckinHistoryModal({
               onClick={() => handleMonthArrow("next")}
             />
           </div>
-          <CheckinModuleContent date={formatDatePayload(dateOffset)} />
+          <CheckinModuleContent
+            key={dateOffset}
+            date={formatDatePayload(dateOffset)}
+          />
         </ModalContentWrapper>
       </Modal>
       <div onClick={open}>{children}</div>

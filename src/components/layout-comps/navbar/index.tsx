@@ -7,6 +7,7 @@ import { TbCalendarRepeat } from "react-icons/tb";
 import NavLink from "@/components/navlink";
 import { useAuth } from "@/context/auth-context";
 import Link from "next/link";
+import { FaListCheck } from "react-icons/fa6";
 // import { FaListCheck } from "react-icons/fa6";
 
 export default function Navbar() {
@@ -38,12 +39,12 @@ export default function Navbar() {
             <p className="text-sm font-[500]">Atoms</p>
           </div>
         </NavLink>
-        {/* <NavLink href="/tasks">
+        <NavLink href="/tasks">
           <div className="flex items-center gap-2">
             <FaListCheck className="text-md" />
             <p className="text-sm font-[500]">Tasks</p>
           </div>
-        </NavLink> */}
+        </NavLink>
       </div>
       <p className="cursor-pointer" onClick={logout}>
         logout

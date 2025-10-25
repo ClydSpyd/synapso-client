@@ -38,49 +38,82 @@ const moodsConfig = [
     label: "Very Sad",
     icon: <SadIcon size={30} color={"#fff"} />,
     color: moodScale[0],
-    value: 1,
+    value: 0,
   },
   {
     label: "Sad",
     icon: <DownIcon size={30} color={"#fff"} />,
     color: moodScale[1],
-    value: 2,
+    value: 1,
   },
   {
     label: "Neutral",
     icon: <NeutralIcon size={30} color={"#fff"} />,
     color: moodScale[2],
-    value: 3,
+    value: 2,
   },
   {
     label: "Happy",
     icon: <UpIcon size={30} color={"#fff"} />,
     color: moodScale[3],
-    value: 4,
+    value: 3,
   },
   {
     label: "Very Happy",
     icon: <HappyIcon size={35} color={"#fff"} />,
     color: moodScale[4],
-    value: 5,
+    value: 4,
   },
 ];
+
+const unchangedLocally = (a: CheckinValues, b: CheckinValues) => {
+  const returnVal = Object.keys(a).every(
+    (key) => a[key as keyof CheckinValues] === b[key as keyof CheckinValues]
+  );
+  console.log("Unchanged locally:", { returnVal, a, b });
+  return returnVal;
+};
+
+const checkValuesComplete = (inputVals: CheckinValues) => {
+  return (
+    inputVals.mood >= 0 &&
+    inputVals.energy_level >= 0 &&
+    inputVals.focus_level >= 0 &&
+    inputVals.stress_level >= 0 &&
+    inputVals.reflection.length > 0
+  );
+};
+
 export default function CheckinModuleContent({ date }: { date: string }) {
   const queryClient = useQueryClient();
-  const { data, isLoading } = useCheckin(date);
+  const { data } = useCheckin(date);
   const [inputVals, setInputVals] = useState<CheckinValues>(
     data ?? initialValues
   );
+  const [complete, setComplete] = useState(checkValuesComplete(inputVals));
   const [uiState, setUiState] = useState<
     "saving" | "saved" | "error" | "ready"
   >("ready");
 
+  console.log("CheckinModuleContent:", { data });
   // Sync inputVals with data when data is loaded
   useEffect(() => {
     if (data) {
       setInputVals(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    if(!data) {
+      setComplete(false);
+      return;
+    }
+
+    setComplete(
+      checkValuesComplete(inputVals) &&
+        !unchangedLocally(inputVals, data as CheckinValues)
+    );
+  }, [inputVals]);
 
   const handleInputChange = (
     field: keyof CheckinValues,
@@ -93,7 +126,7 @@ export default function CheckinModuleContent({ date }: { date: string }) {
     setUiState("saving");
     console.log("Saving check-in:", date);
     const payload: Checkin = {
-      mood: inputVals.mood,
+      mood: inputVals.mood < 0 ? 0 : inputVals.mood,
       energy_level: inputVals.energy_level,
       focus_level: inputVals.focus_level,
       stress_level: inputVals.stress_level,
@@ -101,13 +134,17 @@ export default function CheckinModuleContent({ date }: { date: string }) {
     };
     const { data, error } = await API.checkin.create(payload, date);
     console.log({ data, error });
-    if(data) {
+    if (data) {
       setTimeout(() => {
         setUiState("saved");
         setTimeout(() => setUiState("ready"), 1500);
       }, 500);
       queryClient.invalidateQueries({
         queryKey: ["checkins"],
+        exact: false,
+      });
+      queryClient.refetchQueries({
+        queryKey: ["week-glance-stats"],
         exact: false,
       });
     } else {
@@ -183,7 +220,14 @@ export default function CheckinModuleContent({ date }: { date: string }) {
         </div>
         <button
           onClick={handleSave}
-          className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 py-1 !transition-all ease-in-out !duration-300 cursor-pointer"
+          disabled={!complete || uiState === "saving"}
+          className={cn(
+            "bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 py-1 !transition-all ease-in-out !duration-300 cursor-pointer",
+            {
+              "opacity-50 cursor-not-allowed":
+                !complete || uiState === "saving",
+            }
+          )}
         >
           <p className="text-sm m-0 font-semibold">Save</p>
         </button>

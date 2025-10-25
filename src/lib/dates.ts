@@ -8,10 +8,13 @@ import {
   getDay,
 } from "date-fns";
 
-export const getThisWeekRange = (): string => {
-  const today = new Date();
-  const start = startOfWeek(today, { weekStartsOn: 1 }); // Monday
-  const end = endOfWeek(today, { weekStartsOn: 1 }); // Sunday
+export const getThisWeekRange = (weekOffset?: number): string => {
+  const base = new Date();
+  if (weekOffset) {
+    base.setDate(base.getDate() + weekOffset * 7);
+  }
+  const start = startOfWeek(base, { weekStartsOn: 1 }); // Monday
+  const end = endOfWeek(base, { weekStartsOn: 1 }); // Sunday
 
   const startFormat = start.getMonth() === end.getMonth() ? "dd" : "dd MMM";
   return `${format(start, startFormat)} - ${format(end, "dd MMM")}`;
@@ -23,6 +26,14 @@ export const getCurrentMonth = (withYear?: boolean): string => {
   const year = format(today, "yyyy");
   return `${monthName}${withYear ? " " + year : ""}`;
 };
+
+  export const getCurrentMonthInt = (): number => {
+    return new Date().getMonth() + 1;
+  };
+
+  export const getCurrentYear = (): number => {
+    return new Date().getFullYear();
+  };
 
 export const getMonday = (date = new Date()): string => {
   const day = date.getDay(); // 0 (Sun) - 6 (Sat)
@@ -100,4 +111,3 @@ export function getMonthData(year: number, month: number): MonthConfig {
     firstDay: getDay(start),
   };
 }
-

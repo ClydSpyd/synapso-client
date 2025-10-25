@@ -21,10 +21,9 @@ export default function RegisterActivityModal({
   const queryClient = useQueryClient();
   const { data: habits } = useHabits({
     withActivity: true,
-    startDate: "2025-08-24",
+    startDate: formatDatePayload(0),
     dateRange: 1,
   });
-  console.log({ Ö: habits });
 
   function patchHabitRecords(
     habits: HabitActivity[],
@@ -64,6 +63,10 @@ export default function RegisterActivityModal({
     } else {
       queryClient.invalidateQueries({
         queryKey: ["user-habits"],
+        exact: false,
+      });
+      queryClient.refetchQueries({
+        queryKey: ["week-glance-stats"],
         exact: false,
       });
     }

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../config/color-config.css";
+@import "./date-picker-overrides.css";
 
 :root {
   --background: #ffffff;
@@ -350,4 +351,33 @@ button.bg-zen-shift{
 
 .mantine-Textarea-root label {
   margin-bottom: 6px;
+}
+
+.mantine-Switch-track,
+.mantine-Switch-root:focus-visible,
+.mantine-Switch-input:focus-visible,
+.mantine-Switch-track:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.date-with-checkin{
+  position: relative;
+  /* border: 1px solid #aca9ed;
+  border-radius: 50%; */
+}
+.date-with-checkin:not(.react-datepicker__day--selected)::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  height: 5px;
+  width: 5px;
+  /* border: 1px solid #4f46e5; */
+  background-color: var(--wiki-accent-six);
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
 }

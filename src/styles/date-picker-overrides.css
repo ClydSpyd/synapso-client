@@ -1,0 +1,15 @@
+.react-datepicker__header {
+  background: linear-gradient(90deg, #d65bff, #6e9eff, #48c6ff);
+  background-size: 300% 300%;
+  transition: transform 0.5s ease;
+  animation: gradientShift 5s ease infinite;
+
+  * {
+    color: white !important;
+  }
+}
+
+.react-datepicker__day--selected{
+    background-color: var(--accent-one) !important;
+    font-weight: 600 !important;
+}

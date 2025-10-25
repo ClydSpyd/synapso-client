@@ -71,6 +71,11 @@ export default function DayItem({
       exact: false,
       refetchType: "active",
     });
+    queryClient.invalidateQueries({
+      queryKey: ["week-glance-stats"],
+      exact: false,
+      refetchType: "active",
+    });
   };
 
   return (

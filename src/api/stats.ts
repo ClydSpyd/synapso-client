@@ -32,4 +32,21 @@ export const statsMethods = {
             };
         }
     },
+    getWeekGlanceStats: async (weekOffset: number): Promise<ApiResponse<WeekGlanceStats>> => {
+        try {
+            const response = await baseClient.get("stats/week-glance/", {
+              params: { week_offset: weekOffset },
+            });
+            return {
+                status: response.status,
+                data: response.data,
+            };
+        } catch (error) {
+            const err = error as AxiosError;
+            return {
+                status: err.code || 500,
+                error: err.message,
+            };
+        }
+    },
 };

@@ -13,6 +13,10 @@
     animation-fill-mode: forwards;
   }
 
+  *:focus-visible {
+    outline: none;
+  }
+
   .tick-circle {
     display: flex;
     justify-content: center;

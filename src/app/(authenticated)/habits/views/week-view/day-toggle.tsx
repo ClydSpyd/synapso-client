@@ -49,6 +49,11 @@ export default function DayToggle({
       exact: false,
       refetchType: "active",
     });
+    queryClient.invalidateQueries({
+      queryKey: ["week-glance-stats"],
+      exact: false,
+      refetchType: "active",
+    });
   };
 
   return (

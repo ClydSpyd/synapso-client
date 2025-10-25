@@ -1,7 +1,6 @@
 "use client";
 import { useAuth } from "@/context/auth-context";
 import WeekGlance from "./components/week-glance";
-import SummaryBlocks from "./components/summary-blocks";
 import BrainCloud from "./components/brain-cloud";
 import PinnedItems from "./components/pinned-items";
 import { CheckIn } from "./components/check-in";

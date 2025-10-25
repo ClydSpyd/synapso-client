@@ -6,7 +6,6 @@ export const useCheckin = (date: string) => {
   return useQuery<CheckinValues, Error>({
     queryKey: ["checkins", date],
     queryFn: async () => {
-      console.log("Fetching check-in:", date);
       const response = await API.checkin.getCheckin(date);
       if (response.error)
         throw new Error(
@@ -15,7 +14,8 @@ export const useCheckin = (date: string) => {
             : "Unknown error"
         );
       const returnPayload: CheckinValues = {
-        mood: response.data![0]?.mood || 0,
+        mood:
+          response.data![0]?.mood !== undefined ? response.data![0]?.mood : -1,
         energy_level: response.data![0]?.energy_level || 0,
         focus_level: response.data![0]?.focus_level || 0,
         stress_level: response.data![0]?.stress_level || 0,
@@ -26,6 +26,25 @@ export const useCheckin = (date: string) => {
     },
     retry: 1,
     staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useMonthlyCheckins = (month: number, year: number) => {
+  return useQuery<string[], Error>({
+    queryKey: ["monthly-checkins", month, year],
+    queryFn: async () => {
+      const response = await API.checkin.getCheckinsByMonth(month, year);
+      if (response.error)
+        throw new Error(
+          response.error
+            ? "Error occurred while fetching monthly check-ins"
+            : "Unknown error"
+        );
+      return response.data!;
+    },
+    retry: 1,
+    staleTime: 1000 * 60 * 10, // 10 minutes
     refetchOnWindowFocus: false,
   });
 };

@@ -6,15 +6,17 @@ export default function ModalContentWrapper({
   title,
   subtitle,
   close,
+  className = "",
 }: {
   children: React.ReactNode;
   title: string;
   subtitle?: string;
+  className?: string;
   close: () => void;
 }) {
   return (
     <>
-      <div className="w-full bg-zen-shift rounded-none p-6 relative">
+      <div className={`w-full bg-zen-shift rounded-none p-6 relativ`}>
         <div className="absolute top-4 right-4">
           <RxCross2
             className="text-white cursor-pointer"
@@ -27,7 +29,7 @@ export default function ModalContentWrapper({
         <h1 className="text-2xl font-bold text-white">{title}</h1>
         {subtitle && <p className="text-gray-200">{subtitle}</p>}
       </div>
-      <div className="w-full flex flex-col gap-2 p-4">{children}</div>
+      <div className={"w-full flex flex-col gap-2 p-4 " + className}>{children}</div>
     </>
   );
 }
