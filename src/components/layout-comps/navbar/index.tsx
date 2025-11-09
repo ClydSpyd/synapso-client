@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 // import { FaRegLightbulb } from "react-icons/fa";
-import { BiAtom, BiBrain } from "react-icons/bi";
-
+import { BiAtom } from "react-icons/bi";
+import { RiDashboardHorizontalLine } from "react-icons/ri";
 import { TbCalendarRepeat } from "react-icons/tb";
 import NavLink from "@/components/navlink";
 import { useAuth } from "@/context/auth-context";
@@ -21,10 +21,16 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="flex items-center gap-10">
+        <NavLink href="/home">
+          <div className="flex items-center gap-2">
+            <RiDashboardHorizontalLine className="text-lg" />
+            <p className="text-sm font-[500]">Home</p>
+          </div>
+        </NavLink>
         <NavLink href="/habits">
           <div className="flex items-center gap-2">
             <TbCalendarRepeat className="text-lg" />
-            <p className="text-sm font-[500]">Tracker</p>
+            <p className="text-sm font-[500]">Habits</p>
           </div>
         </NavLink>
         {/* <NavLink href="/ideas">
@@ -33,16 +39,16 @@ export default function Navbar() {
             <p className="text-sm font-[500]">Ideas</p>
           </div>
         </NavLink> */}
+        <NavLink href="/tasks">
+          <div className="flex items-center gap-2">
+            <FaListCheck className="text-md" />
+            <p className="text-sm font-[500]">Actions</p>
+          </div>
+        </NavLink>
         <NavLink href="/atoms">
           <div className="flex items-center gap-2">
             <BiAtom className="text-lg" />
             <p className="text-sm font-[500]">Atoms</p>
-          </div>
-        </NavLink>
-        <NavLink href="/tasks">
-          <div className="flex items-center gap-2">
-            <FaListCheck className="text-md" />
-            <p className="text-sm font-[500]">Tasks</p>
           </div>
         </NavLink>
       </div>

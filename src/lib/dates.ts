@@ -41,7 +41,7 @@ export const getMonday = (date = new Date()): string => {
   const monday = new Date(date.setDate(diff));
   monday.setHours(0, 0, 0, 0);
 
-  // 🧠 construct ISO string using local values
+  // construct ISO string using local values
   const year = monday.getFullYear();
   const month = String(monday.getMonth() + 1).padStart(2, "0");
   const dayOfMonth = String(monday.getDate()).padStart(2, "0");
@@ -110,4 +110,29 @@ export function getMonthData(year: number, month: number): MonthConfig {
     ),
     firstDay: getDay(start),
   };
+}
+
+
+export function getTimeAgoString(date: Date): string {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  const intervals: { [key: string]: number } = {
+    year: 31536000,
+    month: 2592000,
+    week: 604800,
+    day: 86400,
+    hour: 3600,
+    minute: 60,
+    second: 1,
+  };
+
+  for (const interval in intervals) {
+    const intervalSeconds = intervals[interval];
+    if (diffInSeconds >= intervalSeconds) {
+      const count = Math.floor(diffInSeconds / intervalSeconds);
+      return `${count} ${interval}${count !== 1 ? "s" : ""} ago`;
+    }
+  }
+  return "just now";
 }

@@ -1,13 +1,12 @@
 "use client";
-import { useHabits } from "@/queries/useHabits";
 import PageHeader from "@/components/page-header";
 import { colorCombos } from "@/config/color-config";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import SelectPill from "@/components/ui/select-pill";
 import WeekView from "./views/week-view";
 import MonthView from "./views/month-view";
 import { useQueryClient } from "@tanstack/react-query";
-import useLocalStorage from "@/hooks/use-local-state";
+import useLocalStorage from "@/hooks/use-local-storage";
 import AddHabitModal from "@/components/layout-comps/quick-access-bar/modals/add-habit-modal";
 
 type View = "month" | "week";

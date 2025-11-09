@@ -14,10 +14,10 @@ interface Task {
 }
 
 const COLUMNS: Column[] = [
-  { status: "todo", title: "To Do" },
-  { status: "in-progress", title: "In Progress" },
-  { status: "blocked", title: "Blocked" },
-  { status: "done", title: "Done" },
+  { status: "todo", title: "Input" },
+  { status: "in-progress", title: "Active" },
+  { status: "blocked", title: "Dormant" },
+  { status: "done", title: "Completed" },
 ];
 
 function Draggable({ id }: { id: number }) {

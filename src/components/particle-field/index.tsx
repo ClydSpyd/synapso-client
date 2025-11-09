@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { updateMorphingMatrix } from "./elements/matrix";
 import { createRandomSpark } from "./elements/sparks";
 
-export default function ParticleField() {
+export default function ParticleField({ particleCount }: { particleCount: number }) {
   const mountRef = useRef<HTMLDivElement>(null);
   const mouse = useRef({ x: 0, y: 0 });
   const velocity = useRef({ x: 0, y: 0 });
@@ -12,6 +12,12 @@ export default function ParticleField() {
   const lineMeshRef = useRef<THREE.LineSegments | null>(null);
 
   useEffect(() => {
+    const container = mountRef.current;
+    if (!container) return;
+
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -22,10 +28,9 @@ export default function ParticleField() {
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(width, height);
     mountRef.current?.appendChild(renderer.domElement);
 
-    const particleCount = 400;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
@@ -153,7 +158,7 @@ export default function ParticleField() {
   return (
     <div
       ref={mountRef}
-      className="fixed inset-0 z-[-1] bg-transparent opacity-55"
+      className="absolute inset-0 z-[-1] bg-transparent opacity-55"
     />
   );
 }

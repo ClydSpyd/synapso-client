@@ -1,6 +1,7 @@
 "use client";
 import Navbar from "@/components/layout-comps/navbar";
 import QuickAccessBar from "@/components/layout-comps/quick-access-bar";
+import ModalHost from "@/components/utility-comps/modal-host";
 import { useAuth } from "@/context/auth-context";
 import { QueryProvider } from "@/context/query-provider";
 import { redirect } from "next/navigation";
@@ -27,6 +28,7 @@ export default function AuthenticatedLayout({
           </div>
         </div>
       </div>
+      <ModalHost />
     </QueryProvider>
   );
 }

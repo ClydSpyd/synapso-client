@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Modal } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import { useDisclosure, useDebouncedCallback } from "@mantine/hooks";
 import { defaultIconList, iconList } from "./icon-list";
 

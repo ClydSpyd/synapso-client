@@ -1,8 +1,6 @@
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import {
   FaChevronCircleRight,
-  FaLightbulb,
   FaRegCalendarCheck,
   FaRegCalendarPlus,
 } from "react-icons/fa";
@@ -18,9 +16,16 @@ import AddBookModal from "./modals/add-book-modal";
 import AddLinkModal from "./modals/add-link-modal";
 import RegisterActivityModal from "./modals/register-activity-modal";
 import { colorCombos } from "@/config/color-config";
+import { IoMdCloudUpload } from "react-icons/io";
+import AddIdeaModal from "./modals/add-idea-modal";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 export default function QuickAccessBar() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useLocalStorage(
+    "synapso_bar_state",
+    true
+  );
+
   return (
     <div
       className={`relative h-full p-4 text-slate-500 font-semibold text-sm transition-all duration-300 ease-out ${
@@ -73,24 +78,21 @@ export default function QuickAccessBar() {
             </QuickAccessItem>
           </AddHabitModal>
           <AddBookModal>
-            <QuickAccessItem text="Atom: Book" colorConfig={colorCombos[2]}>
+            <QuickAccessItem text="Atom: Book" colorConfig={colorCombos[3]}>
               <FaBook
                 className="text-lg"
                 style={{
-                  color: colorCombos[2].mainColor,
+                  color: colorCombos[3].mainColor,
                 }}
               />
             </QuickAccessItem>
           </AddBookModal>
           <AddQuoteModal>
-            <QuickAccessItem
-              text="Atom: Quote"
-              colorConfig={colorCombos[2]}
-            >
+            <QuickAccessItem text="Atom: Quote" colorConfig={colorCombos[3]}>
               <TbQuoteFilled
                 className="text-xl"
                 style={{
-                  color: colorCombos[2].mainColor,
+                  color: colorCombos[3].mainColor,
                 }}
               />
             </QuickAccessItem>
@@ -98,31 +100,43 @@ export default function QuickAccessBar() {
           <AddMovieModal>
             <QuickAccessItem
               text="Atom: Movie/Series"
-              colorConfig={colorCombos[2]}
+              colorConfig={colorCombos[3]}
             >
               <TbMovie
                 className="text-xl"
                 style={{
-                  color: colorCombos[2].mainColor,
+                  color: colorCombos[3].mainColor,
                 }}
               />
             </QuickAccessItem>
           </AddMovieModal>
           <AddLinkModal>
-            <QuickAccessItem text="Atom: Link" colorConfig={colorCombos[2]}>
+            <QuickAccessItem text="Atom: Link" colorConfig={colorCombos[3]}>
               <TbLink
                 className="text-xl"
                 style={{
-                  color: colorCombos[2].mainColor,
+                  color: colorCombos[3].mainColor,
                 }}
               />
             </QuickAccessItem>
           </AddLinkModal>
-          <QuickAccessItem text="Record Idea" colorConfig={colorCombos[4]}>
-            <FaLightbulb className="text-lg text-fuchsia-500" />
-          </QuickAccessItem>
-          <QuickAccessItem text="Add Task" colorConfig={colorCombos[7]}>
-            <MdPlaylistAdd className="text-2xl text-indigo-500" />
+          <AddIdeaModal>
+            <QuickAccessItem text="Float Idea" colorConfig={colorCombos[5]}>
+              <IoMdCloudUpload
+                className="text-xl"
+                style={{
+                  color: colorCombos[5].mainColor,
+                }}
+              />
+            </QuickAccessItem>
+          </AddIdeaModal>
+          <QuickAccessItem text="Add Task" colorConfig={colorCombos[4]}>
+            <MdPlaylistAdd
+              className="text-2xl"
+              style={{
+                color: colorCombos[4].mainColor,
+              }}
+            />
           </QuickAccessItem>
         </div>
       </div>

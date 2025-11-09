@@ -107,6 +107,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    if (window.location.pathname === "/logout") {
+      setLoading(false);
+      return;
+    }
     getUserData();
   }, []);
 

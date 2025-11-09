@@ -1,39 +1,59 @@
 import ModuleWrapper from "@/components/utility-comps/module-wrapper";
 import { colorCombos } from "@/config/color-config";
-import { cn } from "@/lib/utils";
-import { Textarea, TextInput } from "@mantine/core";
-import { useState } from "react";
+import { useIdeas } from "@/queries/useIdeas";
 import { IoMdCloudUpload } from "react-icons/io";
-
-interface BrainDumpItem {
-  text: string;
-  tags: string[];
-  createdAt: Date;
-}
-
-const getTagColorConfig = (tag: string): ColorCombo => {
-  const intVal = parseInt(tag.charCodeAt(0).toString(), 10);
-  const colorConfig = colorCombos[intVal % colorCombos.length];
-  return colorConfig;
-};
+import IdeaInput from "./idea-input";
+import IdeaListItem from "./idea-list-item";
+import IdeaFilters from "./idea-filters";
+import { useEffect, useState } from "react";
 
 export default function BrainDump() {
-  const [items, setItems] = useState<BrainDumpItem[]>([
-    {
-      text: "Finish the project proposal for the new client.",
-      tags: ["work", "urgent"],
-      createdAt: new Date(),
-    },
-    {
-      text: "Buy groceries: milk, eggs, bread, and fruits.",
-      tags: ["personal", "shopping", "urgent"],
-      createdAt: new Date(),
-    },
-  ]);
+  const { data: items } = useIdeas();
+  const [displayItems, setDisplayItems] = useState<Idea[] | undefined>(items);
+  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
+  // const allTags = items?.reduce((acc: string[], idea) => {
+  //   idea.tags.forEach((tag) => {
+  //     if (!acc.includes(tag)) {
+  //       acc.push(tag);
+  //     }
+  //   });
+  //   return acc;
+  // }, []) || [];
 
-  const moduleColorConf =  colorCombos[2];
+  useEffect(() => {
+    const sortItems = (order: SortOrder) => {
+      const key: keyof Idea = ["az", "za"].includes(order)
+        ? "title"
+        : "createdAt";
+      const ascOrder = ["az", "asc"].includes(order);
+
+      const sorted = items?.slice().sort((a, b) => {
+        if (key === "title") {
+          return ascOrder
+            ? a.title.localeCompare(b.title)
+            : b.title.localeCompare(a.title);
+        } else {
+          const aValue =
+            typeof a.createdAt === "string"
+              ? Date.parse(a.createdAt)
+              : +a.createdAt;
+          const bValue =
+            typeof b.createdAt === "string"
+              ? Date.parse(b.createdAt)
+              : +b.createdAt;
+          return ascOrder ? aValue - bValue : bValue - aValue;
+        }
+      });
+      setDisplayItems(sorted);
+    };
+
+    sortItems(sortOrder);
+  }, [items, sortOrder]);
+
+  const moduleColorConf = colorCombos[1];
   return (
-    <ModuleWrapper className="min-h-[300px] grow">
+    <ModuleWrapper>
+      {/* header section  */}
       <div className="flex gap-2">
         <div
           className="w-11 h-11 flex items-center justify-center rounded-lg"
@@ -42,90 +62,32 @@ export default function BrainDump() {
             color: moduleColorConf.mainColor,
           }}
         >
-          <IoMdCloudUpload size={22} />
+          <IoMdCloudUpload size={27} />
         </div>
         <div className="grow">
-          <h1 className="font-semibold text-slate-500">Brain Dump</h1>
-          <p className="text-xs text-slate-400/60 font-semibold">
-            Capture your thoughts + ideas to further develop them later
+          <h1 className="font-semibold text-slate-500">Idea Cloud</h1>
+          <p className="text-xs text-slate-400/60">
+            Float your thoughts + ideas here and develop them further later
           </p>
         </div>
       </div>
       <div className="my-4 flex flex-col gap-3">
-        {/* input section  */}
-        <div
-          className="border-2 border-dashed rounded-lg p-4"
-          style={{
-            borderColor: moduleColorConf.accentColor,
-            backgroundColor: moduleColorConf.hintColor,
-          }}
-        >
-          <textarea
-            placeholder="Record your thought/idea here..."
-            className="resize-none bg-transparent outline-none w-full p-2 rounded-md"
-            style={{
-              // color: moduleColorConf.mainColor,
-              color: "#7a7a7a",
-              backgroundColor: moduleColorConf.hintColor,
-              border: `1px solid ${moduleColorConf.accentColor}`,
-            }}
-          />
-          <div className="flex gap-1 items-center">
-            <div className="flex-1 border-t border-gray-100">
-              <input
-                className="w-full rounded-md border p-2"
-                type="text"
-                placeholder="Tags: work, idea, urgent..."
-                style={{
-                  // color: moduleColorConf.mainColor,
-                  color: "#7a7a7a",
-                  backgroundColor: moduleColorConf.hintColor,
-                  border: `1px solid ${moduleColorConf.accentColor}`,
-                }}
-              />
-            </div>
-            <button
-              className={cn(
-                "h-[40px] flex items-center text-white rounded-md gap-1 px-6 py-1 !transition-all ease-in-out !duration-300 cursor-pointer"
-                // {
-                //   "opacity-50 cursor-not-allowed":
-                //     !complete || uiState === "saving",
-                // }
-              )}
-              style={{
-                backgroundColor: moduleColorConf.mainColor,
-              }}
-            >
-              <p className="text-sm m-0 font-semibold">Save</p>
-            </button>
-          </div>
-        </div>
+        {/* filters section  */}
+        <IdeaFilters
+          setDisplayItems={setDisplayItems}
+          setSortOrder={setSortOrder}
+          sortOrder={sortOrder}
+        />
 
         {/* list section  */}
         <div className="flex flex-col gap-2">
-          {items.map((item, index) => (
-            <div key={index} className="p-3 border border-gray-200 rounded-lg flex flex-col gap-1">
-              <p className="text-base font-semibold text-gray-500/70">{item.text}</p>
-              <div className="flex gap-2 mt-2">
-                {item.tags.map((tag, idx) => {
-                  const colorConfig = getTagColorConfig(tag);
-                  return (
-                    <span
-                      key={idx}
-                      className="text-xs px-2 py-[2px] rounded-full"
-                      style={{
-                        backgroundColor: colorConfig.hintColor,
-                        color: colorConfig.mainColor,
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
+          {displayItems?.map((item: Idea) => (
+            <IdeaListItem key={item.id} idea={item} />
           ))}
         </div>
+
+        {/* input section  */}
+        <IdeaInput />
       </div>
     </ModuleWrapper>
   );

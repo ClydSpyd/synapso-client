@@ -6,13 +6,16 @@ import FocusItemForm from "./focus-item-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
 import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
+import { cn } from "@/lib/utils";
 
 export default function AddFocusModal({
   children,
   defaultData,
+  disabled,
 }: {
   children: React.ReactNode;
   defaultData?: FocusItem;
+  disabled?: boolean;
 }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [submitting, setSubmitting] = useState(false);
@@ -74,7 +77,14 @@ export default function AddFocusModal({
           )}
         </ModalContentWrapper>
       </Modal>
-      <div onClick={open}>{children}</div>
+      <div
+        className={cn("cursor-pointer", {
+          "opacity-50 pointer-events-none": disabled,
+        })}
+        onClick={open}
+      >
+        {children}
+      </div>
     </>
   );
 }

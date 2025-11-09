@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { act, useEffect, useState } from "react";
 import {
   DndContext,
   DragEndEvent,
@@ -12,21 +12,29 @@ import {
   rectIntersection,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import { Column, COLUMNS, Task } from "./config";
+import { Column, COLUMNS } from "./config";
 import BoardColumn from "./column";
 import TaskItem from "./task-item";
+import { useTasks } from "@/queries/useTasks";
+import { API } from "@/api";
 
 export default function TaskBoard() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: "1", title: "Task 1", status: "todo" },
-    { id: "2", title: "Task 2", status: "in-progress" },
-    { id: "3", title: "Task 3", status: "done" },
-    { id: "4", title: "Task 4", status: "done" },
-  ]);
-
+  const [tasks, setTasks] = useState<Task[]>([]);
   const sensors = useSensors(useSensor(PointerSensor));
+
+
+  const { data: tasksBE } = useTasks();
+
+  useEffect(() => {
+    if (tasksBE) {
+      setTasks(tasksBE);
+    }
+  }, [tasksBE]);
+
+  if (!tasksBE) return null;
+  
 
   const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id as string);
@@ -43,11 +51,12 @@ export default function TaskBoard() {
     if (!over) return;
     const activeTask = tasks.find((t) => t.id === active.id);
     const overTask = tasks.find((t) => t.id === over.id);
-
+    
     if (!activeTask) return;
-
+    
     const activeCol = activeTask.status;
     const overCol = overTask ? overTask.status : over.id;
+    console.log({ activeTask, overCol });
 
     if (activeCol === overCol) {
       const tasksInCol = tasks.filter((t) => t.status === activeCol);
@@ -68,12 +77,21 @@ export default function TaskBoard() {
       ];
 
       setTasks(newTasks);
+
     } else {
       setTasks((prev) =>
         prev.map((task) =>
-          task.id === active.id ? { ...task, status: overCol as string } : task
+          task.id === active.id
+            ? { ...task, status: overCol as TaskStatus }
+            : task
         )
       );
+
+      API.tasks.update(
+        active.id as string,
+        { status: overCol as TaskStatus }
+      );
+
     }
   };
 
@@ -89,7 +107,7 @@ export default function TaskBoard() {
         <h6>active: {activeId}</h6>
         <h6>over: {overId}</h6>
       </div> */}
-      <div className="flex gap-2 p-4 w-full h-full">
+      <div className="flex justify-center gap-2 p-4 w-full h-fit min-h-auto grow">
         {COLUMNS.map((col: Column) => {
           const columnTasks = tasks.filter(
             (task) => task.status === col.status
@@ -97,7 +115,7 @@ export default function TaskBoard() {
           return (
             <BoardColumn
               key={col.status}
-              id={col.status}
+              colunmConfig={col}
               tasks={columnTasks}
               overId={overId}
               activeId={activeId}
@@ -109,8 +127,13 @@ export default function TaskBoard() {
       <DragOverlay>
         {activeId != null ? (
           <TaskItem
-            id={activeId}
-            title={tasks.find((task) => task.id === activeId)?.title || ""}
+            colorConfig={{
+              mainColor: "#ccc",
+              hintColor: "#ffffffae",
+              accentColor: "#e2e2e2f0",
+              scale: [],
+            }}
+            task={tasks.find((task) => task.id === activeId) as Task}
           />
         ) : null}
       </DragOverlay>

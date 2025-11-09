@@ -47,12 +47,12 @@ export const colorCombos: ColorCombo[] = [
     hintColor: "#f4ebf7",
     scale: ["#d4aefa", "#c58dfd", "#AC4DFF", "#7A1FCC", "#4D007A"],
   },
-  {
-    mainColor: "#7dddee",
-    accentColor: "#c7f1f8",
-    hintColor: "#eefafc",
-    scale: ["#acf3fe", "#9eeffc", "#7dddee", "#33c0d6", "#006673"],
-  },
+  // {
+  //   mainColor: "#7dddee",
+  //   accentColor: "#c7f1f8",
+  //   hintColor: "#eefafc",
+  //   scale: ["#acf3fe", "#9eeffc", "#7dddee", "#33c0d6", "#006673"],
+  // },
 ];
 
 export const successColorCombo: ColorCombo = {
@@ -67,6 +67,13 @@ export const disabledColorCombo: ColorCombo = {
   accentColor: "#f3f4f6", // gray-200
   hintColor: "rgba(209, 213, 219, 0.5)", // gray-100 at 50% opacity
   scale: ["#f3f4f6", "#e5e7eb", "#d1d5db", "#9ca3af", "#6b7280"],
+};
+
+export const darkGreyCombo: ColorCombo = {
+  mainColor: "#4b5563", // gray-600
+  accentColor: "#9ca3af", // gray-400
+  hintColor: "rgba(218, 218, 218, 0.649)", // gray-100 at 50% opacity
+  scale: ["#f3f4f6", "#e5e7eb", "#d1d5db", "#9ca3af", "#4b5563"],
 };
 
 

@@ -17,7 +17,7 @@ export default function UnauthenticatedLayout({
   return (
     <>
       {children}
-      <ParticleField />
+      <ParticleField particleCount={400} />
     </>
   );
 }

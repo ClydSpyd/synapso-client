@@ -1,3 +1,4 @@
+import { colorCombos } from "@/config/color-config";
 import { type ClassValue, clsx } from "clsx";
 
 import { twMerge } from "tailwind-merge";
@@ -38,3 +39,12 @@ export const getAvgString = (idx: number, isMagnitude?: boolean) => {
     : ["VERY LOW", "LOW", "MEDIUM", "HIGH", "VERY HIGH"];
   return strings[idx] || "";
 };
+
+export const getTagColorConfig = (tag: string): ColorCombo => {
+    const intVal = tag
+      .slice(0, 3)
+      .split('')
+      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const colorConfig = colorCombos[intVal % colorCombos.length];
+    return colorConfig;
+  };

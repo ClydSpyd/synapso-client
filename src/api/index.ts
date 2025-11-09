@@ -9,6 +9,9 @@ import { linkMethods } from "./links";
 import { pinnedMethods } from "./pinned";
 import { checkinMethods } from "./checkin";
 import { statsMethods } from "./stats";
+import { ideaMethods } from "./ideas";
+import { taskMethods } from "./tasks";
+import { spacesMethods } from "./spaces";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -51,36 +54,42 @@ ombdClient.interceptors.request.use((config) => {
 });
 
 baseClient.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   async (error) => {
     const err = error as AxiosError;
-    // const hasRefreshToken = document.cookie
-    //   .split(";")
-    //   .some((c) => c.trim().startsWith("refresh_token="));
 
-    //   console.log("Response error intercepted:", { err, hasRefreshToken, cookie: document.cookie });
-    if (err.response?.status === 401 ) {
-      console.log("Unauthorized access - attempting token refresh");
+    // If no response or no status, just reject
+    if (!err.response) return Promise.reject(err);
+
+    const originalRequest = err.config;
+    console.log("API error intercepted:", originalRequest?.url);
+
+    // avoid infinite loop:
+    // if the call was /refresh, logout immediately
+    if (originalRequest?.url?.includes("/refresh/")) {
+      console.warn("Refresh token failed -> logging out");
+      window.location.href = "/logout";
+      return Promise.reject(err);
+    }
+
+    if (err.response.status === 401) {
       try {
-        const tokenRes = await baseClient.post("/auth/token/refresh/");
-        console.log("Token refreshed successfully", tokenRes.data);
-        // retry the original request
-        if (err.config) {
-          console.log("Retrying original request");
-          return baseClient.request(err.config);
+        console.log("401 detected - attempting token refresh");
+        await baseClient.post("/auth/token/refresh/");
+        if (originalRequest) {
+          return baseClient.request(originalRequest);
         }
-        return Promise.reject(err);
       } catch (refreshError) {
-        console.error("Token refresh failed - redirecting to logout");
-        console.error(refreshError);
+        console.error("Refresh failed -> logout");
         window.location.href = "/logout";
+        return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(err);
   }
 );
+
 
 export const API = {
   habits: habitMethods,
@@ -108,4 +117,7 @@ export const API = {
   pinned: pinnedMethods,
   checkin: checkinMethods,
   stats: statsMethods,
+  ideas: ideaMethods,
+  tasks: taskMethods,
+  spaces: spacesMethods,
 };

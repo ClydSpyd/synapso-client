@@ -360,24 +360,3 @@ button.bg-zen-shift{
   box-shadow: none !important;
   outline: none !important;
 }
-
-.date-with-checkin{
-  position: relative;
-  /* border: 1px solid #aca9ed;
-  border-radius: 50%; */
-}
-.date-with-checkin:not(.react-datepicker__day--selected)::after {
-  content: '';
-  display: block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  height: 5px;
-  width: 5px;
-  /* border: 1px solid #4f46e5; */
-  background-color: var(--wiki-accent-six);
-  position: absolute;
-  bottom: 0px;
-  left: 50%;
-  transform: translateX(-50%);
-}

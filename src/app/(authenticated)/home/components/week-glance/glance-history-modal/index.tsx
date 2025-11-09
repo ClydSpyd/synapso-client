@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import DatePicker from "react-datepicker";
 import { getThisWeekRange } from "@/lib/dates";
 import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
+import { addWeeks, isSameWeek, startOfWeek } from "date-fns";
 
 export default function GlanceHistoryModal({
   children,
@@ -24,6 +25,11 @@ export default function GlanceHistoryModal({
       setWeekOffset((prev) => prev + 1);
     }
   };
+
+   const referenceWeek = startOfWeek(
+    addWeeks(new Date(), weekOffset),
+    { weekStartsOn: 1 }
+  );
 
   return (
     <>
@@ -48,24 +54,33 @@ export default function GlanceHistoryModal({
             />
             <div className="relative z-20">
               <DatePicker
+                calendarClassName="week-select-calendar"
                 calendarStartDay={1}
                 showPopperArrow={false}
                 disabledKeyboardNavigation
                 preventOpenOnFocus
                 autoFocus={false}
-                // selected={new Date(formatDatePayload(dateOffset, false))}
-                // onChange={(date: Date | null) => {
-                //   if (!date) return;
-                //   const today = new Date();
-                //   const selectedDate = new Date(date);
-                //   const timeDiff = today.getTime() - selectedDate.getTime();
-                //   const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-                //   setDateOffset(-dayDiff);
-                // }}
+                selected={referenceWeek}
+                onChange={(date: Date | null) => {
+                  if (!date) return;
+                  console.log(date);
+                  const today = new Date();
+                  const selectedDate = new Date(date);
+                  const timeDiff = today.getTime() - selectedDate.getTime();
+                  const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+                  const offsetWeeks = Math.floor(dayDiff / 7);
+                  console.log({ offsetWeeks });
+                  setWeekOffset(-offsetWeeks);
+                }}
                 maxDate={new Date()}
                 dateFormat="dd-MM-yyyy"
                 className="font-bold min-w-[120px] text-center text-slate-500 p-1 border border-gray-300 rounded-sm cursor-pointer"
                 customInput={<p>{getThisWeekRange(weekOffset)}</p>}
+                dayClassName={(day) =>
+                  isSameWeek(day, referenceWeek, { weekStartsOn: 1 })
+                    ? "week-highlight"
+                    : ""
+                }
               />
             </div>
             <BiChevronRight

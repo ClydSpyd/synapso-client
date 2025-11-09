@@ -1,0 +1,1 @@
+declare type SortOrder = "az" | "za" | "asc" | "desc"

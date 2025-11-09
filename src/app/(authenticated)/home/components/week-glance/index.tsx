@@ -1,6 +1,5 @@
 import ModuleWrapper from "@/components/utility-comps/module-wrapper";
 import { getThisWeekRange } from "@/lib/dates";
-import FocusBlocks from "./focus-blocks";
 import GlanceSummaryBlocks from "./glance-summary-blocks";
 import GlanceHistoryModal from "./glance-history-modal";
 import { FaHistory } from "react-icons/fa";
@@ -20,7 +19,6 @@ export default function WeekGlance() {
         </GlanceHistoryModal>
       </div>
       <GlanceSummaryBlocks weekOffset={0} />
-      <FocusBlocks />
     </ModuleWrapper>
   );
 }

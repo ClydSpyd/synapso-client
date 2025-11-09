@@ -13,3 +13,48 @@
     background-color: var(--accent-one) !important;
     font-weight: 600 !important;
 }
+
+.week-select-calendar .react-datepicker__day--selected{
+    background-color: transparent !important;
+    font-weight: 600 !important;
+}
+
+
+.date-with-checkin{
+  position: relative;
+  /* border: 1px solid #aca9ed;
+  border-radius: 50%; */
+}
+.date-with-checkin:not(.react-datepicker__day--selected)::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  height: 5px;
+  width: 5px;
+  /* border: 1px solid #4f46e5; */
+  background-color: var(--wiki-accent-six);
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+.week-highlight {
+  color: var(--accent-one) !important;
+  font-weight: 600;
+  position: relative;
+  pointer-events: none;
+}
+
+/* Select the entire row if any day in it has week-highlight */
+.react-datepicker__week:has(.week-highlight) {
+  /* outline: 1px solid var(--accent-one);
+  outline-offset: 0px; */
+  border-radius: 5px;
+  padding: 0;
+  background-color: rgb(223, 221, 252);
+  padding:0px;
+}

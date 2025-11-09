@@ -5,6 +5,7 @@ import BrainDump from "./components/brain-dump";
 import PinnedItems from "./components/pinned-items";
 import { CheckIn } from "./components/check-in";
 import StaggerContainer from "@/components/utility-comps/stagger-container";
+import FocusBlocks from "./components/week-glance/focus-blocks";
 
 export default function Home() {
   const { user } = useAuth();
@@ -26,6 +27,7 @@ export default function Home() {
           </div>
         </StaggerContainer>
         <WeekGlance />
+        <FocusBlocks />
         <BrainDump />
       </div>
       <div className="flex flex-col col-span-4 gap-5 pb-4">

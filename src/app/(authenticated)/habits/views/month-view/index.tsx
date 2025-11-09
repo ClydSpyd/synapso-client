@@ -48,7 +48,7 @@ export default function MonthView() {
   const emptyEndCount = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7) + 1;
 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4 pb-10">
       <div className="flex flex-col gap-2">
         <div className="w-full flex justify-center items-center gap-1">
           <BiChevronLeft

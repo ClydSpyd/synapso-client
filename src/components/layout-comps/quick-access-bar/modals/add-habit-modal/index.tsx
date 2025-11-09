@@ -5,7 +5,6 @@ import { API } from "@/api";
 import { useEffect, useState } from "react";
 import ModalConfirmState from "@/components/ui/modal-confirm-state";
 import { useQueryClient } from "@tanstack/react-query";
-import { RxCross2 } from "react-icons/rx";
 import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
 import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
 

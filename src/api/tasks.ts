@@ -1,10 +1,10 @@
 import { AxiosError } from "axios";
 import { ApiResponse, baseClient } from ".";
 
-export const focusMethods = {
-  getAll: async (): Promise<ApiResponse<FocusItem[]>> => {
+export const taskMethods = {
+  getAll: async (): Promise<ApiResponse<Task[]>> => {
     try {
-      const response = await baseClient.get("focus/");
+      const response = await baseClient.get("tasks/list/");
       return {
         status: response.status,
         data: response.data,
@@ -17,9 +17,9 @@ export const focusMethods = {
       };
     }
   },
-  create: async (payload: FocusPayload): Promise<ApiResponse<FocusItem>> => {
+  create: async (payload: TaskPayload): Promise<ApiResponse<Task>> => {
     try {
-      const response = await baseClient.post("focus/", payload);
+      const response = await baseClient.post("tasks/add/", payload);
       return {
         status: response.status,
         data: response.data,
@@ -35,10 +35,10 @@ export const focusMethods = {
   },
   update: async (
     id: string,
-    payload: Partial<FocusPayload>
-  ): Promise<ApiResponse<FocusItem>> => {
+    payload: Partial<TaskPayload>
+  ): Promise<ApiResponse<Task>> => {
     try {
-      const response = await baseClient.patch(`focus/${id}/`, payload);
+      const response = await baseClient.patch(`tasks/update/${id}/`, payload);
       return {
         status: response.status,
         data: response.data,
@@ -54,7 +54,7 @@ export const focusMethods = {
   },
   delete: async (id: string): Promise<ApiResponse<null>> => {
     try {
-      const response = await baseClient.delete(`focus/${id}/delete/`);
+      const response = await baseClient.delete(`tasks/${id}/delete/`);
       return {
         status: response.status,
         data: null,

@@ -4,7 +4,6 @@ import ModuleWrapper from "@/components/utility-comps/module-wrapper";
 import { colorCombos } from "@/config/color-config";
 import { FaBrain, FaLightbulb } from "react-icons/fa";
 import { FaListCheck } from "react-icons/fa6";
-import { TbCalendarRepeat } from "react-icons/tb";
 
 const Block = ({
   icon,

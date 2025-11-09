@@ -8,6 +8,7 @@ export default function LogoutPage() {
   const { logout } = useAuth();
 
   useEffect(() => {
+    console.log("Logging out user...");
     logout();
   }, []);
 
