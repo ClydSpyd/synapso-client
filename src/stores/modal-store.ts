@@ -13,17 +13,21 @@ type Handlers<T extends ModalType> = {
   onClose?: () => void;
 };
 
+type OpenProps<T extends ModalType> = {
+  type: T;
+  payload?: ModalPayloadMap[T];
+  handlers?: Handlers<T>;
+  modalStyles?: Record<string, Record<string, string | number>>;
+};
+
 type ModalState = {
   isOpen: boolean;
   type?: ModalType;
   // Payload is keyed to the modal type
   payload?: ModalPayloadMap[ModalType];
   handlers?: Handlers<ModalType>;
-  open: <T extends ModalType>(
-    type: T,
-    payload?: ModalPayloadMap[T],
-    handlers?: Handlers<T>
-  ) => void;
+  modalStyles?: Record<string, Record<string, string | number>>;
+  open: <T extends ModalType>({}: OpenProps<T>) => void;
   close: () => void;
 };
 
@@ -32,8 +36,9 @@ export const useModalStore = create<ModalState>((set, get) => ({
   type: undefined,
   payload: undefined,
   handlers: undefined,
-  open: (type, payload, handlers) =>
-    set({ isOpen: true, type, payload, handlers }),
+  modalStyles: undefined,
+  open: ({ type, payload, handlers, modalStyles }: OpenProps<ModalType>) =>
+    set({ isOpen: true, type, payload, handlers, modalStyles }),
   close: () => {
     get().handlers?.onClose?.();
     set({

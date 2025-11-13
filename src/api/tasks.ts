@@ -54,7 +54,7 @@ export const taskMethods = {
   },
   delete: async (id: string): Promise<ApiResponse<null>> => {
     try {
-      const response = await baseClient.delete(`tasks/${id}/delete/`);
+      const response = await baseClient.delete(`tasks/delete/${id}/`);
       return {
         status: response.status,
         data: null,

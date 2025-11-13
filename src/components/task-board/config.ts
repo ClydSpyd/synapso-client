@@ -17,14 +17,14 @@ export interface Column {
 
 export const spaceExampleSYNAPSO: SpaceSummary = {
   id: "space-1",
-  name: "SYNAPSO dev",
+  title: "SYNAPSO dev",
   description: "Space for SYNAPSO development brainstorming and task implementation",
   createdAt: new Date("2025-10-20T10:00:00.000Z"),
 };
 
 export const spaceExampleWELLBEING: SpaceSummary = {
   id: "space-2",
-  name: "Wellbeing",
+  title: "Wellbeing",
   description: "Space for wellbeing-related tasks and initiatives",
   createdAt: new Date("2025-10-20T10:00:00.000Z"),
 };

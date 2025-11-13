@@ -1,5 +1,5 @@
 "use client";
-import { act, useEffect, useState } from "react";
+import { useState } from "react";
 import {
   DndContext,
   DragEndEvent,
@@ -15,26 +15,23 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { Column, COLUMNS } from "./config";
 import BoardColumn from "./column";
 import TaskItem from "./task-item";
-import { useTasks } from "@/queries/useTasks";
 import { API } from "@/api";
 
-export default function TaskBoard() {
+export default function TaskBoard({
+  tasks,
+  setTasks,
+}: {
+  tasks: Task[];
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+}) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
-  const [tasks, setTasks] = useState<Task[]>([]);
   const sensors = useSensors(useSensor(PointerSensor));
 
-
-  const { data: tasksBE } = useTasks();
-
-  useEffect(() => {
-    if (tasksBE) {
-      setTasks(tasksBE);
-    }
-  }, [tasksBE]);
-
-  if (!tasksBE) return null;
-  
+  const hoverColorConfig: ColorCombo | undefined = COLUMNS.find(
+    (col) => col.status === overId
+  )?.colorConfig;
+  console.log({ overId, activeId, hoverColorConfig });
 
   const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id as string);
@@ -42,7 +39,18 @@ export default function TaskBoard() {
 
   const handleDragOver = (event: DragOverEvent) => {
     const overId = event.over?.id as string;
-    setOverId(overId ?? null);
+    const isColumn = COLUMNS.some((col) => col.status === overId);
+
+    if(isColumn) {
+      setOverId(overId);
+      return;
+    }
+
+    const overTask = tasks.find((t) => t.id === overId);
+    if (overTask) {
+      setOverId(overTask.status);
+      return;
+    }
   };
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
@@ -51,12 +59,11 @@ export default function TaskBoard() {
     if (!over) return;
     const activeTask = tasks.find((t) => t.id === active.id);
     const overTask = tasks.find((t) => t.id === over.id);
-    
+
     if (!activeTask) return;
-    
+
     const activeCol = activeTask.status;
     const overCol = overTask ? overTask.status : over.id;
-    console.log({ activeTask, overCol });
 
     if (activeCol === overCol) {
       const tasksInCol = tasks.filter((t) => t.status === activeCol);
@@ -77,7 +84,6 @@ export default function TaskBoard() {
       ];
 
       setTasks(newTasks);
-
     } else {
       setTasks((prev) =>
         prev.map((task) =>
@@ -87,11 +93,7 @@ export default function TaskBoard() {
         )
       );
 
-      API.tasks.update(
-        active.id as string,
-        { status: overCol as TaskStatus }
-      );
-
+      API.tasks.update(active.id as string, { status: overCol as TaskStatus });
     }
   };
 
@@ -103,11 +105,7 @@ export default function TaskBoard() {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      {/* <div>
-        <h6>active: {activeId}</h6>
-        <h6>over: {overId}</h6>
-      </div> */}
-      <div className="flex justify-center gap-2 p-4 w-full h-fit min-h-auto grow">
+      <div className="flex justify-center gap-2 px-4 w-full h-fit min-h-auto grow">
         {COLUMNS.map((col: Column) => {
           const columnTasks = tasks.filter(
             (task) => task.status === col.status
@@ -127,12 +125,14 @@ export default function TaskBoard() {
       <DragOverlay>
         {activeId != null ? (
           <TaskItem
-            colorConfig={{
-              mainColor: "#ccc",
-              hintColor: "#ffffffae",
-              accentColor: "#e2e2e2f0",
-              scale: [],
-            }}
+            colorConfig={
+              hoverColorConfig ?? {
+                mainColor: "#ccc",
+                hintColor: "#ffffffae",
+                accentColor: "#e2e2e2f0",
+                scale: [],
+              }
+            }
             task={tasks.find((task) => task.id === activeId) as Task}
           />
         ) : null}

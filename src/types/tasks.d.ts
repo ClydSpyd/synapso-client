@@ -17,7 +17,8 @@ declare interface TaskPayload {
   updates?: string[];
   tags?: string[];
   status: TaskStatus;
-  spaceId?: string;
+  space_id?: number;
+  space?: SpaceSummary | undefined;
 }
 
 declare type TaskStatus = "todo" | "in-progress" | "blocked" | "done";

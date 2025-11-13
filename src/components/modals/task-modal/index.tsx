@@ -15,6 +15,7 @@ export default function TaskFormModal({
   const queryClient = useQueryClient();
 
   const handleSubmit = async (payload: TaskPayload) => {
+    console.log({ payload });
     setSubmitting(true);
     let error;
 
@@ -46,7 +47,7 @@ export default function TaskFormModal({
   return (
     <>
       <TaskForm
-        defaultData={defaultData}
+        defaultData={defaultData as TaskPayload}
         submitting={submitting}
         handleFormSubmission={handleSubmit}
       />

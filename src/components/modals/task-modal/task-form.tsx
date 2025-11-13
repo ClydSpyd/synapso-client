@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { TextInput, Textarea, Button } from "@mantine/core";
-import { useSpaceSummaries } from "@/queries/useSpaces";
-import { getTagColorConfig } from "@/lib/utils";
-import { TiDelete } from "react-icons/ti";
+import TagPicker from "@/components/utility-comps/tag-picker";
+import SpacePicker from "@/components/utility-comps/space-picker";
+import StatusPicker from "@/components/utility-comps/status-picker";
 
 export default function TaskForm({
   defaultData,
@@ -13,35 +13,29 @@ export default function TaskForm({
   defaultData?: TaskPayload;
   submitting: boolean;
 }) {
-  const { data: spaces } = useSpaceSummaries();
-  console.log({ spaces });
-  const [tagInput, setTagInput] = useState("");
   const [config, setConfig] = useState<TaskPayload>(
-    defaultData ?? {
-      title: "",
-      description: "",
-      resourceLinks: [],
-      updates: [],
-      tags: [],
-      status: "todo",
-    }
+    defaultData
+      ? { ...defaultData, space_id: Number(defaultData.space?.id) ?? undefined }
+      : {
+          title: "",
+          description: "",
+          resourceLinks: [],
+          updates: [],
+          tags: [],
+          status: "todo",
+        }
   );
 
   const handleTagInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === "Enter") {
-      setTagInput("");
-      setConfig((prev) => ({
-        ...prev,
-        tags: [
-          ...(prev.tags ?? []),
-          ...(e.target as HTMLInputElement).value
-            .split(",")
-            .map((tag) => tag.trim())
-            .filter((tag) => tag.length > 0),
-        ],
-      }));
-    }
-    console.log(e);
+    const inputTags = (e.target as HTMLInputElement).value
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+
+    setConfig((prev) => ({
+      ...prev,
+      tags: Array.from(new Set([...(prev.tags ?? []), ...inputTags])),
+    }));
   }
 
   const removeTag = (idx: number) => {
@@ -54,7 +48,7 @@ export default function TaskForm({
   const formCompleted = Object.values(config).every((val) => val !== "");
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2 w-full">
         <p className="text-xs">Title</p>
         <TextInput
@@ -92,48 +86,40 @@ export default function TaskForm({
           }
         />
       </div>
-      <div className="flex flex-col gap-2 w-full">
-        <p className="text-xs">Tags</p>
-        <TextInput
-          value={tagInput}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setTagInput(e.target.value)
-          }
-          onKeyUp={handleTagInput}
-          type="text"
-          placeholder="work, idea, urgent..."
-          classNames={{
-            input: "focus:!border-[var(--accent-three)]",
-          }}
-        />
-        <div className="flex gap-2 mt-2">
-          {config.tags?.map((tag, idx) => {
-            const colorConfig = getTagColorConfig(tag.toLowerCase());
-            return (
-              <span
-                onClick={() => removeTag(idx)}
-                key={idx}
-                className="text-sm px-2 py-[2px] rounded-full relative flex items-center justify-center overflow-hidden group cursor-pointer"
-                style={{
-                  backgroundColor: colorConfig.accentColor,
-                  color: colorConfig.mainColor,
-                }}
-              >
-                {tag.toLowerCase()}
-                <div
-                  className="absolute h-full w-full flex items-center justify-center opacity-0 transition-all duration-200 ease-in-out group-hover:opacity-75"
-                  style={{
-                    backgroundColor: colorConfig.accentColor,
-                    color: colorConfig.mainColor,
-                  }}
-                >
-                  <TiDelete size={22} />
-                </div>
-              </span>
-            );
-          })}
+      <div className="grid grid-cols-2 gap-2 w-full">
+        <div className="flex flex-col gap-2">
+          <p className="text-xs">Status</p>
+          <StatusPicker
+            onChange={(status: TaskStatus) => {
+              console.log({ status });
+              setConfig((prev) => ({
+                ...prev,
+                status: status,
+              }));
+            }}
+            value={config.status !== undefined ? String(config.status) : ""}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <p className="text-xs">Space</p>
+          <SpacePicker
+            onChange={(spaceId: number) =>
+              setConfig((prev) => ({
+                ...prev,
+                space_id: spaceId,
+              }))
+            }
+            value={config.space_id !== undefined ? String(config.space_id) : ""}
+          />
         </div>
       </div>
+
+      <TagPicker
+        tags={config.tags ?? []}
+        onInput={handleTagInput}
+        onDelete={removeTag}
+      />
+
       <Button
         onClick={() => {
           if (formCompleted) {
@@ -156,6 +142,6 @@ export default function TaskForm({
       >
         SUBMIT
       </Button>
-    </>
+    </div>
   );
 }
