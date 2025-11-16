@@ -105,7 +105,7 @@ export default function TaskBoard({
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex justify-center gap-2 px-4 w-full h-fit min-h-auto grow">
+      <div className="flex justify-center gap-2 px-4 w-full h-fit min-h-auto grow pb-6">
         {COLUMNS.map((col: Column) => {
           const columnTasks = tasks.filter(
             (task) => task.status === col.status

@@ -45,10 +45,6 @@ export default function HabitForm({
 
   const selectedColorScheme = colorCombos[config.colorScheme ?? 0];
 
-  if(defaultData?.title === "Learn Python"){
-    console.log("IDX: ", config.colorScheme);
-    console.log({ defaultData, selectedColorScheme, config });
-  }
 
   return (
     <>

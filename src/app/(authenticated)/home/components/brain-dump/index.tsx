@@ -73,11 +73,13 @@ export default function BrainDump() {
       </div>
       <div className="my-4 flex flex-col gap-3">
         {/* filters section  */}
-        <IdeaFilters
-          setDisplayItems={setDisplayItems}
-          setSortOrder={setSortOrder}
-          sortOrder={sortOrder}
-        />
+        {!!items && items?.length > 0 && (
+          <IdeaFilters
+            setDisplayItems={setDisplayItems}
+            setSortOrder={setSortOrder}
+            sortOrder={sortOrder}
+          />
+        )}
 
         {/* list section  */}
         <div className="flex flex-col gap-2">

@@ -91,13 +91,14 @@ export default function TaskForm({
           <p className="text-xs">Status</p>
           <StatusPicker
             onChange={(status: TaskStatus) => {
-              console.log({ status });
               setConfig((prev) => ({
                 ...prev,
                 status: status,
               }));
             }}
-            value={config.status !== undefined ? String(config.status) : ""}
+            value={
+              config.status !== undefined ? String(config.status) : "todo"
+            }
           />
         </div>
         <div className="flex flex-col gap-2">

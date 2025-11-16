@@ -4,22 +4,17 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useModalStore } from "@/stores/modal-store";
 import TaskForm from "./task-form";
 
-export default function TaskFormModal({
-  defaultData,
-}: {
-  defaultData?: Task;
-}) {
+export default function TaskFormModal({ defaultData }: { defaultData?: Task }) {
   const { close } = useModalStore();
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
   const handleSubmit = async (payload: TaskPayload) => {
-    console.log({ payload });
     setSubmitting(true);
     let error;
 
-    if (defaultData) {
+    if (defaultData?.id) {
       ({ error } = await API.tasks.update(defaultData.id, payload));
     } else {
       ({ error } = await API.tasks.create(payload));
@@ -30,6 +25,16 @@ export default function TaskFormModal({
     } else {
       setSubmitError(null);
       await queryClient.refetchQueries({ queryKey: ["tasks"] });
+
+      // if created from idea, delete idea
+      const search =
+        typeof window !== "undefined" ? window.location.search : "";
+      const params = new URLSearchParams(search);
+      const ideaId = params.get("ideaId");
+      if (ideaId) {
+        API.ideas.delete(String(ideaId));
+        queryClient.invalidateQueries({ queryKey: ["ideas"] });
+      }
       close();
     }
 

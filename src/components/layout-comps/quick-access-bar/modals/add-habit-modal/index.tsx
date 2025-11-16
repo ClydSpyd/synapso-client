@@ -7,6 +7,7 @@ import ModalConfirmState from "@/components/ui/modal-confirm-state";
 import { useQueryClient } from "@tanstack/react-query";
 import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
 import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
+import { useParams } from "next/navigation";
 
 export default function AddHabitModal({
   children,
@@ -22,10 +23,12 @@ export default function AddHabitModal({
   const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const queryClient = useQueryClient()
+  const params = useParams();
 
   const handleSubmit = async (payload: HabitPayload) => {
     setSubmitting(true);
     let data, error;
+    console.log({ defaultData });
     if (defaultData?.id) {
       ({ data, error } = await API.habits.update(payload));
     } else {
@@ -38,6 +41,13 @@ export default function AddHabitModal({
       setSubmitError(null);
       setSuccess(true);
       queryClient.invalidateQueries({ queryKey: ["user-habits"] });
+      
+      // if created from idea, delete idea
+      const ideaIDParam = params["ideaId"];
+      if (ideaIDParam) {
+        API.ideas.delete(String(ideaIDParam));
+      }
+
     }
     setSubmitting(false);
   };

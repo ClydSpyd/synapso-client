@@ -11,7 +11,7 @@ export default function ModalHost() {
 
   const title =
     type === "task"
-      ? payload
+      ? payload?.id
         ? "Edit task"
         : "Add new task"
       : type === "habit"

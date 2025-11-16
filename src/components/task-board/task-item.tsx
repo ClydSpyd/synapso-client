@@ -6,12 +6,12 @@ import { Menu, Text } from "@mantine/core";
 import { BiDotsVertical } from "react-icons/bi";
 import { FaEye } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
-import { useModalStore } from "@/stores/modal-store";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useClickOutside } from "@mantine/hooks";
 import { useTasks } from "@/queries/useTasks";
 import { API } from "@/api";
+import { useModalStore } from "@/stores/modal-store";
 
 export default function TaskItem({
   task,
@@ -26,7 +26,7 @@ export default function TaskItem({
 }) {
   const [confState, setConfState] = useState(false);
   const ref = useClickOutside(() => setConfState(false));
-  
+  const { open } = useModalStore();
   const { id, title, description, createdAt, space } = task;
   const {
     attributes,
@@ -36,7 +36,6 @@ export default function TaskItem({
     transition,
     isDragging: draggingFromDndKit,
   } = useSortable({ id });
-  const { open } = useModalStore();
   const { refetch } = useTasks();
 
   const handleDelete = async () => {
@@ -77,7 +76,12 @@ export default function TaskItem({
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item
-              onClick={() =>
+              onClick={() => {
+                window.history.replaceState(
+                  {},
+                  document.title,
+                  "/tasks/" + task.id
+                );
                 open({
                   type: "task",
                   payload: task,
@@ -88,8 +92,13 @@ export default function TaskItem({
                       minWidth: "60vw",
                     },
                   },
-                })
-              }
+                  handlers: {
+                    onClose: () => {
+                      window.history.replaceState({}, document.title, "/tasks");
+                    },
+                  },
+                });
+              }}
               leftSection={
                 <FaEye className="text-lg text-slate-500 cursor-pointer" />
               }

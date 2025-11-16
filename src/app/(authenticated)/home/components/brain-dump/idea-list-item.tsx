@@ -5,9 +5,12 @@ import { useIdeas } from "@/queries/useIdeas";
 import { Menu, Text } from "@mantine/core";
 import { useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
+import { CgPlayListAdd } from "react-icons/cg";
 import { MdDeleteForever } from "react-icons/md";
+import { LuCalendarPlus } from "react-icons/lu";
 import { useClickOutside } from '@mantine/hooks';
 import { getTimeAgoString } from "@/lib/dates";
+import { useRouter } from "next/navigation";
 
 export default function IdeaListItem({
   idea,
@@ -16,6 +19,7 @@ export default function IdeaListItem({
 }) {
   const [confState, setConfState] = useState<boolean>(false);
   const { refetch } = useIdeas();
+  const router = useRouter();
 
   const ref = useClickOutside(() => setConfState(false));
 
@@ -63,6 +67,32 @@ export default function IdeaListItem({
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item
+                onClick={() => {
+                  router.push(
+                    `/habits?newTitle=${encodeURIComponent(idea.title)}`
+                  );
+                }}
+                leftSection={
+                  <LuCalendarPlus className="text-lg text-slate-500 cursor-pointer" />
+                }
+              >
+                <Text size="xs">Make Habit</Text>
+              </Menu.Item>
+              <Menu.Item
+                onClick={() => {
+                  router.push(
+                    `/tasks?newTitle=${encodeURIComponent(idea.title)}&ideaId=${
+                      idea.id
+                    }`
+                  );
+                }}
+                leftSection={
+                  <CgPlayListAdd className="text-lg text-slate-500 cursor-pointer" />
+                }
+              >
+                <Text size="xs">Make Action</Text>
+              </Menu.Item>
+              <Menu.Item
                 onClick={() => setConfState(true)}
                 leftSection={
                   <MdDeleteForever className="text-lg text-slate-500 cursor-pointer" />
@@ -73,7 +103,9 @@ export default function IdeaListItem({
             </Menu.Dropdown>
           </Menu>
 
-          <p className="text-xs text-gray-400 font-medium whitespace-nowrap">{getTimeAgoString(new Date(idea.createdAt))}</p>
+          <p className="text-xs text-gray-400 font-medium whitespace-nowrap">
+            {getTimeAgoString(new Date(idea.createdAt))}
+          </p>
         </div>
 
         {/* delete confirmation state */}

@@ -29,7 +29,7 @@ export default function StatusPicker({
   return (
     <Select
       data={statusOptions}
-      placeholder="Select Space"
+      placeholder="Select Status"
       className="w-full"
       classNames={{
         input: "focus:!border-[var(--accent-three)]",
