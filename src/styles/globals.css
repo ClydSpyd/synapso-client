@@ -191,6 +191,15 @@ body {
   animation: gradientShift 5s ease infinite;
 }
 
+.btn-hvr-border {
+  margin: 1px;
+
+  &:hover{
+    margin: 0px;
+    border: 2px solid #e887f7;
+  }
+
+}
 button.bg-zen-shift{
   border: 2px solid white;
 

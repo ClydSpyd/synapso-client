@@ -9,6 +9,8 @@ import { useAuth } from "@/context/auth-context";
 import Link from "next/link";
 import { FaListCheck } from "react-icons/fa6";
 // import { FaListCheck } from "react-icons/fa6";
+import { LuLayers } from "react-icons/lu";
+
 
 export default function Navbar() {
   const { logout } = useAuth();
@@ -17,7 +19,12 @@ export default function Navbar() {
     <div className="w-full min-h-[60px] gap-4 flex items-center justify-between px-6 text-fuchsia-600">
       <div>
         <Link href={"/home"}>
-          <Image src="/images/logo_simple.png" alt="logo" width={180} height={350} />
+          <Image
+            src="/images/logo_simple.png"
+            alt="logo"
+            width={180}
+            height={350}
+          />
         </Link>
       </div>
       <div className="flex items-center gap-10">
@@ -43,6 +50,12 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <FaListCheck className="text-md" />
             <p className="text-sm font-[500]">Actions</p>
+          </div>
+        </NavLink>
+        <NavLink href="/spaces">
+          <div className="flex items-center gap-2">
+            <LuLayers className="text-lg" />
+            <p className="text-sm font-[500]">Spaces</p>
           </div>
         </NavLink>
         <NavLink href="/atoms">

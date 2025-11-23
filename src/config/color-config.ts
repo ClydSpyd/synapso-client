@@ -6,16 +6,16 @@ export const colorCombos: ColorCombo[] = [
     scale: ["#eac4ff", "#e699ff", "#d648ff", "#9900cc", "#660099"],
   },
   {
-    mainColor: "#a64dff",
-    accentColor: "#ecb8ff",
-    hintColor: "#f0e6fc",
-    scale: ["#dcbffc", "#c699ff", "#a64dff", "#7300cc", "#4d0080"],
-  },
-  {
     mainColor: "#4db8ff",
     accentColor: "#b8e3ff",
     hintColor: "#e6f4fc",
     scale: ["#c0e9ff", "#99ddff", "#4db8ff", "#007acc", "#004080"],
+  },
+  {
+    mainColor: "#a64dff",
+    accentColor: "#ecb8ff",
+    hintColor: "#f0e6fc",
+    scale: ["#dcbffc", "#c699ff", "#a64dff", "#7300cc", "#4d0080"],
   },
   {
     mainColor: "#008ae6",

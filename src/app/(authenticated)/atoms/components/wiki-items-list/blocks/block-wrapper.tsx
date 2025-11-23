@@ -54,7 +54,7 @@ export default function WikiBlockWrapper({
   return (
     <div
       id={`pin_${pinId}`}
-      className="w-full rounded-lg px-8 py-4 min-h-[200px] flex flex-col relative"
+      className="w-full rounded-lg px-8 py-4 min-h-[200px] h-full flex flex-col relative"
       style={{ backgroundColor: config.accentColor }}
     >
       <div className="w-full flex items-start justify-start">
