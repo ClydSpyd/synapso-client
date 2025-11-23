@@ -4,13 +4,14 @@ import { cn } from "@/lib/utils";
 import DayToggle from "./day-toggle";
 import { useMemo, useState } from "react";
 import CircleTick from "@/components/ui/circle-tick";
-import AddHabitModal from "@/components/layout-comps/quick-access-bar/modals/add-habit-modal";
 import { BiSolidEdit } from "react-icons/bi";
+import { useModalStore } from "@/stores/modal-store";
 
 const successColorCombo: ColorCombo = {
   mainColor: "#84cc16",    // lime-500
   accentColor: "#d9f99d",  // lime-200
   hintColor: "rgba(247, 254, 231, 0.5)", // lime-100 at 50% opacity
+  scale: []
 }
 
 export default function WeekBlock({
@@ -21,6 +22,7 @@ export default function WeekBlock({
   dates: string[];
 }) {
   const [localRecords, setLocalRecords] = useState<string[]>(habitData.records);
+  const { open } = useModalStore();
 
   const goalReached = useMemo(
     () => localRecords.length >= habitData.target,
@@ -46,16 +48,17 @@ export default function WeekBlock({
           borderColor: colorConfig.accentColor,
         }}
       >
-        <div className="absolute top-2 right-2">
-          <AddHabitModal defaultData={habitData}>
-            <BiSolidEdit
-              size={20}
-              className="text-md cursor-pointer transition opacity-0 group-hover:opacity-100"
-              style={{
-                color: colorConfig.mainColor,
-              }}
-            />
-          </AddHabitModal>
+        <div
+          className="absolute top-2 right-2"
+          onClick={() => open({ type: "habit", payload: habitData })}
+        >
+          <BiSolidEdit
+            size={20}
+            className="text-md cursor-pointer transition opacity-0 group-hover:opacity-100"
+            style={{
+              color: colorConfig.mainColor,
+            }}
+          />
         </div>
         <div className="flex items-center gap-4">
           <div

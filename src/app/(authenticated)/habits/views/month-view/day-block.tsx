@@ -28,7 +28,7 @@ export default function DayBlock({
     : null;
   return (
     <div
-      className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 py-2 rounded-lg relative"
+      className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 py-2 rounded-lg relative min-h-full"
       style={{
         ...(highlightBlock && {
           borderColor: highlightColorConfig?.accentColor,
@@ -51,17 +51,24 @@ export default function DayBlock({
         <p className="text-xs font-bold">{idx + 1}</p>
       </div>
       {habitData.length > 0
-        ? habitData.map((habit: HabitActivity, idx: number) => (
-            <DayItem
-              key={habit.id}
-              habit={habit}
-              date={date}
-              highlightHabit={highlightHabit}
-              idx={idx}
-              hoveredItem={hoveredItem}
-              setHoveredItem={setHoveredItem}
-            />
-          ))
+        ? habitData
+            .filter(
+              (habit: HabitActivity) =>
+                new Date(habit.enabledAt) <= new Date(date) &&
+                (!habit.disabledAt ||
+                  new Date(habit.disabledAt) > new Date(date))
+            )
+            .map((habit: HabitActivity, idx: number) => (
+              <DayItem
+                key={habit.id}
+                habit={habit}
+                date={date}
+                highlightHabit={highlightHabit}
+                idx={idx}
+                hoveredItem={hoveredItem}
+                setHoveredItem={setHoveredItem}
+              />
+            ))
         : Array.from({ length: count }).map((_, index) => (
             <div className="w-11 h-11" key={index} />
           ))}

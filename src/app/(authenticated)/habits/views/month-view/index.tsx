@@ -73,6 +73,8 @@ export default function MonthView() {
             displayHabits={displayHabits}
             setDisplayHabits={setDisplayHabits}
             setHighlightHabit={setHighlightHabit}
+            month={month}
+            year={year}
           />
           <div className="w-full grid grid-cols-7 p-6 pt-3 gap-[10px] shadow-md rounded-xl border border-slate-200 bg-white">
             <div className="text-center text-xs font-semibold text-gray-500">

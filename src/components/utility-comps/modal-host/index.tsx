@@ -5,6 +5,7 @@ import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/mo
 import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
 import TaskFormModal from "@/components/modals/task-modal";
 import { CSSProperties } from "react";
+import AddHabitModal from "@/components/layout-comps/quick-access-bar/modals/add-habit-modal";
 
 export default function ModalHost() {
   const { isOpen, type, payload, close, modalStyles } = useModalStore();
@@ -15,7 +16,7 @@ export default function ModalHost() {
         ? "Edit task"
         : "Add new task"
       : type === "habit"
-      ? payload
+      ? payload?.id
         ? "Edit habit"
         : "Add new habit"
       : "";
@@ -34,7 +35,7 @@ export default function ModalHost() {
     >
       <ModalContentWrapper title={title} close={close}>
         {type === "task" && <TaskFormModal defaultData={payload as Task} />}
-        {/* {type === "habit" && <AddHabitModal defaultData={payload as any} />} */}
+        {type === "habit" && <AddHabitModal defaultData={payload as Habit} />}
       </ModalContentWrapper>
     </Modal>
   );

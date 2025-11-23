@@ -14,7 +14,8 @@ declare interface Habit {
   icon: string;
   target: number;
   createdAt: Date;
-  updatedAt: Date;
+  enabledAt: Date;
+  disabledAt: Date | null;
   user: number;
   colorScheme: number;
 }

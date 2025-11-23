@@ -3,8 +3,10 @@ import { useModalStore } from "@/stores/modal-store";
 import { TextInput } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { useEffect, useState } from "react";
-import { IoSearch } from "react-icons/io5";
+import { IoSearch, IoLayersSharp } from "react-icons/io5";
 import { useClickOutside } from "@mantine/hooks";
+import { colorCombos } from "@/config/color-config";
+import { COLUMNS } from "@/components/task-board/config";
 
 export default function TaskSearchInput() {
   const [input, setInput] = useState("");
@@ -21,7 +23,7 @@ export default function TaskSearchInput() {
     setInput("");
     setResults([]);
     setSearching(false);
-  }
+  };
 
   const handleSearch = useDebouncedCallback(() => {
     setSearching(true);
@@ -62,6 +64,8 @@ export default function TaskSearchInput() {
     }
   }, [input, data]);
 
+  const moduleColorConf = colorCombos[2];
+
   return (
     <div
       ref={ref}
@@ -92,23 +96,46 @@ export default function TaskSearchInput() {
         }}
       />
       {open && input.trim() !== "" && (
-        <div className="w-full min-h-[100px] rounded-md bg-white border border-gray-300 absolute top-[calc(100%+3px)] left-0 z-50">
+        <div className="w-full min-h-[50px] rounded-md bg-white border border-gray-300 absolute top-[calc(100%+3px)] left-0 z-50 p-2 flex flex-col gap-2 justify-center items-center">
           {searching ? (
-            <p className="p-4 text-sm text-gray-500">Searching...</p>
+            <p className="text-sm text-gray-500">Searching...</p>
           ) : results.length === 0 ? (
-            <p className="p-4 text-sm text-gray-500">No results found.</p>
+            <p className="text-sm text-gray-500">No results found</p>
           ) : (
-            results.map((task) => (
-              <div
-                key={task.id}
-                onClick={() => handleItemClick(task)}
-                className="p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer"
-              >
-                <p className="m-0 font-semibold pointer-events-none">
-                  {task.title}
-                </p>
-              </div>
-            ))
+            results.map((task) => {
+              const colorConfig =
+                COLUMNS.find((col) => col.status === task.status)
+                  ?.colorConfig ?? colorCombos[0];
+              return (
+                <div
+                  key={task.id}
+                  onClick={() => handleItemClick(task)}
+                  className="w-full h-[60px] flex items-center cursor-pointer border rounded-lg p-2"
+                  style={{ borderColor: colorConfig.accentColor }}
+                >
+                  <div
+                    className="w-11 h-11 flex items-center justify-center rounded-lg"
+                    style={{
+                      backgroundColor: colorConfig.hintColor,
+                      color: colorConfig.mainColor,
+                      border: `1px solid ${colorConfig.accentColor}`,
+                    }}
+                  >
+                    <IoLayersSharp size={27} />
+                  </div>
+                  <div className="flex flex-col h-full justify-center p-2 gap-0">
+                    <p className="m-0 font-semibold pointer-events-none">
+                      {task.title}
+                    </p>
+                    <p className="text-xs m-0 text-gray-400">
+                      {task.space?.title
+                        ? `In ${task.space.title} space`
+                        : "No space assigned"}
+                    </p>
+                  </div>
+                </div>
+              );
+            })
           )}
         </div>
       )}

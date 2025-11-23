@@ -69,7 +69,9 @@ export default function IdeaListItem({
               <Menu.Item
                 onClick={() => {
                   router.push(
-                    `/habits?newTitle=${encodeURIComponent(idea.title)}`
+                    `/habits?newTitle=${encodeURIComponent(
+                      idea.title
+                    )}&ideaId=${idea.id}`
                   );
                 }}
                 leftSection={

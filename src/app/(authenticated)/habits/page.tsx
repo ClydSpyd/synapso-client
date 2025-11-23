@@ -7,21 +7,23 @@ import WeekView from "./views/week-view";
 import MonthView from "./views/month-view";
 import { useQueryClient } from "@tanstack/react-query";
 import useLocalStorage from "@/hooks/use-local-storage";
-import AddHabitModal from "@/components/layout-comps/quick-access-bar/modals/add-habit-modal";
+import { useModalStore } from "@/stores/modal-store";
+import useHabitParams from "./hooks/useHabitParams";
 
 type View = "month" | "week";
 const compMap: Record<View, React.ReactNode> = {
-  month: <MonthView />, // Placeholder for Month View component
+  month: <MonthView />, 
   week: <WeekView />,
 };
 
 export default function HabitsPage() {
+  useHabitParams(); // observe URL for new habit payloads
   const queryClient = useQueryClient();
-  // const { data, error, isLoading } = useHabits({
-  //   withActivity: true,
-  //   dateRange: 7,
-  // });
-  const [selectedView, setSelectedView] = useLocalStorage<View>("synapso-view", "week");
+  const { open } = useModalStore();
+  const [selectedView, setSelectedView] = useLocalStorage<View>(
+    "synapso-view",
+    "week"
+  );
   useEffect(() => {
     queryClient.refetchQueries({ queryKey: ["user-habits"] });
   }, [selectedView]);
@@ -59,12 +61,15 @@ export default function HabitsPage() {
                 colorConfig={colorCombos[7]}
               />
             </div>
-            <AddHabitModal>
-              <button className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 py-1 hover:scale-105 !transition-transform ease-in-out !duration-300 cursor-pointer">
-                <h1 className="text-2xl m-0 relative bottom-0.5">+</h1>
-                <p className="m-0 text.md font-semibold">New Habit</p>
-              </button>
-            </AddHabitModal>
+            <button
+              onClick={() => {
+                open({ type: "habit" });
+              }}
+              className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 py-1 hover:scale-105 !transition-transform ease-in-out !duration-300 cursor-pointer"
+            >
+              <h1 className="text-2xl m-0 relative bottom-0.5">+</h1>
+              <p className="m-0 text.md font-semibold">New Habit</p>
+            </button>
           </div>
         }
       />

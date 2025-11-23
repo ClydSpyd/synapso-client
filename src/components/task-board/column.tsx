@@ -19,6 +19,7 @@ export default function BoardColumn({
 }) {
   const id = colunmConfig.status;
   const Icon = colunmConfig.icon;
+  const PlaceholderIcon = colunmConfig.placeholder.icon;
   
   const borderColor = ['todo', 'in-progress', 'blocked'].includes(id)
     ? colunmConfig.colorConfig.accentColor
@@ -84,33 +85,42 @@ export default function BoardColumn({
                   borderStyle: "dashed",
                   opacity: 0.5,
                 }
+              : tasks.length === 0
+              ? {
+                  borderStyle: "dashed",
+                  borderColor: colunmConfig.colorConfig.hintColor,
+                }
               : {
                   backgroundColor: "transparent",
                   borderColor: "transparent",
                 }
           }
         >
-          <SortableContext
-            items={tasks.map((task) => task.id)}
-            strategy={verticalListSortingStrategy}
-          >
-            {tasks.length === 0 && (
-              <div
-                style={{ opacity: 0.4, fontStyle: "italic", height: "100px" }}
-              >
-                Drop tasks here
-              </div>
-            )}
-            {tasks.map((task) => (
-              <TaskItem
-                key={task.id}
-                colorConfig={colunmConfig.colorConfig}
-                task={task}
-                isDragging={activeId === task.id}
-                column={colunmConfig.status}
+          {tasks.length === 0 && !isOver ? (
+            <div className="h-[100%] w-full flex flex-col items-center justify-center my-auto text-center text-[#b8c1cc]">
+              <PlaceholderIcon
+                style={{ marginBottom: "5px", height: "30px", width: "30px" }}
+                color={"#b8c1cc"}
               />
-            ))}
-          </SortableContext>
+              <h1 className="font-bold">{colunmConfig.placeholder.title}</h1>
+              <p className="text-sm">{colunmConfig.placeholder.description}</p>
+            </div>
+          ) : (
+            <SortableContext
+              items={tasks.map((task) => task.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {tasks.map((task) => (
+                <TaskItem
+                  key={task.id}
+                  colorConfig={colunmConfig.colorConfig}
+                  task={task}
+                  isDragging={activeId === task.id}
+                  column={colunmConfig.status}
+                />
+              ))}
+            </SortableContext>
+          )}
         </div>
       </div>
     </div>

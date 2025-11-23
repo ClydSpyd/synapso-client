@@ -9,7 +9,6 @@ import { FaBook } from "react-icons/fa6";
 import { TbLink, TbMovie, TbQuoteFilled } from "react-icons/tb";
 import { MdPlaylistAdd } from "react-icons/md";
 import QuickAccessItem from "./quick-access-item";
-import AddHabitModal from "./modals/add-habit-modal";
 import AddMovieModal from "./modals/add-movie-modal";
 import AddQuoteModal from "./modals/add-quote-modal";
 import AddBookModal from "./modals/add-book-modal";
@@ -19,12 +18,14 @@ import { colorCombos } from "@/config/color-config";
 import { IoMdCloudUpload } from "react-icons/io";
 import AddIdeaModal from "./modals/add-idea-modal";
 import useLocalStorage from "@/hooks/use-local-storage";
+import { useModalStore } from "@/stores/modal-store";
 
 export default function QuickAccessBar() {
   const [sidebarOpen, setSidebarOpen] = useLocalStorage(
     "synapso_bar_state",
     true
   );
+  const { open } = useModalStore();
 
   return (
     <div
@@ -67,16 +68,18 @@ export default function QuickAccessBar() {
               />
             </QuickAccessItem>
           </RegisterActivityModal>
-          <AddHabitModal>
-            <QuickAccessItem text="Add new Habit" colorConfig={colorCombos[1]}>
-              <FaRegCalendarPlus
-                className="text-lg"
-                style={{
-                  color: colorCombos[1].mainColor,
-                }}
-              />
-            </QuickAccessItem>
-          </AddHabitModal>
+          <QuickAccessItem
+            text="Add new Habit"
+            colorConfig={colorCombos[1]}
+            onClick={() => open({ type: "habit" })}
+          >
+            <FaRegCalendarPlus
+              className="text-lg"
+              style={{
+                color: colorCombos[1].mainColor,
+              }}
+            />
+          </QuickAccessItem>
           <AddBookModal>
             <QuickAccessItem text="Atom: Book" colorConfig={colorCombos[3]}>
               <FaBook

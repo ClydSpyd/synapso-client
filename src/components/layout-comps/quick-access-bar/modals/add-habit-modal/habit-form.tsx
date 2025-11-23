@@ -41,7 +41,9 @@ export default function HabitForm({
     }
   },[confirm])
 
-  const formCompleted = Object.values(config).every((val) => val !== "");
+  const formCompleted = Object.entries(config)
+    .filter(([key]) => key !== "id")
+    .every(([, val]) => val !== "");
 
   const selectedColorScheme = colorCombos[config.colorScheme ?? 0];
 
