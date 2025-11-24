@@ -31,9 +31,7 @@ export default function SpaceHeader() {
           <h1 className="text-3xl font-bold mb-1">Health + Wellbeing</h1>
           <p className="leading-snug text-slate-400">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci
-            quae facere nulla maiores dolorem saepe corrupti iure voluptas
-            tempora consectetur illo nobis repudiandae quasi rerum architecto
-            ratione laudantium, recusandae distinctio?
+            quae facere nulla maiores
           </p>
         </div>
         <div className="flex gap-1 items-center">
