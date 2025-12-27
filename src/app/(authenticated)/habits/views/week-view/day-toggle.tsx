@@ -2,7 +2,7 @@ import { API } from "@/api";
 import { cn } from "@/lib/utils";
 import { Tooltip } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import { useRef, useState } from "react";
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus, FaCheck } from "react-icons/fa6";

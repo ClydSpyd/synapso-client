@@ -22,7 +22,6 @@ const BarRow = ({
 
   useEffect(() => {
     onChange(localVal);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localVal]);
 
   return (

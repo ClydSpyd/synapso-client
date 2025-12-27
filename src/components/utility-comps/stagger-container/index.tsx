@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { StaggerContainerProps } from "./types";
 import { cn } from "@/lib/utils";

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useHabits } from "@/queries/useHabits";
 import { cn } from "@/lib/utils";
 import DayBlock from "./day-block";

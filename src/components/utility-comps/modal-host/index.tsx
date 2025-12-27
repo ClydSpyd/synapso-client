@@ -37,7 +37,7 @@ export default function ModalHost() {
           <AddQuoteModal defaultData={payload as WikiQuote} />
         )}
         {type === "atom_movie_series" && (
-          <AddMovieModal defaultData={payload as OMDBMovie} />
+          <AddMovieModal defaultData={payload as { data: OMDBMovie; type: MediaType }} />
         )}
         {type === "atom_link" && (
           <AddLinkModal defaultData={payload as WikiLink} />

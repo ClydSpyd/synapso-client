@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { API } from "@/api";
 import { MdDeleteForever, MdEdit } from "react-icons/md";
 import { useClickOutside } from "@mantine/hooks";
-import { IoMdCloudUpload } from "react-icons/io"
 import { RiFocus2Line } from "react-icons/ri";
 import ModuleWrapper from "@/components/utility-comps/module-wrapper";
 

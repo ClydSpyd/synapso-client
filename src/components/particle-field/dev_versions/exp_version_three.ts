@@ -8,7 +8,7 @@ export default function ParticleField() {
   const mouse = useRef({ x: 0, y: 0 });
   const velocity = useRef({ x: 0, y: 0 });
   const drift = useRef({ x: 0.001, y: 0.001 });
-  const zoom = useRef(0);
+  // const zoom = useRef(0);
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -135,5 +135,5 @@ export default function ParticleField() {
     return cleanup;
   }, []);
 
-  return <div ref={mountRef} className="fixed inset-0 z-[-1] bg-transparent opacity-55" />;
+  // return <div ref={mountRef} className="fixed inset-0 z-[-1] bg-transparent opacity-55" />;
 }

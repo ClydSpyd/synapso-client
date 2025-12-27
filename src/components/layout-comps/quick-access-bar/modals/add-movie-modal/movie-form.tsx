@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 export default function MovieForm({
   handleFormSubmission,
   submitError,
-  defaultData,
   type,
 }: {
   defaultData?: OMDBMovie;

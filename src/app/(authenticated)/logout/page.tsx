@@ -1,5 +1,4 @@
 "use client"
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useAuth } from "@/context/auth-context";
 import { Loader } from "@mantine/core";
 import { useEffect } from "react";

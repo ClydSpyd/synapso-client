@@ -1,6 +1,5 @@
 import { colorCombos } from "@/config/color-config";
 import { IoIosRocket } from "react-icons/io";
-import { TbAdjustmentsHorizontal } from "react-icons/tb";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import ModulePickerModal from "../module-picker-modal";
 

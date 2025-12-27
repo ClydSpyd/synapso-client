@@ -39,6 +39,7 @@ export default function TaskSearchInput() {
   const handleItemClick = (task: Task) => {
     window.history.replaceState({}, document.title, "/tasks/" + task.id);
     openModal({
+      title: "Edit Action Item",
       type: "task",
       payload: task,
       modalStyles: {
@@ -63,8 +64,6 @@ export default function TaskSearchInput() {
       handleSearch();
     }
   }, [input, data]);
-
-  const moduleColorConf = colorCombos[2];
 
   return (
     <div

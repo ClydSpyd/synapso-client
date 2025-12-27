@@ -8,7 +8,6 @@ export default function DayBlock({
   idx,
   hoveredItem,
   setHoveredItem,
-  count
 }: {
   date: string;
   habitData: HabitActivity[];
