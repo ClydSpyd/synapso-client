@@ -11,7 +11,6 @@ import { MdPlaylistAdd } from "react-icons/md";
 import QuickAccessItem from "./quick-access-item";
 import AddMovieModal from "./modals/add-movie-modal";
 import AddQuoteModal from "./modals/add-quote-modal";
-import AddBookModal from "./modals/add-book-modal";
 import AddLinkModal from "./modals/add-link-modal";
 import RegisterActivityModal from "./modals/register-activity-modal";
 import { colorCombos } from "@/config/color-config";
@@ -71,7 +70,12 @@ export default function QuickAccessBar() {
           <QuickAccessItem
             text="Add new Habit"
             colorConfig={colorCombos[1]}
-            onClick={() => open({ type: "habit" })}
+            onClick={() =>
+              open({
+                title: "Add Habit",
+                type: "habit",
+              })
+            }
           >
             <FaRegCalendarPlus
               className="text-lg"
@@ -80,49 +84,56 @@ export default function QuickAccessBar() {
               }}
             />
           </QuickAccessItem>
-          <AddBookModal>
-            <QuickAccessItem text="Atom: Book" colorConfig={colorCombos[3]}>
-              <FaBook
-                className="text-lg"
-                style={{
-                  color: colorCombos[3].mainColor,
-                }}
-              />
-            </QuickAccessItem>
-          </AddBookModal>
-          <AddQuoteModal>
-            <QuickAccessItem text="Atom: Quote" colorConfig={colorCombos[3]}>
-              <TbQuoteFilled
-                className="text-xl"
-                style={{
-                  color: colorCombos[3].mainColor,
-                }}
-              />
-            </QuickAccessItem>
-          </AddQuoteModal>
-          <AddMovieModal>
-            <QuickAccessItem
-              text="Atom: Movie/Series"
-              colorConfig={colorCombos[3]}
-            >
-              <TbMovie
-                className="text-xl"
-                style={{
-                  color: colorCombos[3].mainColor,
-                }}
-              />
-            </QuickAccessItem>
-          </AddMovieModal>
-          <AddLinkModal>
-            <QuickAccessItem text="Atom: Link" colorConfig={colorCombos[3]}>
-              <TbLink
-                className="text-xl"
-                style={{
-                  color: colorCombos[3].mainColor,
-                }}
-              />
-            </QuickAccessItem>
-          </AddLinkModal>
+          <QuickAccessItem
+            onClick={() => open({ title: "Add Book", type: "atom_book" })}
+            text="Atom: Book"
+            colorConfig={colorCombos[3]}
+          >
+            <FaBook
+              className="text-lg"
+              style={{
+                color: colorCombos[3].mainColor,
+              }}
+            />
+          </QuickAccessItem>
+          <QuickAccessItem
+            onClick={() => open({ title: "Add Quote", type: "atom_quote" })}
+            text="Atom: Quote"
+            colorConfig={colorCombos[3]}
+          >
+            <TbQuoteFilled
+              className="text-xl"
+              style={{
+                color: colorCombos[3].mainColor,
+              }}
+            />
+          </QuickAccessItem>
+          <QuickAccessItem
+            onClick={() =>
+              open({ title: "Add Movie/Series", type: "atom_movie_series" })
+            }
+            text="Atom: Movie/Series"
+            colorConfig={colorCombos[3]}
+          >
+            <TbMovie
+              className="text-xl"
+              style={{
+                color: colorCombos[3].mainColor,
+              }}
+            />
+          </QuickAccessItem>
+          <QuickAccessItem
+            onClick={() => open({ title: "Add Link", type: "atom_link" })}
+            text="Atom: Link"
+            colorConfig={colorCombos[3]}
+          >
+            <TbLink
+              className="text-xl"
+              style={{
+                color: colorCombos[3].mainColor,
+              }}
+            />
+          </QuickAccessItem>
           <AddIdeaModal>
             <QuickAccessItem text="Float Idea" colorConfig={colorCombos[5]}>
               <IoMdCloudUpload

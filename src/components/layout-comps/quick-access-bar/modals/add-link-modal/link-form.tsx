@@ -3,7 +3,6 @@ import {
   Textarea,
   TextInput,
   Accordion,
-  NumberInput,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 
@@ -19,11 +18,9 @@ const initialInputVals: WikiLink = {
 export default function LinkForm({
   handleSubmit,
   setSubmitError,
-  opened,
 }: {
   handleSubmit: (payload: WikiLink) => void;
   setSubmitError: (error: string | null) => void;
-  opened: boolean;
 }) {
   const [inputVals, setInputVals] = useState<WikiLink>(initialInputVals);
 
@@ -40,13 +37,6 @@ export default function LinkForm({
   useEffect(() => {
     setSubmitError(null);
   }, [inputVals, setSubmitError]);
-
-  useEffect(() => {
-    if (!opened) {
-      setSubmitError(null);
-      setInputVals(initialInputVals);
-    }
-  }, [opened, setSubmitError]);
 
   return (
     <div className="grow w-full h-full flex flex-col gap-2">

@@ -13,16 +13,15 @@ const initialInputVals: WikiQuote = {
   content: "",
   additionalData: "",
   year: "",
+  type: "quote",
 };
 
 export default function QuoteForm({
   handleSubmit,
   setSubmitError,
-  opened,
 }: {
   handleSubmit: (payload: WikiQuote) => void;
   setSubmitError: (error: string | null) => void;
-  opened: boolean;
 }) {
   const [inputVals, setInputVals] = useState<WikiQuote>(initialInputVals);
 
@@ -39,13 +38,6 @@ export default function QuoteForm({
   useEffect(() => {
     setSubmitError(null);
   }, [inputVals, setSubmitError]);
-
-  useEffect(() => {
-    if (!opened) {
-      setSubmitError(null);
-      setInputVals(initialInputVals);
-    }
-  }, [opened, setSubmitError]);
 
   return (
     <div className="grow w-full h-full flex flex-col gap-2">

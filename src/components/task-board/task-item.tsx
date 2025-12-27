@@ -83,6 +83,7 @@ export default function TaskItem({
                   "/tasks/" + task.id
                 );
                 open({
+                  title: "Edit Action",
                   type: "task",
                   payload: task,
                   modalStyles: {

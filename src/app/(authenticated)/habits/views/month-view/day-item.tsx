@@ -44,6 +44,7 @@ export default function DayItem({
         ? colorCombo.accentColor
         : disabledColorCombo.hintColor,
     hintColor: completed || hovered ? colorCombo.hintColor : "#f7f6f2",
+    scale:[]
   };
   const queryClient = useQueryClient();
   const outerRef = useRef<HTMLDivElement | null>(null);

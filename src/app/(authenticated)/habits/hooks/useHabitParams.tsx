@@ -10,6 +10,7 @@ export default function useHabitParams() {
     const newTitle = searchParams.get("newTitle");
     if (newTitle) {
       open({
+        title: "Add Habit",
         type: "habit",
         payload: { title: newTitle } as Habit,
       });

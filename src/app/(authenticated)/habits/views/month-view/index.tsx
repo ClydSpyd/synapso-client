@@ -111,22 +111,23 @@ export default function MonthView() {
                   <div className="w-[20px]" />
                 </div>
               ))}
-            {monthData.dates.map((date, idx) => (
-              <StaggerContainer key={"date-" + idx}>
-                <DayBlock
-                  idx={idx}
-                  date={date}
-                  habitData={
-                    data?.filter((habit) => displayHabits.includes(habit.id)) ??
-                    []
-                  }
-                  highlightHabit={highlightHabit}
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  count={displayHabits.length}
-                />
-              </StaggerContainer>
-            ))}
+            {monthData.dates.map((date, idx) => {
+              const items =
+                data?.filter((habit) => displayHabits.includes(habit.id)) ?? [];
+              return (
+                <StaggerContainer key={"date-" + idx}>
+                  <DayBlock
+                    idx={idx}
+                    date={date}
+                    habitData={items}
+                    highlightHabit={highlightHabit}
+                    hoveredItem={hoveredItem}
+                    setHoveredItem={setHoveredItem}
+                    count={displayHabits.length}
+                  />
+                </StaggerContainer>
+              );
+            })}
             {emptyEndCount < 7 &&
               Array.from({ length: emptyEndCount }).map((_, index) => (
                 <div

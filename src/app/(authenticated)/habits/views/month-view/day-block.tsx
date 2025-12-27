@@ -26,9 +26,10 @@ export default function DayBlock({
   const highlightColorConfig = highlightedData
     ? colorCombos[highlightedData.colorScheme]
     : null;
+    
   return (
     <div
-      className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 py-2 rounded-lg relative min-h-full"
+      className="flex flex-wrap justify-center items-center max-w-30 gap-1 border border-slate-200/70 py-2 rounded-lg relative min-h-20"
       style={{
         ...(highlightBlock && {
           borderColor: highlightColorConfig?.accentColor,
@@ -69,8 +70,11 @@ export default function DayBlock({
                 setHoveredItem={setHoveredItem}
               />
             ))
-        : Array.from({ length: count }).map((_, index) => (
-            <div className="w-11 h-11" key={index} />
+        : Array.from({ length: 4 }).map((_, index) => (
+            <div className="w-11 h-11 border rounded-sm" style={{
+              borderColor: colorCombos[index % colorCombos.length].accentColor + 30,
+              backgroundColor: colorCombos[index % colorCombos.length].hintColor + 50,
+            }} key={index} />
           ))}
     </div>
   );

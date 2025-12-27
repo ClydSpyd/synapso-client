@@ -6,21 +6,14 @@ import ModalContentWrapper from "@/components/utility-comps/modal-content-wrappe
 import TaskFormModal from "@/components/modals/task-modal";
 import { CSSProperties } from "react";
 import AddHabitModal from "@/components/layout-comps/quick-access-bar/modals/add-habit-modal";
+import AddAtomModal from "@/components/layout-comps/quick-access-bar/modals/add-atom-modal";
+import AddBookModal from "@/components/layout-comps/quick-access-bar/modals/add-book-modal";
+import AddQuoteModal from "@/components/layout-comps/quick-access-bar/modals/add-quote-modal";
+import AddMovieModal from "@/components/layout-comps/quick-access-bar/modals/add-movie-modal";
+import AddLinkModal from "@/components/layout-comps/quick-access-bar/modals/add-link-modal";
 
 export default function ModalHost() {
-  const { isOpen, type, payload, close, modalStyles } = useModalStore();
-
-  const title =
-    type === "task"
-      ? payload?.id
-        ? "Edit task"
-        : "Add new task"
-      : type === "habit"
-      ? payload?.id
-        ? "Edit habit"
-        : "Add new habit"
-      : "";
-
+  const { isOpen, type, payload, close, modalStyles, title } = useModalStore();
   return (
     <Modal
       {...modalConfig}
@@ -36,6 +29,19 @@ export default function ModalHost() {
       <ModalContentWrapper title={title} close={close}>
         {type === "task" && <TaskFormModal defaultData={payload as Task} />}
         {type === "habit" && <AddHabitModal defaultData={payload as Habit} />}
+        {type === "atom" && <AddAtomModal />}
+        {type === "atom_book" && (
+          <AddBookModal defaultData={payload as OpenLibBook} />
+        )}
+        {type === "atom_quote" && (
+          <AddQuoteModal defaultData={payload as WikiQuote} />
+        )}
+        {type === "atom_movie_series" && (
+          <AddMovieModal defaultData={payload as OMDBMovie} />
+        )}
+        {type === "atom_link" && (
+          <AddLinkModal defaultData={payload as WikiLink} />
+        )}
       </ModalContentWrapper>
     </Modal>
   );

@@ -26,7 +26,6 @@ export default function WikiBlockWrapper({
   const config = wikiItemsConfig[type];
   const queryClient = useQueryClient();
   const handlePin = async () => {
-    console.log(`${pinned ? "unpinning" : "pinning"} item of type: ${type}`);
     const payload: Partial<PinPayload> = {
       item_id: itemId,
       item_type: type,

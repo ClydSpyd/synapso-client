@@ -42,7 +42,7 @@ export const COLUMNS: Column[] = [
     colorConfig: colorCombos[5],
     icon: FaInbox,
     placeholder: {
-      title: "No actions yet",
+      title: "To do",
       description: "Drop items here or click 'add item'",
       icon: FaRegFolderOpen,
     },
@@ -53,7 +53,7 @@ export const COLUMNS: Column[] = [
     colorConfig: colorCombos[3],
     icon: IoIosRocket,
     placeholder: {
-      title: "Ready for action",
+      title: "Under way",
       description: "Drop items here to start working on them",
       icon: LiaTelegramPlane,
     },

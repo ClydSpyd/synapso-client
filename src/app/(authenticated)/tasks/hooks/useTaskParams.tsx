@@ -15,6 +15,7 @@ export default function useTaskParams() {
       const paramTask = tasks.find((t) => +t.id === id);
       if (paramTask) {
         open({
+          title: "Edit Action",
           type: "task",
           payload: paramTask,
           modalStyles: {
@@ -42,6 +43,7 @@ useEffect(() => {
     const newTitle = searchParams.get("newTitle");
     if (newTitle) {
         open({
+          title: "Add Task",
           type: "task",
           payload: { title: newTitle } as Task,
           modalStyles: {

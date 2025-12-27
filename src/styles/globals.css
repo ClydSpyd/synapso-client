@@ -193,6 +193,7 @@ body {
 
 .btn-hvr-border {
   margin: 1px;
+  cursor: pointer;
 
   &:hover{
     margin: 0px;
@@ -202,6 +203,7 @@ body {
 }
 button.bg-zen-shift{
   border: 2px solid white;
+  cursor: pointer;
 
   &:hover{
     border: 2px solid #e887f7;

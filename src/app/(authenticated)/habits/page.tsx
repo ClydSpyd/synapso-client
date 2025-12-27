@@ -12,7 +12,7 @@ import useHabitParams from "./hooks/useHabitParams";
 
 type View = "month" | "week";
 const compMap: Record<View, React.ReactNode> = {
-  month: <MonthView />, 
+  month: <MonthView />,
   week: <WeekView />,
 };
 
@@ -64,7 +64,7 @@ export default function HabitsPage() {
               </div>
               <button
                 onClick={() => {
-                  open({ type: "habit" });
+                  open({ title: "Add Habit", type: "habit" });
                 }}
                 className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 py-1 hover:scale-105 !transition-transform ease-in-out !duration-300 cursor-pointer"
               >

@@ -21,7 +21,7 @@ export default function TestPage() {
 
   return (
     <div className="h-fit min-h-full w-full flex flex-col">
-      <TaskFilters setTasks={setTasks} />
+      <TaskFilters />
       <TaskBoard tasks={tasks} setTasks={setTasks} />
     </div>
   );

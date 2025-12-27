@@ -2,6 +2,7 @@ import ListItem from "@/app/(authenticated)/atoms/components/wiki-items-list/lis
 import ModuleWrapper from "@/components/utility-comps/module-wrapper";
 import StaggerContainer from "@/components/utility-comps/stagger-container";
 import { usePinnedItems } from "@/queries/usePinnedItems";
+import PinnedItemsEmptyState from "./empty.state";
 
 export default function PinnedItems() {
   const { data: pinnedItems } = usePinnedItems(true);
@@ -21,9 +22,7 @@ export default function PinnedItems() {
             </StaggerContainer>
           ))
         ) : (
-          <div className="col-span-3 text-center text-gray-400">
-            No pinned items yet.
-          </div>
+          <PinnedItemsEmptyState />
         )}
       </div>
     </ModuleWrapper>

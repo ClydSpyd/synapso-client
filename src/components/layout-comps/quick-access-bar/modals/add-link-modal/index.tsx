@@ -1,19 +1,13 @@
-import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "@mantine/core";
 import { API } from "@/api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LinkForm from "./link-form";
 import { useQueryClient } from "@tanstack/react-query";
 import ModalConfirmState from "@/components/ui/modal-confirm-state";
-import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
-import ModalContentWrapper from "@/components/utility-comps/modal-content-wrapper";
 
 export default function AddLinkModal({
-  children,
 }: {
-  children: React.ReactNode;
+  defaultData?: WikiLink;
 }) {
-  const [opened, { open, close }] = useDisclosure(false);
   const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const queryClient = useQueryClient();
@@ -35,49 +29,25 @@ export default function AddLinkModal({
     }
   };
 
-  useEffect(() => {
-    if (!opened) {
-      setSuccess(false);
-      setSubmitError(null);
-    }
-  }, [opened]);
-
   return (
     <>
-      <Modal
-        {...modalConfig}
-        opened={opened}
-        onClose={() => {
-          close();
-          setTimeout(() => {
-            setSubmitError(null);
-          }, 500);
-        }}
-      >
-        <ModalContentWrapper title="Add Link" close={close}>
-          <>
-            {success ? (
-              <ModalConfirmState
-                itemType="Link"
-                setSuccess={setSuccess}
-                submitting={false}
-              />
-            ) : (
-              <LinkForm
-                handleSubmit={handleSubmit}
-                setSubmitError={setSubmitError}
-                opened={opened}
-              />
-            )}
-            {submitError && (
-              <p className="text-xs mx-auto text-center mt-2 text-red-500">
-                {submitError}
-              </p>
-            )}
-          </>
-        </ModalContentWrapper>
-      </Modal>
-      <div onClick={open}>{children}</div>
+      {success ? (
+        <ModalConfirmState
+          itemType="Link"
+          setSuccess={setSuccess}
+          submitting={false}
+        />
+      ) : (
+        <LinkForm
+          handleSubmit={handleSubmit}
+          setSubmitError={setSubmitError}
+        />
+      )}
+      {submitError && (
+        <p className="text-xs mx-auto text-center mt-2 text-red-500">
+          {submitError}
+        </p>
+      )}
     </>
   );
 }

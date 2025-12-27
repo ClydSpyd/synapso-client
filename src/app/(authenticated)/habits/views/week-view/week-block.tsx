@@ -50,7 +50,13 @@ export default function WeekBlock({
       >
         <div
           className="absolute top-2 right-2"
-          onClick={() => open({ type: "habit", payload: habitData })}
+          onClick={() =>
+            open({
+              title: "Edit Habit",
+              type: "habit",
+              payload: habitData,
+            })
+          }
         >
           <BiSolidEdit
             size={20}

@@ -3,6 +3,7 @@ import WeekHeader from "./week-header";
 import { useHabits } from "@/queries/useHabits";
 import WeekBlock from "./week-block";
 import StaggerContainer from "@/components/utility-comps/stagger-container";
+import WeekViewEmptyState from "./empty-state";
 
 // YYY-MM-DD format for the start of the week
 const getMondayOfWeek = (weekOffset: number) => {
@@ -42,7 +43,7 @@ const getDatesOfWeek = (weekOffset: number) => {
     dates.push(`${yyyy}-${mm}-${dd}`);
   }
   return dates;
-}
+};
 
 export default function WeekView() {
   const [weekIdx, setWeekIdx] = useState<number>(0);
@@ -57,19 +58,23 @@ export default function WeekView() {
     <div className="w-full flex flex-col gap-3 py-4">
       <WeekHeader weekIdx={weekIdx} setWeekIdx={setWeekIdx} />
       <div className="flex flex-col gap-3">
-        {habitsData?.map((habit) => (
-          <StaggerContainer
-            key={habit.id + weekIdx}
-            staggerDelay={100}
-            randomFactor={0}
-          >
-            <WeekBlock
-              key={"block" + habit.id + weekIdx}
-              habitData={habit}
-              dates={getDatesOfWeek(weekIdx)}
-            />
-          </StaggerContainer>
-        ))}
+        {habitsData && habitsData?.length > 0 ? (
+          habitsData.map((habit) => (
+            <StaggerContainer
+              key={habit.id + weekIdx}
+              staggerDelay={100}
+              randomFactor={0}
+            >
+              <WeekBlock
+                key={"block" + habit.id + weekIdx}
+                habitData={habit}
+                dates={getDatesOfWeek(weekIdx)}
+              />
+            </StaggerContainer>
+          ))
+        ) : (
+          <WeekViewEmptyState />
+        )}
       </div>
     </div>
   );

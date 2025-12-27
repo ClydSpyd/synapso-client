@@ -98,7 +98,7 @@ export default function AddBookModal({
                     }}
                   />
                 </div>
-                <p className="text-sm font-semibold">
+                <p className="text-sm font-semibold line-clamp-2">
                   {item.title} ({item.year})
                 </p>
               </div>
