@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // stores/modal-store.ts
+import React from "react";
 import { create } from "zustand";
 
 export type ModalType =
@@ -9,7 +10,8 @@ export type ModalType =
   | "atom_book"
   | "atom_quote"
   | "atom_movie_series"
-  | "atom_link";
+  | "atom_link"
+  | "atom_details";
 
 type ModalPayloadMap = {
   task: Task | undefined;
@@ -19,6 +21,7 @@ type ModalPayloadMap = {
   atom_quote: WikiQuote | undefined;
   atom_movie_series: { data: OMDBMovie; type: MediaType } | undefined;
   atom_link: WikiLink | undefined;
+  atom_details: WikiItem | undefined;
 };
 
 type Handlers<T extends ModalType> = {
@@ -26,7 +29,7 @@ type Handlers<T extends ModalType> = {
 };
 
 type OpenProps<T extends ModalType> = {
-  title: string;
+  title: string | React.JSX.Element;
   type: T;
   payload?: ModalPayloadMap[T];
   handlers?: Handlers<T>;
@@ -34,7 +37,7 @@ type OpenProps<T extends ModalType> = {
 };
 
 type ModalState = {
-  title: string;
+  title: string | React.JSX.Element;
   isOpen: boolean;
   type?: ModalType;
   // Payload is keyed to the modal type

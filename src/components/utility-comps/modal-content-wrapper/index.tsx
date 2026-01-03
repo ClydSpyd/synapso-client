@@ -9,7 +9,7 @@ export default function ModalContentWrapper({
   className = "",
 }: {
   children: React.ReactNode;
-  title: string;
+  title: string | React.JSX.Element;
   subtitle?: string;
   className?: string;
   close: () => void;

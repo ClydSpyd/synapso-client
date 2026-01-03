@@ -48,3 +48,11 @@ export const getTagColorConfig = (tag: string): ColorCombo => {
     const colorConfig = colorCombos[intVal % colorCombos.length];
     return colorConfig;
   };
+
+  export const formatMinutes = (minutes: number) => {
+    const hrs = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    const hrsDisplay = hrs > 0 ? `${hrs} hr${hrs > 1 ? "s" : ""}` : "";
+    const minsDisplay = mins > 0 ? `${mins} min${mins > 1 ? "s" : ""}` : "";
+    return `${hrsDisplay}${hrs > 0 && mins > 0 ? " " : ""}${minsDisplay}`.trim();
+  }

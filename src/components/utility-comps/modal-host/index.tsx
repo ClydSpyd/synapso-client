@@ -11,6 +11,7 @@ import AddBookModal from "@/components/layout-comps/quick-access-bar/modals/add-
 import AddQuoteModal from "@/components/layout-comps/quick-access-bar/modals/add-quote-modal";
 import AddMovieModal from "@/components/layout-comps/quick-access-bar/modals/add-movie-modal";
 import AddLinkModal from "@/components/layout-comps/quick-access-bar/modals/add-link-modal";
+import AtomModal from "@/components/modals/atom-modal";
 
 export default function ModalHost() {
   const { isOpen, type, payload, close, modalStyles, title } = useModalStore();
@@ -42,6 +43,7 @@ export default function ModalHost() {
         {type === "atom_link" && (
           <AddLinkModal defaultData={payload as WikiLink} />
         )}
+        {type === "atom_details" && (<AtomModal item={payload as WikiItem} />)}
       </ModalContentWrapper>
     </Modal>
   );

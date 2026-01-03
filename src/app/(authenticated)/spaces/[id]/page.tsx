@@ -1,3 +1,5 @@
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 import SpaceHeader from "./components/space-header";
 
 export default function SpacePage() {

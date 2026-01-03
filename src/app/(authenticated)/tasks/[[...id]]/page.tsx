@@ -1,4 +1,11 @@
 "use client";
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
+
+
 import TaskBoard from "@/components/task-board";
 import { useTasks } from "@/queries/useTasks";
 import { useEffect, useState } from "react";

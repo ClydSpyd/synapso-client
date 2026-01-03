@@ -7,6 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { Menu, Text } from '@mantine/core';
 import { API } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 export default function WikiBlockWrapper({
   type,
@@ -15,6 +16,7 @@ export default function WikiBlockWrapper({
   iconClass,
   children,
   pinned,
+  ...rest
 }: {
   type: WikiType;
   pinId: string;
@@ -22,7 +24,8 @@ export default function WikiBlockWrapper({
   iconClass?: string;
   children: React.ReactNode;
   pinned?: boolean;
-}) {
+  } & React.HTMLAttributes<HTMLDivElement>) {
+    const [ isHovered, setIsHovered ] = useState(false);
   const config = wikiItemsConfig[type];
   const queryClient = useQueryClient();
   const handlePin = async () => {
@@ -53,10 +56,19 @@ export default function WikiBlockWrapper({
   return (
     <div
       id={`pin_${pinId}`}
-      className="w-full rounded-lg px-8 py-4 min-h-[200px] h-full flex flex-col relative"
-      style={{ backgroundColor: config.accentColor }}
+      className="w-full rounded-lg px-8 py-4 min-h-[200px] h-full flex flex-col relative cursor-pointer transition-all duration-100 scale-100 hover:scale-[1.01]"
+      style={{
+        backgroundColor: config.accentColor,
+        border: `1px solid ${isHovered ? config.mainColor : "transparent"}`,
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      {...rest}
     >
-      <div className="w-full flex items-start justify-start">
+      <div
+        className="w-full flex items-start justify-start"
+        onClick={(e) => e.stopPropagation()}
+      >
         <config.icon
           className={cn("text-3xl", iconClass ?? "")}
           style={{ color: config.mainColor }}

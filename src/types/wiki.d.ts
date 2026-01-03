@@ -28,11 +28,11 @@ interface MediaBase {
   actors?: string;
   plot?: string;
   language?: string;
-  posterUrl?: string;
+  poster_url?: string;
   metascore?: string;
-  imdbRating?: string;
-  imdbVotes?: string;
-  imdbId: string;
+  imdb_rating?: string;
+  imdb_votes?: string;
+  imdb_id: string;
   ratings?: { source: string; value: string }[];
 }
 

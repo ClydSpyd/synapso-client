@@ -14,7 +14,9 @@ const eslintConfig = [
 
   {
     rules: {
-      "react-hooks/exhaustive-deps": "off"
+      "react-hooks/exhaustive-deps": "off",
+      "react/no-unstable-nested-components": "off",
+      "react/suggest-canonical-classes": "off"
     }
   }
 ];

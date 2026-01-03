@@ -10,7 +10,6 @@ export default function WikiPage() {
   const { data: allItems, isLoading } = useWikiItems();
   const [displayItems, setDisplayItems] = useState<(WikiItem & { type: WikiType })[]>(allItems ?? []);
   const [filterType, setFilterType] = useState<WikiType | null>(null);
-  console.log("Wiki Data:", displayItems);
   const { open } = useModalStore();
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export default function WikiPage() {
           <button onClick={() => {
             open({
               title: "Add Atom",
-              type: "atom",
+              type: "atom", 
               modalStyles: {
                 content: {
                   maxWidth: "fit-content",

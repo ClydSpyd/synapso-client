@@ -22,27 +22,31 @@ export default function WikiItemsList({
   // );
 
   return (
-    <div className="w-full grid grid-cols-4 gap-2 relative">
-      {items.length > 0 ? (
-        items.map((item, idx) => (
-          <StaggerContainer key={idx}>
-            <ListItem pinId={item.id} item={item} />
-          </StaggerContainer>
-        ))
-      ) : (
-        <>
-          <div className="text-center flex flex-col gap-1 items-center justify-center abs-center rounded-md bg-white shadow-md p-4 border border-slate-200/70 whitespace-nowrap z-10">
-            <h1 className="text-sm font-semibold text-slate-400">
-              No atoms added added
-            </h1>
-          </div>
-          {[...Array(12)].map((_, idx) => (
+    <div className="w-full @container">
+      <div className="@container w-full grid grid-cols-1 @[400px]:grid-cols-2 @[650px]:grid-cols-3 @[900px]:grid-cols-4 gap-2 relative">
+        {items.length > 0 ? (
+          items.map((item, idx) => (
             <StaggerContainer key={idx}>
-              <PinnedItemSkeletonBox colorIdx={Math.floor(Math.random() * 6)} />
+              <ListItem pinId={item.id} item={item} />
             </StaggerContainer>
-          ))}
-        </>
-      )}
+          ))
+        ) : (
+          <>
+            <div className="text-center flex flex-col gap-1 items-center justify-center abs-center rounded-md bg-white shadow-md p-4 border border-slate-200/70 whitespace-nowrap z-10">
+              <h1 className="text-sm font-semibold text-slate-400">
+                No atoms added added
+              </h1>
+            </div>
+            {[...Array(12)].map((_, idx) => (
+              <StaggerContainer key={idx}>
+                <PinnedItemSkeletonBox
+                  colorIdx={Math.floor(Math.random() * 6)}
+                />
+              </StaggerContainer>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 }

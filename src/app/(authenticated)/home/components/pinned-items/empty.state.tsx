@@ -19,25 +19,25 @@ export const PinnedItemSkeletonBox = ({colorIdx}: {colorIdx: number}) => {
           }}
         />
         <div
-          className="h-5 w-36 rounded-sm"
+          className="h-5 w-1/2 max-w-36 rounded-sm"
           style={{
             backgroundColor: colorConfig.hintColor + 90,
           }}
         />
         <div
-          className="h-5 w-48 rounded-sm"
+          className="h-5 w-2/3 max-w-48 rounded-sm"
           style={{
             backgroundColor: colorConfig.hintColor + 90,
           }}
         />
         <div
-          className="h-5 w-56 rounded-sm"
+          className="h-5 w-7/8 max-w-56 rounded-sm"
           style={{
             backgroundColor: colorConfig.hintColor + 90,
           }}
         />
         <div
-          className="h-5 w-36 rounded-sm"
+          className="h-5 w-1/2 max-w-36 rounded-sm"
           style={{
             backgroundColor: colorConfig.hintColor + 90,
           }}
