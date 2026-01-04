@@ -8,6 +8,7 @@ import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
 import AtomModal from "@/components/modals/atom-modal";
+import { useEffect } from "react";
 
 const iconClassMap: Record<WikiType, string> = {
   movie: "",
@@ -27,6 +28,15 @@ export default function ListItem({
   pinned?: boolean;
 }) {
   const [opened, { open, close }] = useDisclosure(false);
+    const searchParams = new URLSearchParams(window.location.search);
+    const atomOpen = searchParams.get("atomOpen");
+    console.log({ atomOpen, id: item.id });
+
+    useEffect(() => {
+      if (atomOpen === String(item.id)) {
+        open();
+      }
+    }, [atomOpen, item.id, open]);
 
   let block: React.ReactNode;
   switch (item.type) {
@@ -70,14 +80,14 @@ export default function ListItem({
         {...modalConfig}
         styles={{
           content: {
-            width: "700px",
-            minWidth: "700px",
+            width: "fit-content",
+            minWidth: "fit-content",
             borderRadius: "16px",
           },
           body: { padding: 0 },
         }}
       >
-        <AtomModal item={item} />
+        <AtomModal item={item} handleClose={close} />
       </Modal>
     </>
   );
