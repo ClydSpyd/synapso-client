@@ -100,3 +100,19 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-in-out;
+  animation-fill-mode: forwards;
+}

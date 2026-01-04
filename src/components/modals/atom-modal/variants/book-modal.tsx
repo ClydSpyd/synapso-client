@@ -1,30 +1,34 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
-import { formatMinutes } from "@/lib/utils";
-import { FaRegClock, FaRegCalendar } from "react-icons/fa6";
+import { FaRegCalendar } from "react-icons/fa6";
 
-import { LuDot } from "react-icons/lu";
-import { FaStar } from "react-icons/fa";
 import { BiSolidEdit } from "react-icons/bi";
-import { TbExternalLink } from "react-icons/tb";
 import StarsPicker from "../components/stars-picker";
 import { Textarea } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import BottomBar from "../components/bottom-bar";
+import { API } from "@/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { useModalStore } from "@/stores/modal-store";
 
-export default function BooksModal({
-  item,
-  handleClose,
-}: {
-  item: WikiBook;
-  handleClose: () => void;
-}) {
-  //   const imdbLink = item.imdb_id
-  //     ? `https://www.imdb.com/title/${item.imdb_id}`
-  //     : null;
+export default function BooksModal({ item }: { item: WikiBook }) {
+  const queryClient = useQueryClient();
+  const { close } = useModalStore();
+
+  const handleDelete = async () => {
+    const { error } = await API.books.delete(item.olid);
+    if (error) {
+      return { error };
+    }
+    queryClient.invalidateQueries({ queryKey: ["wiki-items"] });
+    close();
+    return {
+      error: undefined,
+    };
+  };
 
   return (
     <div className="flex relative max-w-[900px] w-[75vw]">
-      <div className="min-w-[280px] max-w-[280px] gradient-fade-bottom flex flex-col justify-end gap-2 p-6">
+      <div className="min-w-[280px] max-w-[280px] flex flex-col justify-end gap-2 p-6 relative">
         <img
           src={item.cover}
           alt={item.title}
@@ -91,6 +95,7 @@ export default function BooksModal({
             />
           </div>
         </div>
+        <BottomBar handleDelete={handleDelete} />
       </div>
     </div>
   );

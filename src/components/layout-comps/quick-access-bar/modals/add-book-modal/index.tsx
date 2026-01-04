@@ -4,9 +4,11 @@ import { API } from "@/api";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useModalStore } from "@/stores/modal-store";
+import { useToastStore } from "@/stores/toast-store";
 
 export default function AddBookModal({}: { defaultData?: OpenLibBook }) {
-  const { close } = useModalStore();
+  const { open } = useModalStore();
+  const { show } = useToastStore();
   const [submitError, setSubmitError] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
@@ -19,7 +21,15 @@ export default function AddBookModal({}: { defaultData?: OpenLibBook }) {
     } else if (data) {
       queryClient.invalidateQueries({ queryKey: ["wiki-items"] });
       setSubmitError(null);
-      close();
+      open({
+        title: "Atom",
+        type: "atom_details",
+        payload: { ...data, type: "book" } as WikiItem,
+      });
+      show({
+        variant: "success",
+        message: `Book added successfully!`,
+      });
     }
   };
 

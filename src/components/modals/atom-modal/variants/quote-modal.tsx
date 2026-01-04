@@ -2,34 +2,45 @@ import { Textarea, TextInput } from "@mantine/core";
 import { FaRegCalendar, FaUser } from "react-icons/fa";
 import { wikiItemsConfig } from "@/app/(authenticated)/atoms/config";
 import { useState } from "react";
+import BottomBar from "../components/bottom-bar";
+import { useModalStore } from "@/stores/modal-store";
+import { useQueryClient } from "@tanstack/react-query";
+import { API } from "@/api";
 
-export default function QuoteModal({
-  item,
-  handleClose,
-}: {
-  item: WikiQuote;
-  handleClose: () => void;
-}) {
-    const [localData, setLocalData] = useState<WikiQuote>(item);
+export default function QuoteModal({ item }: { item: WikiQuote }) {
+  const [localData, setLocalData] = useState<WikiQuote>(item);
+  const queryClient = useQueryClient();
+  const { close } = useModalStore();
+  const handleInput = (field: keyof WikiQuote, value: string) => {
+    setLocalData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-    const handleInput = (field: keyof WikiQuote, value: string) => {
-        setLocalData((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
+  const handleDelete = async () => {
+    const { error } = await API.quotes.delete(item.id);
+    if (error) {
+      return { error };
     }
+    queryClient.invalidateQueries({ queryKey: ["wiki-items"] });
+    close();
+    return {
+      error: undefined,
+    };
+  };
 
-    const config = wikiItemsConfig.quote;
-    const quoteLength = localData.content.length;
-    const fontSize =
-      quoteLength < 50
-        ? "32px"
-        : quoteLength < 100
-        ? "26px"
-        : quoteLength < 200
-        ? "20px"
-        : "16px";
-        
+  const config = wikiItemsConfig.quote;
+  const quoteLength = localData.content.length;
+  const fontSize =
+    quoteLength < 50
+      ? "32px"
+      : quoteLength < 100
+      ? "26px"
+      : quoteLength < 200
+      ? "20px"
+      : "16px";
+
   return (
     <div className="flex relative max-w-[800px] w-[75vw]">
       <div
@@ -140,6 +151,7 @@ export default function QuoteModal({
             }}
           />
         </div>
+        <BottomBar handleDelete={handleDelete} />
       </div>
     </div>
   );

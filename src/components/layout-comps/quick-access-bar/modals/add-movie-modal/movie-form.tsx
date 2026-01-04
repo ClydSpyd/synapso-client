@@ -7,10 +7,12 @@ import { cn } from "@/lib/utils";
 export default function MovieForm({
   handleFormSubmission,
   submitError,
-  type,
+  searchType,
+  setSearchType,
 }: {
   defaultData?: OMDBMovie;
-  type?: MediaType;
+  searchType?: MediaType;
+  setSearchType?: (type: MediaType) => void;
   handleFormSubmission: (imdbId: string, mediaType: MediaType) => void;
   submitError?: string | null;
 }) {
@@ -18,7 +20,6 @@ export default function MovieForm({
   const [results, setResults] = useState<OMDBMovie[]>([]);
   const [submittingSearch, setSubmittingSearch] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [searchType, setSearchType] = useState<MediaType>(type ?? "movie");
 
   const handleSearch = async () => {
     setError(null);

@@ -1,3 +1,5 @@
+import { NotificationVariant } from "@/stores/toast-store";
+
 export const colorCombos: ColorCombo[] = [
   {
     mainColor: "#d648ff",
@@ -91,3 +93,10 @@ export const moodScale: string[] = [
   "#8ffc60", 
   "#00ff1e", 
 ];
+
+export const notificationColors: Record<NotificationVariant, string> = {
+  success: "#16a34a", // green-600
+  error: "#dc2626",   // red-600
+  info: "#2563eb",    // blue-600
+  warning: "#d97706", // amber-600
+};

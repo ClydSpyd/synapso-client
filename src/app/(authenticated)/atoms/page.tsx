@@ -26,19 +26,22 @@ export default function WikiPage() {
         title="Atoms"
         subtitle="Your collection of atomic ideas and insights"
         rightSideElements={
-          <button onClick={() => {
-            open({
-              title: "Add Atom",
-              type: "atom", 
-              modalStyles: {
-                content: {
-                  maxWidth: "fit-content",
-                  minWidth: "fit-content",
-                  borderRadius: "8px",
+          <button
+            onClick={() => {
+              open({
+                title: "Add Atom",
+                type: "atom",
+                modalStyles: {
+                  content: {
+                    maxWidth: "fit-content",
+                    minWidth: "fit-content",
+                    borderRadius: "8px",
+                  },
                 },
-              },
-            });
-          }} className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-4 py-1 hover:scale-105 !transition-transform ease-in-out !duration-300">
+              });
+            }}
+            className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-4 py-1 hover:scale-105 !transition-transform ease-in-out !duration-300"
+          >
             <h1 className="text-2xl m-0 relative bottom-0.5">+</h1>
             <p className="m-0 font-semibold">ADD</p>
           </button>

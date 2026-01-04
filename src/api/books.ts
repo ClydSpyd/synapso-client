@@ -23,7 +23,7 @@ export const bookMethods = {
     bookData: OpenLibBook
   ): Promise<ApiResponse<Record<string, unknown>>> => {
     try {
-      const response = await baseClient.post("wiki/books/add/", {
+      const response = await baseClient.post("wiki/books/", {
         ...bookData,
       });
       return {
@@ -35,6 +35,24 @@ export const bookMethods = {
       return {
         status: err.code || 500,
         error: err.message,
+      };
+    }
+  },
+  delete: async (olid: string): Promise<ApiResponse<null>> => {
+    try {
+      const response = await baseClient.delete(`wiki/books/`, {
+        data: { olid },
+      });
+      return {
+        status: response.status,
+        data: null,
+      };
+    } catch (error) {
+      console.log("Error deleting book:", error);
+      const err = error as AxiosError<{ detail: string }>;
+      return {
+        status: err.code || 500,
+        error: err.response?.data.detail || err.message,
       };
     }
   },

@@ -9,22 +9,40 @@ import { BiSolidEdit } from "react-icons/bi";
 import { TbExternalLink } from "react-icons/tb";
 import StarsPicker from "../components/stars-picker";
 import { Textarea } from "@mantine/core";
-import { FaRegTrashAlt } from "react-icons/fa";
+import BottomBar from "../components/bottom-bar";
+import { API } from "@/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { useModalStore } from "@/stores/modal-store";
 
 export default function MovieSeriesModal({
   item,
-  handleClose,
 }: {
   item: WikiMovie | WikiSeries;
-  handleClose: () => void;
 }) {
+  const queryClient = useQueryClient();
+  const { close } = useModalStore();
+
   const imdbLink = item.imdb_id
     ? `https://www.imdb.com/title/${item.imdb_id}`
     : null;
 
+  const handleDelete = async () => {
+    const { error } = await API.media.delete(item.imdb_id, item.type);
+
+    if (error) {
+      return { error };
+    }
+
+    queryClient.invalidateQueries({ queryKey: ["wiki-items"] });
+    close();
+    return {
+      error: undefined,
+    };
+  };
+
   return (
     <div className="flex relative max-w-[900px] w-[75vw]">
-      <div className="min-w-[280px] max-w-[280px] gradient-fade-bottom flex flex-col justify-end gap-2 p-6">
+      <div className="min-w-[280px] max-w-[280px] gradient-fade-bottom flex flex-col justify-end gap-2 p-4 px-6">
         <img
           src={item.poster_url}
           alt={item.title}
@@ -72,7 +90,7 @@ export default function MovieSeriesModal({
           )}
         </div>
       </div>
-      <div className="grow h-full text-sm p-6 px-8">
+      <div className="grow h-full text-sm p-4 px-8">
         <h1 className="text-2xl font-extrabold">{item.title}</h1>
 
         <div className="flex items-center gap-0 text-xs text-gray-500 font-medium h-[30px]">
@@ -161,24 +179,7 @@ export default function MovieSeriesModal({
             />
           </div>
         </div>
-        <div className="w-full flex justify-end gap-2 mt-2">
-          <div className="my-[2px] flex justify-center border border-red-500 rounded-sm items-center text-red-500 h-[33px] w-[33px] transition-colors duration-300 ease-in-out hover:bg-red-100 cursor-pointer">
-            <FaRegTrashAlt />
-          </div>
-          <button
-            // onClick={handleSave}
-            // disabled={!complete || uiState === "saving"}
-            className={
-              "bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 h-[38px] !transition-all ease-in-out !duration-300 cursor-pointer m-0"
-            }
-            //   {
-            //     "opacity-50 cursor-not-allowed":
-            //       !complete || uiState === "saving",
-            //   }
-          >
-            <p className="text-sm m-0 font-semibold">Save</p>
-          </button>
-        </div>
+        <BottomBar handleDelete={handleDelete} />
       </div>
     </div>
   );

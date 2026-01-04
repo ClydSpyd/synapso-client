@@ -4,11 +4,10 @@ import WikiBlockMovie from "./blocks/wiki-block-movie";
 import WikiBlockQuote from "./blocks/wiki-block-quote";
 import WikiBlockSeries from "./blocks/wiki-block-series";
 import WikiBlockWrapper from "./blocks/block-wrapper";
-import { Modal } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
-import AtomModal from "@/components/modals/atom-modal";
-import { useEffect } from "react";
+// import { Modal } from "@mantine/core";
+// import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/modal-config";
+// import { useEffect } from "react";
+import { useModalStore } from "@/stores/modal-store";
 
 const iconClassMap: Record<WikiType, string> = {
   movie: "",
@@ -27,16 +26,15 @@ export default function ListItem({
   pinId: string;
   pinned?: boolean;
 }) {
-  const [opened, { open, close }] = useDisclosure(false);
-    const searchParams = new URLSearchParams(window.location.search);
-    const atomOpen = searchParams.get("atomOpen");
-    console.log({ atomOpen, id: item.id });
+  // const searchParams = new URLSearchParams(window.location.search);
+  // const atomOpen = searchParams.get("atomOpen");
+  const { open } = useModalStore();
 
-    useEffect(() => {
-      if (atomOpen === String(item.id)) {
-        open();
-      }
-    }, [atomOpen, item.id, open]);
+  // useEffect(() => {
+  //   if (atomOpen === String(item.id)) {
+  //     open();
+  //   }
+  // }, [atomOpen, item.id, open]);
 
   let block: React.ReactNode;
   switch (item.type) {
@@ -68,27 +66,15 @@ export default function ListItem({
         pinned={!!pinned}
         iconClass={iconClassMap[item.type]}
         onClick={() => {
-          open();
+          open({
+            type: "atom_details",
+            payload: item,
+            title: `${item.id}`,
+          });
         }}
       >
         {block}
       </WikiBlockWrapper>
-
-      <Modal
-        opened={opened}
-        onClose={close}
-        {...modalConfig}
-        styles={{
-          content: {
-            width: "fit-content",
-            minWidth: "fit-content",
-            borderRadius: "16px",
-          },
-          body: { padding: 0 },
-        }}
-      >
-        <AtomModal item={item} handleClose={close} />
-      </Modal>
     </>
   );
 }

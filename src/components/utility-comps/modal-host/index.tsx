@@ -15,6 +15,17 @@ import AtomModal from "@/components/modals/atom-modal";
 
 export default function ModalHost() {
   const { isOpen, type, payload, close, modalStyles, title } = useModalStore();
+
+
+    if(type === "atom_details") {
+      return (
+        <AtomModal
+          item={payload as WikiItem}
+          handleClose={close}
+        />
+      );
+    }
+
   return (
     <Modal
       {...modalConfig}
@@ -43,7 +54,6 @@ export default function ModalHost() {
         {type === "atom_link" && (
           <AddLinkModal defaultData={payload as WikiLink} />
         )}
-        {type === "atom_details" && (<AtomModal item={payload as WikiItem} />)}
       </ModalContentWrapper>
     </Modal>
   );
