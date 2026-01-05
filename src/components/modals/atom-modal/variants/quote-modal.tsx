@@ -6,11 +6,13 @@ import BottomBar from "../components/bottom-bar";
 import { useModalStore } from "@/stores/modal-store";
 import { useQueryClient } from "@tanstack/react-query";
 import { API } from "@/api";
+import { useToastStore } from "@/stores/toast-store";
 
 export default function QuoteModal({ item }: { item: WikiQuote }) {
   const [localData, setLocalData] = useState<WikiQuote>(item);
   const queryClient = useQueryClient();
   const { close } = useModalStore();
+  const { show } = useToastStore();
   const handleInput = (field: keyof WikiQuote, value: string) => {
     setLocalData((prev) => ({
       ...prev,
@@ -24,6 +26,11 @@ export default function QuoteModal({ item }: { item: WikiQuote }) {
       return { error };
     }
     queryClient.invalidateQueries({ queryKey: ["wiki-items"] });
+    queryClient.invalidateQueries({ queryKey: ["pinned-items"] });
+    show({
+      variant: "success",
+      message: `Quote deleted successfully!`,
+    });
     close();
     return {
       error: undefined,

@@ -8,6 +8,7 @@ import { Menu, Text } from '@mantine/core';
 import { API } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { useToastStore } from "@/stores/toast-store";
 
 export default function WikiBlockWrapper({
   type,
@@ -26,6 +27,7 @@ export default function WikiBlockWrapper({
   pinned?: boolean;
   } & React.HTMLAttributes<HTMLDivElement>) {
     const [ isHovered, setIsHovered ] = useState(false);
+    const { show } = useToastStore();
   const config = wikiItemsConfig[type];
   const queryClient = useQueryClient();
   const handlePin = async () => {
@@ -34,22 +36,27 @@ export default function WikiBlockWrapper({
       item_type: type,
     };
 
-    let data, error;
+    let error;
 
     if (pinned) {
       const deleteRes = await API.pinned.delete(pinId);
-      data = deleteRes.data;
       error = deleteRes.error;
     } else {
       const addRes = await API.pinned.add(payload);
-      data = addRes.data;
       error = addRes.error;
     }
 
     if (error) {
       console.error("Error pinning item:", error);
+      show({
+        variant: "error",
+        message: `Failed to ${pinned ? "unpin" : "pin"} item.`,
+      });
     } else {
-      console.log("Item pinned successfully:", data);
+      show({
+        variant: "success",
+        message: `Item ${pinned ? "unpinned" : "pinned"} successfully!`,
+      });
       queryClient.invalidateQueries({ queryKey: ["pinned-items"] });
     }
   };

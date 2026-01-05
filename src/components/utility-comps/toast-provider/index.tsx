@@ -25,7 +25,7 @@ export function ToastProvider() {
           <div
             key={toast.id}
             className={`min-w-[250px] slide-in rounded-md px-4 py-3 shadow-lg text-white 
-            flex items-center cursor-pointer`}
+            flex items-center cursor-pointer text-sm`}
             style={{
               border: `2px solid ${notificationColors[toast.variant]}`,
               color: notificationColors[toast.variant],

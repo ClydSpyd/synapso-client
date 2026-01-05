@@ -18,12 +18,7 @@ export default function ModalHost() {
 
 
     if(type === "atom_details") {
-      return (
-        <AtomModal
-          item={payload as WikiItem}
-          handleClose={close}
-        />
-      );
+      return <AtomModal item={payload as WikiItem} />;
     }
 
   return (

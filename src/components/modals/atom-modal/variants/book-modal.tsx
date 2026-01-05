@@ -9,10 +9,12 @@ import BottomBar from "../components/bottom-bar";
 import { API } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useModalStore } from "@/stores/modal-store";
+import { useToastStore } from "@/stores/toast-store";
 
 export default function BooksModal({ item }: { item: WikiBook }) {
   const queryClient = useQueryClient();
   const { close } = useModalStore();
+  const { show } = useToastStore();
 
   const handleDelete = async () => {
     const { error } = await API.books.delete(item.olid);
@@ -20,6 +22,11 @@ export default function BooksModal({ item }: { item: WikiBook }) {
       return { error };
     }
     queryClient.invalidateQueries({ queryKey: ["wiki-items"] });
+    queryClient.invalidateQueries({ queryKey: ["pinned-items"] });
+    show({
+      variant: "success",
+      message: `Book deleted successfully!`,
+    });
     close();
     return {
       error: undefined,

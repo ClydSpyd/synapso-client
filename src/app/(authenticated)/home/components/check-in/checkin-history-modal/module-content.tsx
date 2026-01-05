@@ -154,7 +154,7 @@ export default function CheckinModuleContent({ date }: { date: string }) {
     <>
       <div className="py-3">
         <p className="w-full text-center font-semibold text-xs text-gray-500 mb-2">
-          How are you feeling? (select one)
+          How are you feeling today? (select one)
         </p>
         <div className="flex gap-2 w-full justify-center">
           {moodsConfig.map((mood) => (

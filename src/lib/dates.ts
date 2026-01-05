@@ -136,3 +136,16 @@ export function getTimeAgoString(date: Date): string {
   }
   return "just now";
 }
+
+  // Helper to get new date, month, and year from offset
+  export const getDateMonthYearFromOffset = (offset: number) => {
+    const today = new Date();
+    const newDate = new Date(today);
+    newDate.setDate(today.getDate() + offset);
+    return {
+      date: newDate,
+      month: newDate.getMonth() + 1,
+      year: newDate.getFullYear(),
+    };
+  };
+

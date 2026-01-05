@@ -13,6 +13,7 @@ import BottomBar from "../components/bottom-bar";
 import { API } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useModalStore } from "@/stores/modal-store";
+import { useToastStore } from "@/stores/toast-store";
 
 export default function MovieSeriesModal({
   item,
@@ -21,6 +22,7 @@ export default function MovieSeriesModal({
 }) {
   const queryClient = useQueryClient();
   const { close } = useModalStore();
+  const { show } = useToastStore();
 
   const imdbLink = item.imdb_id
     ? `https://www.imdb.com/title/${item.imdb_id}`
@@ -34,6 +36,13 @@ export default function MovieSeriesModal({
     }
 
     queryClient.invalidateQueries({ queryKey: ["wiki-items"] });
+    queryClient.invalidateQueries({ queryKey: ["pinned-items"] });
+    show({
+      variant: "success",
+      message: `${
+        item.type === "movie" ? "Movie" : "Series"
+      } deleted successfully!`,
+    });
     close();
     return {
       error: undefined,

@@ -11,6 +11,7 @@ import {
   formatDatePayload,
   getCurrentMonthInt,
   getCurrentYear,
+  getDateMonthYearFromOffset,
 } from "@/lib/dates";
 import DatePicker from "react-datepicker";
 import { useMonthlyCheckins } from "@/queries/useCheckin";
@@ -25,18 +26,30 @@ export default function CheckinHistoryModal({
   const [month, setMonth] = useState(getCurrentMonthInt());
   const [year, setYear] = useState(getCurrentYear());
   const [opened, { open, close }] = useDisclosure(false);
+
   const handleMonthArrow = (direction: "prev" | "next") => {
     if (direction === "prev") {
-      setDateOffset((prev) => prev - 1);
+      setDateOffset((prev) => {
+        const newOffset = prev - 1;
+        const { month: newMonth, year: newYear } =
+          getDateMonthYearFromOffset(newOffset);
+        if (newMonth !== month) setMonth(newMonth);
+        if (newYear !== year) setYear(newYear);
+        return newOffset;
+      });
     } else {
       if (dateOffset === 0) return;
-      setDateOffset((prev) => prev + 1);
+      setDateOffset((prev) => {
+        const newOffset = prev + 1;
+        const { month: newMonth, year: newYear } = getDateMonthYearFromOffset(newOffset);
+        if (newMonth !== month) setMonth(newMonth);
+        if (newYear !== year) setYear(newYear);
+        return newOffset;
+      });
     }
   };
 
   const { data: checkinsByMonth } = useMonthlyCheckins(month, year);
-
-  console.log("ö checkinsByMonth:", checkinsByMonth);
 
   return (
     <>
@@ -61,14 +74,14 @@ export default function CheckinHistoryModal({
                 calendarStartDay={1}
                 onMonthChange={(date: Date) => {
                   setMonth(date.getMonth() + 1);
+                  setYear(date.getFullYear());
                 }}
                 onYearChange={(date: Date) => {
                   setYear(date.getFullYear());
                 }}
                 dayClassName={(date: Date) => {
-                  const hasCheckin = checkinsByMonth?.includes(
-                    format(date, "yyyy-MM-dd")
-                  );
+                  const dateStr = format(date, "yyyy-MM-dd");
+                  const hasCheckin = checkinsByMonth?.includes(dateStr);
                   return hasCheckin ? "date-with-checkin" : "";
                 }}
                 showPopperArrow={false}
