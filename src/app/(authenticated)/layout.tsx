@@ -1,6 +1,7 @@
 "use client";
 import Navbar from "@/components/layout-comps/navbar";
 import QuickAccessBar from "@/components/layout-comps/quick-access-bar";
+// import RegisterActivityModal from "@/components/layout-comps/quick-access-bar/modals/register-activity-modal";
 import ModalHost from "@/components/utility-comps/modal-host";
 import { ToastProvider } from "@/components/utility-comps/toast-provider";
 import { useAuth } from "@/context/auth-context";
@@ -19,7 +20,7 @@ export default function AuthenticatedLayout({
 
   return (
     <QueryProvider>
-      <div className="flex flex-col h-screen w-screen overflow-hidden">
+      <div className="hidden xl:flex flex-col h-screen w-screen overflow-hidden">
         <Navbar />
         <div className="flex w-full h-fit">
           <QuickAccessBar />
@@ -29,6 +30,12 @@ export default function AuthenticatedLayout({
           </div>
         </div>
       </div>
+      {/* TODO - implement Mobile/Tablet view */}
+      {/* <div className="flex xl:hidden flex-col h-screen w-screen overflow-hidden ">
+        <RegisterActivityModal openProp={true}>
+          <p>HELLO WORLD</p>
+        </RegisterActivityModal>
+      </div> */}
       <ModalHost />
       <ToastProvider />
     </QueryProvider>

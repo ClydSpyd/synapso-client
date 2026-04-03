@@ -15,6 +15,7 @@ import { IoMdCloudUpload } from "react-icons/io";
 import AddIdeaModal from "./modals/add-idea-modal";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { useModalStore } from "@/stores/modal-store";
+import { useRouter } from "next/navigation";
 
 export default function QuickAccessBar() {
   const [sidebarOpen, setSidebarOpen] = useLocalStorage(
@@ -22,6 +23,7 @@ export default function QuickAccessBar() {
     true
   );
   const { open } = useModalStore();
+    const router = useRouter();
 
   return (
     <div
@@ -42,7 +44,7 @@ export default function QuickAccessBar() {
       <div
         className={cn(
           `overflow-hidden whitespace-nowrap px-2 duration-200 transition-opacity`,
-          sidebarOpen ? "opacity-100" : "opacity-0"
+          sidebarOpen ? "opacity-100" : "opacity-0",
         )}
       >
         <h1>QUICK ACTIONS</h1>
@@ -141,7 +143,13 @@ export default function QuickAccessBar() {
               />
             </QuickAccessItem>
           </AddIdeaModal>
-          <QuickAccessItem text="Add Task" colorConfig={colorCombos[4]}>
+          <QuickAccessItem
+            text="Add Action"
+            colorConfig={colorCombos[4]}
+            onClick={() => {
+              router.push(`/tasks?newTitle=${encodeURIComponent("NEW ACTION")}`);
+            }}
+          >
             <MdPlaylistAdd
               className="text-2xl"
               style={{

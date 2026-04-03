@@ -97,8 +97,8 @@ export default function MonthView() {
             <div className="text-center text-xs font-semibold text-gray-500">
               SUN
             </div>
-            {monthData.firstDay - 1 < 7 &&
-              Array.from({ length: monthData.firstDay - 1 }).map((_, index) => (
+            {monthData.firstDay < 7 &&
+              Array.from({ length: monthData.firstDay }).map((_, index) => (
                 <div
                   key={"empty-before-" + index}
                   className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 bg-gray-50/30 py-2 rounded-lg relative"

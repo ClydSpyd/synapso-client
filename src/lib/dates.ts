@@ -104,11 +104,14 @@ export const formatWeek = (weekOffset: number = 0) => {
 export function getMonthData(year: number, month: number): MonthConfig {
   const start = startOfMonth(new Date(year, month, 1));
   const end = endOfMonth(start);
+  
+  const startSundayZero = getDay(start); // 0 (Sun) - 6 (Sat)
+  const firstDay = (startSundayZero + 6) % 7; // adjust to make Monday=0, Sunday=6
   return {
     dates: eachDayOfInterval({ start, end }).map((date) =>
-      format(date, "yyyy-MM-dd")
+      format(date, "yyyy-MM-dd"),
     ),
-    firstDay: getDay(start),
+    firstDay: firstDay,
   };
 }
 

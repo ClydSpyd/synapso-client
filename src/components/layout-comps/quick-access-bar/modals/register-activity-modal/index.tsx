@@ -13,10 +13,12 @@ import { modalConfig } from "@/components/utility-comps/modal-content-wrapper/mo
 
 export default function RegisterActivityModal({
   children,
+  openProp
 }: {
   children: React.ReactNode;
+  openProp?: boolean;
 }) {
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(openProp ?? false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const { data: habits } = useHabits({

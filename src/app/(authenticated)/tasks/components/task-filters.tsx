@@ -12,7 +12,7 @@ export default function TaskFilters() {
         className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-4 py-1 !transition-all ease-in-out !duration-300 cursor-pointer"
         onClick={() =>
           open({
-            title: "Add Task",
+            title: "Add Action",
             type: "task",
             modalStyles: {
               content: {
@@ -26,7 +26,7 @@ export default function TaskFilters() {
         }
       >
         <h1 className="text-lg m-0 font-semibold relative bottom-0.5">+</h1>
-        <p className="text-sm m-0 font-semibold">ADD ITEM</p>
+        <p className="text-sm m-0 font-semibold">ADD</p>
       </button>
     </div>
   );
