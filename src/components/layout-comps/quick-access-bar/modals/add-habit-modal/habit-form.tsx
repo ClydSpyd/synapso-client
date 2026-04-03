@@ -46,7 +46,7 @@ export default function HabitForm({
     .every(([, val]) => val !== "");
 
   const selectedColorScheme = colorCombos[config.colorScheme ?? 0];
-
+  console.log(colorCombos);
 
   return (
     <>
@@ -153,6 +153,7 @@ export default function HabitForm({
       <div className="w-full flex items-center justify-center gap-2">
         {colorCombos.map((entry: ColorCombo, idx: number) => (
           <div
+            id={colorCombos[idx].mainColor}
             onClick={() => setConfig((prev) => ({ ...prev, colorScheme: idx }))}
             className="tri-wrap cursor-pointer"
             style={{

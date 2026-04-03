@@ -149,8 +149,8 @@ export default function FocusBlocks() {
   const moduleColorConf = colorCombos[2];
   const { data: focusItems } = useFocusItems();
   return (
-    <ModuleWrapper className="flex flex-col gap-3">
-      <div className="w-full flex items-center justify-between">
+    <>
+      <div className="w-full flex items-center justify-between mt-2">
         <div className="flex gap-2">
           <div
             className="w-11 h-11 flex items-center justify-center rounded-lg"
@@ -212,6 +212,6 @@ export default function FocusBlocks() {
           )}
         </div>
       )}
-    </ModuleWrapper>
+    </>
   );
 }

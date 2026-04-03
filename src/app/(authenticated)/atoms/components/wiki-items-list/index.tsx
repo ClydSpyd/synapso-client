@@ -22,7 +22,7 @@ export default function WikiItemsList({
   // );
 
   return (
-    <div className="w-full @container">
+    <div className="w-full @container pb-10">
       <div className="@container w-full grid grid-cols-1 @[400px]:grid-cols-2 @[650px]:grid-cols-3 @[900px]:grid-cols-4 gap-2 relative">
         {items.length > 0 ? (
           items.map((item, idx) => (

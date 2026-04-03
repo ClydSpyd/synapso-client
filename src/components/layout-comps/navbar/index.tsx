@@ -46,18 +46,18 @@ export default function Navbar() {
             <p className="text-sm font-[500]">Ideas</p>
           </div>
         </NavLink> */}
-        <NavLink href="/tasks">
+        {/* <NavLink href="/tasks">
           <div className="flex items-center gap-2">
             <FaListCheck className="text-md" />
             <p className="text-sm font-[500]">Actions</p>
           </div>
-        </NavLink>
-        <NavLink href="/spaces">
+        </NavLink> */}
+        {/* <NavLink href="/spaces">
           <div className="flex items-center gap-2">
             <LuLayers className="text-lg" />
             <p className="text-sm font-[500]">Spaces</p>
           </div>
-        </NavLink>
+        </NavLink> */}
         <NavLink href="/atoms">
           <div className="flex items-center gap-2">
             <BiAtom className="text-lg" />

@@ -23,7 +23,7 @@ export default function AuthenticatedLayout({
         <Navbar />
         <div className="flex w-full h-fit">
           <QuickAccessBar />
-          <div className="h-[calc(100vh-4rem)] grow overflow-y-auto border-l border-t border-gray-200/80 ">
+          <div className="h-[calc(100vh-60px)] grow overflow-y-auto border-l border-t border-gray-200/80">
             {" "}
             {children}
           </div>
