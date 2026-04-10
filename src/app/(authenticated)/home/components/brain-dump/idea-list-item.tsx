@@ -11,11 +11,14 @@ import { LuCalendarPlus } from "react-icons/lu";
 import { useClickOutside } from '@mantine/hooks';
 import { getTimeAgoString } from "@/lib/dates";
 import { useRouter } from "next/navigation";
+import { colorCombos } from "@/config/color-config";
 
 export default function IdeaListItem({
   idea,
+  idx
 }: {
   idea: Idea;
+  idx: number;
 }) {
   const [confState, setConfState] = useState<boolean>(false);
   const { refetch } = useIdeas();
@@ -27,15 +30,20 @@ export default function IdeaListItem({
     await API.ideas.delete(idea.id);
     refetch();
   };
+  const moduleColorConf = colorCombos[idx % colorCombos.length];
 
   return (
     <StaggerContainer staggerDelay={0} randomFactor={50}>
       <div
         ref={ref}
-        className="p-3 border border-gray-200 rounded-lg flex justify-between items-center shadow-sm relative overflow-hidden"
+        className="p-3 border-gray-200 rounded-lg flex justify-between items-between relative overflow-hidden bg-white h-full"
+        style={{
+          // backgroundColor: moduleColorConf.accentColor + "80",
+          border: `2px solid ${moduleColorConf.accentColor}`,
+        }}
       >
-        <div className="grow flex flex-col gap-2">
-          <p className="text-base font-semibold text-gray-500/70">
+        <div className="grow flex flex-col justify-between gap-2">
+          <p className="text-base font-semibold text-slate-500">
             {idea.title}
           </p>
           <div className="flex gap-2 mt-2">
@@ -57,12 +65,12 @@ export default function IdeaListItem({
           </div>
         </div>
 
-        <div className="flex flex-col h-[60px] justify-between items-end">
+        <div className="flex flex-col h-full justify-between items-end">
           <Menu withArrow>
             <Menu.Target>
               <HiDotsVertical
                 size={18}
-                className="cursor-pointer text-slate-400"
+                className="cursor-pointer text-slate-500"
               />
             </Menu.Target>
             <Menu.Dropdown>
@@ -75,7 +83,7 @@ export default function IdeaListItem({
                   );
                 }}
                 leftSection={
-                  <LuCalendarPlus className="text-lg text-slate-500 cursor-pointer" />
+                  <LuCalendarPlus className="text-lg text-slate-700 cursor-pointer" />
                 }
               >
                 <Text size="xs">Make Habit</Text>
@@ -89,7 +97,7 @@ export default function IdeaListItem({
                   );
                 }}
                 leftSection={
-                  <CgPlayListAdd className="text-lg text-slate-500 cursor-pointer" />
+                  <CgPlayListAdd className="text-lg text-slate-700 cursor-pointer" />
                 }
               >
                 <Text size="xs">Make Action</Text>
@@ -97,7 +105,7 @@ export default function IdeaListItem({
               <Menu.Item
                 onClick={() => setConfState(true)}
                 leftSection={
-                  <MdDeleteForever className="text-lg text-slate-500 cursor-pointer" />
+                  <MdDeleteForever className="text-lg text-slate-700 cursor-pointer" />
                 }
               >
                 <Text size="xs">Delete item</Text>
@@ -119,7 +127,7 @@ export default function IdeaListItem({
               : "bottom-1/3 opacity-0 pointer-events-none"
           )}
         >
-          <p className="text-sm text-slate-600 font-semibold">Are you sure?</p>
+          <p className="text-sm text-slate-500 font-semibold">Are you sure?</p>
           <div className="flex gap-2">
             <button
               onClick={() => setConfState(false)}

@@ -54,7 +54,7 @@ export default function MonthView() {
             className={cn("text-3xl text-indigo-600 cursor-pointer")}
             onClick={() => handleMonthArrow("prev")}
           />
-          <p className="font-semibold w-[200px] text-center text-slate-500">
+          <p className="font-semibold w-[200px] text-center text-slate-700">
             {new Date(year, month).toLocaleString("default", {
               month: "long",
             })}
@@ -75,7 +75,7 @@ export default function MonthView() {
             month={month}
             year={year}
           />
-          <div className="w-full grid grid-cols-7 p-6 pt-3 gap-[10px] shadow-md rounded-xl border border-slate-200 bg-white">
+          <div className="w-full grid grid-cols-7 p-6 pt-3 gap-[10px] shadow-md rounded-xl border border-slate-200 bg-white/70">
             <div className="text-center text-xs font-semibold text-gray-500">
               MON
             </div>
@@ -101,7 +101,7 @@ export default function MonthView() {
               Array.from({ length: monthData.firstDay }).map((_, index) => (
                 <div
                   key={"empty-before-" + index}
-                  className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 bg-gray-50/30 py-2 rounded-lg relative"
+                  className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-300/80 bg-gray-50/50 py-2 rounded-lg relative"
                   style={{
                     gridTemplateColumns: `repeat(${2}, minmax(0, 1fr))`,
                   }}
@@ -131,7 +131,7 @@ export default function MonthView() {
               Array.from({ length: emptyEndCount }).map((_, index) => (
                 <div
                   key={"empty-after-" + index}
-                  className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-200/70 bg-gray-50/30 py-2 rounded-lg relative"
+                  className="flex flex-wrap justify-center max-w-30 gap-1 border border-slate-300/80 bg-gray-50/50 py-2 rounded-lg relative"
                   style={{
                     gridTemplateColumns: `repeat(${2}, minmax(0, 1fr))`,
                   }}

@@ -91,7 +91,7 @@ export default function WeekBlock({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <h1 className="font-bold text-2xl text-slate-600 flex items-center">
+            <h1 className="font-bold text-2xl text-slate-500 flex items-center">
               {habitData.title}
               <span
                 style={{
@@ -110,7 +110,7 @@ export default function WeekBlock({
                 {habitData.target}x/week
               </span>
             </h1>
-            <p className="text-xs text-slate-500">{habitData.description}</p>
+            <p className="text-xs text-slate-700">{habitData.description}</p>
           </div>
         </div>
         <div className="flex gap-2 items-center">

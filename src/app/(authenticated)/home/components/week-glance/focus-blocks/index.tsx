@@ -24,7 +24,7 @@ const BlockSkeleton = ({ accentColor }: { accentColor: string }) => {
     <StaggerContainer>
       <div
         className="w-full h-full flex gap-4 items-center rounded-lg p-4 bg-slate-50/50"
-        style={{ border: `1px solid ${accentColor}` }}
+        style={{ border: `2px solid ${accentColor}` }}
       >
         <div
           className="w-[70px] h-[70px] rounded-lg"
@@ -69,8 +69,8 @@ const FocusBlock = ({
         ref={ref}
         className="w-full h-full flex gap-4 items-center rounded-lg overflow-hidden relative p-4 bg-slate-50/50"
         style={{
-          border: `1px solid ${colorConfig.accentColor}`,
-          backgroundColor: colorConfig.hintColor,
+          border: `2px solid ${colorConfig.accentColor}`,
+          // backgroundColor: colorConfig.hintColor,
         }}
       >
         <div
@@ -88,14 +88,14 @@ const FocusBlock = ({
         <Menu trigger="click">
           <Menu.Target>
             <div className="h-[30px] w-[30px] rounded-sm flex items-center justify-center cursor-pointer">
-              <BiDotsVertical className="text-slate-500" size={18} />
+              <BiDotsVertical className="text-slate-700" size={18} />
             </div>
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item
               onClick={() => editBtnRef.current?.click()}
               leftSection={
-                <MdEdit className="text-lg text-slate-500 cursor-pointer" />
+                <MdEdit className="text-lg text-slate-700 cursor-pointer" />
               }
             >
               <Text size="xs">Edit item</Text>
@@ -103,7 +103,7 @@ const FocusBlock = ({
             <Menu.Item
               onClick={() => setConfState(true)}
               leftSection={
-                <MdDeleteForever className="text-lg text-slate-500 cursor-pointer" />
+                <MdDeleteForever className="text-lg text-slate-700 cursor-pointer" />
               }
             >
               <Text size="xs">Delete item</Text>
@@ -119,7 +119,7 @@ const FocusBlock = ({
               : "bottom-1/3 opacity-0 pointer-events-none"
           )}
         >
-          <p className="text-sm text-slate-600 font-semibold">Are you sure?</p>
+          <p className="text-sm text-slate-500 font-semibold">Are you sure?</p>
           <div className="flex gap-2">
             <button
               onClick={() => setConfState(false)}
@@ -146,11 +146,11 @@ const FocusBlock = ({
 };
 
 export default function FocusBlocks() {
-  const moduleColorConf = colorCombos[2];
+  const moduleColorConf = colorCombos[0];
   const { data: focusItems } = useFocusItems();
   return (
-    <>
-      <div className="w-full flex items-center justify-between mt-2">
+    <ModuleWrapper>
+      <div className="w-full flex items-center justify-between mb-3">
         <div className="flex gap-2">
           <div
             className="w-11 h-11 flex items-center justify-center rounded-lg"
@@ -162,14 +162,14 @@ export default function FocusBlocks() {
             <RiFocus2Line size={27} />
           </div>
           <div className="grow">
-            <h1 className="font-semibold text-slate-500">Focus Items</h1>
-            <p className="text-xs text-slate-400/60">
+            <h1 className="font-semibold text-slate-700">Focus Items</h1>
+            <p className="text-xs text-slate-500">
               Outline up to 4 goals/focus points for this week
             </p>
           </div>
         </div>
         <AddFocusModal disabled={focusItems && focusItems.length >= 4}>
-          <button className="bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 py-1 !transition-all ease-in-out !duration-300">
+          <button className="w-[120px] bg-zen-shift flex items-center text-white rounded-md gap-1 px-2 py-1 !transition-all ease-in-out !duration-300">
             <h1 className="text-lg m-0 font-semibold relative bottom-0.5">+</h1>
             <p className="text-sm m-0 font-semibold">ADD FOCUS</p>
           </button>
@@ -197,10 +197,10 @@ export default function FocusBlocks() {
           </div>
           {focusItems.length === 0 && (
             <div className="flex flex-col gap-1 items-center justify-center abs-center w-1/4 rounded-md bg-white shadow-md p-4 border border-slate-200/70">
-              <h1 className="text-sm font-semibold text-slate-400">
+              <h1 className="text-sm font-semibold text-slate-500">
                 No Focus Items Set
               </h1>
-              {/* <p className="text-xs text-slate-400 text-center">
+              {/* <p className="text-xs text-slate-500 text-center">
                 Use this space to outline up to 4 short-term goals for this week
               </p> */}
               {/* <div className="h-[55px] flex items-center">
@@ -212,6 +212,6 @@ export default function FocusBlocks() {
           )}
         </div>
       )}
-    </>
+    </ModuleWrapper>
   );
 }

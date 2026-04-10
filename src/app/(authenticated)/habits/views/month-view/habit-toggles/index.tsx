@@ -45,7 +45,7 @@ export default function HabitToggles({
 
   return (
     <div className="w-[300px] bg-white border border-slate-200 rounded-xl shadow-md gap-2 p-4 flex flex-col justify-start relative">
-      <h3 className="text-slate-400 text-sm font-semibold">
+      <h3 className="text-slate-500 text-sm font-semibold">
         Show/hide habits:
       </h3>
       <div className="w-full gap-1 flex flex-col justify-start sticky top-2">
@@ -156,7 +156,7 @@ export default function HabitToggles({
                         >
                           {habit.title}
                         </h1>
-                        <p className="text-xs text-slate-400">
+                        <p className="text-xs text-slate-500">
                           {habit.target}x per week
                         </p>
                       </div>

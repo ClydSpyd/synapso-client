@@ -19,8 +19,8 @@ const NavLink = ({
     <Link
       href={href}
       className={cn(
-        `text-slate-500 hover:text-indigo-600 ${className}`,
-        isActive && "text-indigo-600"
+        `text-slate-700 hover:text-indigo-600 p-2 py-1 border border-transparent hover:border-gray-200 rounded-sm ${className}`,
+        isActive && "text-indigo-600 pointer-events-none border-indigo-400"
       )}
     >
       {children}

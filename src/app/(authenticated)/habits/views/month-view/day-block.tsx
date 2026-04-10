@@ -28,7 +28,7 @@ export default function DayBlock({
     
   return (
     <div
-      className="flex flex-wrap justify-center items-center max-w-30 gap-1 border border-slate-200/70 py-2 rounded-lg relative min-h-20"
+      className="flex flex-wrap justify-center items-center max-w-30 gap-1 border border-slate-300/80 py-2 rounded-lg relative min-h-20"
       style={{
         ...(highlightBlock && {
           borderColor: highlightColorConfig?.accentColor,

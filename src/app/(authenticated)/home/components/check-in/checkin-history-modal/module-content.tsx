@@ -197,7 +197,7 @@ export default function CheckinModuleContent({ date }: { date: string }) {
           minRows={4}
           maxRows={6}
           classNames={{
-            input: "!border-gray-200 !rounded-lg",
+            input: "!border-gray-400 !rounded-lg",
           }}
         />
       </div>

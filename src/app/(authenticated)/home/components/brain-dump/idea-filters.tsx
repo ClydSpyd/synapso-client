@@ -26,9 +26,9 @@ const SortMenuItem = ({
           }
         : {}
     }
-    leftSection={<Icon className="text-md text-slate-400 cursor-pointer" />}
+    leftSection={<Icon className="text-md text-slate-500 cursor-pointer" />}
   >
-    <p className="text-xs text-slate-400">{text}</p>
+    <p className="text-xs text-slate-500">{text}</p>
   </Menu.Item>
 );
 
@@ -58,8 +58,8 @@ export default function IdeaFilters({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2">
-        <div className="rounded-md border border-gray-200 flex items-center h-[40px] w-full px-2">
+      <div className="flex gap-2 bg-white">
+        <div className="rounded-md border border-gray-300 flex items-center h-[40px] w-full px-2">
           <IoSearch className="text-gray-300 text-2xl" />
           <TextInput
             onChange={handleTextInput}
@@ -85,8 +85,8 @@ export default function IdeaFilters({
         </div>
         <Menu offset={0} withArrow>
           <Menu.Target>
-            <div className="flex gap-2 items-center justify-center border border-gray-200 rounded-sm w-[150px] cursor-pointer">
-              <BiSortAlt2 size={18} className="cursor-pointer text-slate-400" />
+            <div className="flex gap-2 items-center justify-center border border-gray-300 rounded-sm w-[150px] cursor-pointer">
+              <BiSortAlt2 size={18} className="cursor-pointer text-slate-500" />
               <p className="text-sm font-semibold text-gray-400">Sort items</p>
             </div>
           </Menu.Target>

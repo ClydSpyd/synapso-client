@@ -34,7 +34,7 @@ export default function BoardColumn({
   return (
     <div
       ref={setNodeRef}
-      className="w-1/4 max-w-[300px] min-h-full flex flex-col items-center border border-gray-200 rounded-xl overflow-hidden shadow-md grow"
+      className="w-1/4 max-w-[300px] min-h-full flex flex-col items-center border border-gray-200 bg-white/60 rounded-xl overflow-hidden shadow-md grow"
       style={{ borderColor }}
     >
       {/* COLUMN HEADER */}
@@ -88,7 +88,7 @@ export default function BoardColumn({
               : tasks.length === 0
               ? {
                   borderStyle: "dashed",
-                  borderColor: colunmConfig.colorConfig.hintColor,
+                  borderColor: colunmConfig.colorConfig.accentColor,
                 }
               : {
                   backgroundColor: "transparent",

@@ -65,8 +65,8 @@ export default function BrainDump() {
           <IoMdCloudUpload size={27} />
         </div>
         <div className="grow">
-          <h1 className="font-semibold text-slate-500">Idea Cloud</h1>
-          <p className="text-xs text-slate-400/60">
+          <h1 className="font-semibold text-slate-700">Idea Cloud</h1>
+          <p className="text-xs text-slate-500">
             Float your thoughts + ideas here and develop them further later
           </p>
         </div>
@@ -82,9 +82,9 @@ export default function BrainDump() {
         )}
 
         {/* list section  */}
-        <div className="flex flex-col gap-2">
-          {displayItems?.map((item: Idea) => (
-            <IdeaListItem key={item.id} idea={item} />
+        <div className="grid grid-cols-2 gap-2">
+          {displayItems?.map((item: Idea, idx: number) => (
+            <IdeaListItem key={item.id} idea={item} idx={idx} />
           ))}
         </div>
 

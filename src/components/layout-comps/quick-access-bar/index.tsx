@@ -27,7 +27,7 @@ export default function QuickAccessBar() {
 
   return (
     <div
-      className={`relative h-full p-4 text-slate-500 font-semibold text-sm transition-all duration-300 ease-out ${
+      className={`relative h-full p-4 text-slate-700 font-semibold text-sm transition-all duration-300 ease-out bg-white ${
         sidebarOpen ? "w-[250px]" : "w-0"
       }`}
     >

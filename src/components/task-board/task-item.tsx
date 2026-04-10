@@ -101,7 +101,7 @@ export default function TaskItem({
                 });
               }}
               leftSection={
-                <FaEye className="text-lg text-slate-500 cursor-pointer" />
+                <FaEye className="text-lg text-slate-700 cursor-pointer" />
               }
             >
               <Text size="xs">View item</Text>
@@ -109,7 +109,7 @@ export default function TaskItem({
             <Menu.Item
               onClick={() => setConfState(true)}
               leftSection={
-                <MdDeleteForever className="text-lg text-slate-500 cursor-pointer" />
+                <MdDeleteForever className="text-lg text-slate-700 cursor-pointer" />
               }
             >
               <Text size="xs">Delete item</Text>
@@ -162,7 +162,7 @@ export default function TaskItem({
           border: `1px solid ${borderColor}`,
         }}
       >
-        <p className="text-sm text-slate-600 font-semibold">Are you sure?</p>
+        <p className="text-sm text-slate-500 font-semibold">Are you sure?</p>
         <div className="flex gap-2">
           <button
             onClick={() => setConfState(false)}

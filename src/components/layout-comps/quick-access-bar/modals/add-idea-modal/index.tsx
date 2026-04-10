@@ -14,7 +14,6 @@ export default function AddIdeaModal({ children }: { children: React.ReactNode }
         {...modalConfig}
         styles={{
           content: {
-            border: "2px solid cyan",
             minWidth: "600px",
             padding: 0,
             borderRadius: "8px",

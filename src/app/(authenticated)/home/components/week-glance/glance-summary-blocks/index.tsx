@@ -34,7 +34,7 @@ export default function GlanceSummaryBlocks({ weekOffset }: { weekOffset: number
 
   return (
     data && (
-      <div className="grid grid-cols-5 w-full gap-2 h-fit">
+      <div className="grid grid-cols-2 w-full gap-2 h-fit">
         <ProgressBlock
           title="Habit Progress"
           icon={
@@ -49,7 +49,7 @@ export default function GlanceSummaryBlocks({ weekOffset }: { weekOffset: number
           colorConfig={colorCombos[0]}
           colSpan={2}
         />
-        <div className="grid grid-cols-2 col-span-3 grid-rows-2 gap-2">
+        <div className="grid grid-cols-2 col-span-2 grid-rows-2 gap-2">
           <SummaryBlock
             title="Mood"
             icon={

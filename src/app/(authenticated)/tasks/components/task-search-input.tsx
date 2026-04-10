@@ -68,7 +68,7 @@ export default function TaskSearchInput() {
   return (
     <div
       ref={ref}
-      className="rounded-md border border-gray-300 flex items-center h-[40px] w-[400px] px-2 relative"
+      className="rounded-md border border-gray-300 bg-white flex items-center h-[40px] w-[400px] px-2 relative"
     >
       <IoSearch className="text-gray-300 text-2xl" />
       <TextInput

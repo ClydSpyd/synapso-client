@@ -33,7 +33,7 @@ export default function WikiItemsList({
         ) : (
           <>
             <div className="text-center flex flex-col gap-1 items-center justify-center abs-center rounded-md bg-white shadow-md p-4 border border-slate-200/70 whitespace-nowrap z-10">
-              <h1 className="text-sm font-semibold text-slate-400">
+              <h1 className="text-sm font-semibold text-slate-500">
                 No atoms added added
               </h1>
             </div>

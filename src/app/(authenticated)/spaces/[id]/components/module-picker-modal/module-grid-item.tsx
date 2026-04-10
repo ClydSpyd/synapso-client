@@ -42,7 +42,7 @@ export default function ModuleGridItem({
       </div>
       <div className="flex flex-col">
         <h3 className="font-semibold text-md">{item.title}</h3>
-        <p className="text-xs text-slate-500">{item.description}</p>
+        <p className="text-xs text-slate-700">{item.description}</p>
       </div>
     </div>
   );

@@ -29,10 +29,9 @@ export default function ProgressBlock({
       <div
         className="flex flex-col rounded-xl p-4 px-6 h-full"
         style={{
-          borderWidth: "1px",
+          borderWidth: "2px",
           borderStyle: "solid",
           borderColor: colorConfig.accentColor,
-          backgroundColor: colorConfig.accentColor,
         }}
       >
         <div className="flex w-full items-center justify-between">
@@ -67,7 +66,7 @@ export default function ProgressBlock({
             className="h-2 rounded-md mb-1 mantine-progress"
           />
         </div>
-        <p className="text-xs text-slate-600">
+        <p className="text-xs text-slate-500">
           {percentage.toFixed(1)}% completed
         </p>
       </div>

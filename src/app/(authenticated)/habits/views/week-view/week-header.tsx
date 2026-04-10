@@ -23,7 +23,7 @@ export default function WeekHeader({
           className="text-3xl text-indigo-600 cursor-pointer"
           onClick={handlePrevWeek}
         />
-        <p className="font-semibold w-[200px] text-center text-slate-500">
+        <p className="font-semibold w-[200px] text-center text-slate-700">
           Week of {formatWeek(weekIdx)}
         </p>
         <BiChevronRight

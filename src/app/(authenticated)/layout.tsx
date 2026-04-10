@@ -20,7 +20,8 @@ export default function AuthenticatedLayout({
 
   return (
     <QueryProvider>
-      <div className="hidden xl:flex flex-col h-screen w-screen overflow-hidden">
+      <div className="hidden xl:flex flex-col h-screen w-screen overflow-hidden relative">
+        <div className="h-screen w-full border border-red-500 absolute z-[-1] spotlight-bg opacity-50" />
         <Navbar />
         <div className="flex w-full h-fit">
           <QuickAccessBar />

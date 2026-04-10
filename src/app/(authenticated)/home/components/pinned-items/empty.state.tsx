@@ -49,12 +49,12 @@ export const PinnedItemSkeletonBox = ({colorIdx}: {colorIdx: number}) => {
 
 export default function PinnedItemsEmptyState(){
     return (
-      <div className="grid grid-cols-1 min-h-[calc(100%-50px)] gap-2 relative">
+      <div className="w-full grid grid-cols-2 min-h-[calc(100%-50px)] gap-2 relative">
         {Array.from({ length: 2 }).map((_, idx) => (
           <PinnedItemSkeletonBox key={idx} colorIdx={idx} />
         ))}
         <div className="text-center flex flex-col gap-1 items-center justify-center abs-center rounded-md bg-white shadow-md p-4 border border-slate-200/70 whitespace-nowrap">
-          <h1 className="text-sm font-semibold text-slate-400">
+          <h1 className="text-sm font-semibold text-slate-500">
             No pinned items
           </h1>
           <Link href={"/atoms"} className="text-xs flex gap-1 font-semibold items-center border rounded-sm mt-1" style={{

@@ -21,7 +21,7 @@ export default function WeekGlance() {
         </p>
       </div> */}
       <div className="flex w-full justify-between items-center h-fit">
-        <h1 className="font-semibold text-slate-500">
+        <h1 className="font-semibold text-slate-700">
           Week At A Glance{" "}
           <span className="text-xs">({getThisWeekRange()})</span>
         </h1>
@@ -32,7 +32,6 @@ export default function WeekGlance() {
         </GlanceHistoryModal>
       </div>
       <GlanceSummaryBlocks weekOffset={0} />
-      <FocusBlocks />
     </ModuleWrapper>
   );
 }

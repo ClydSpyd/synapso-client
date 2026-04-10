@@ -116,3 +116,13 @@
   animation: slideIn 0.3s ease-in-out;
   animation-fill-mode: forwards;
 }
+
+.spotlight-bg {
+  background-color: #fafafa;
+  background:
+    radial-gradient(circle 90vh at 340px 340px, var(--wiki-accent-three) 0%, transparent 70%),
+    radial-gradient(circle 60vh at 240px 540px, var(--wiki-accent-one) 0%, transparent 70%),
+    radial-gradient(circle 90vh at calc(100% - 240px) calc(100% - 340px), var(--wiki-accent-two) 0%, transparent 70%),
+    radial-gradient(circle 60vh at calc(100% - 540px) calc(100% - 240px), var(--wiki-accent-three) 0%, transparent 70%),
+    #fafafa;
+}

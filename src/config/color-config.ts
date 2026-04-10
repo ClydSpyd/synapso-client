@@ -65,9 +65,9 @@ export const successColorCombo: ColorCombo = {
 };
 
 export const disabledColorCombo: ColorCombo = {
-  mainColor: "#d1d5db", // gray-400
+  mainColor: "#b3acb2", 
   accentColor: "#f3f4f6", // gray-200
-  hintColor: "rgba(209, 213, 219, 0.5)", // gray-100 at 50% opacity
+  hintColor: "rgba(193, 197, 201, 0.5)", 
   scale: ["#f3f4f6", "#e5e7eb", "#d1d5db", "#9ca3af", "#6b7280"],
 };
 

@@ -27,9 +27,9 @@ const Block = ({
         >
           {icon}
         </div>
-        <h1 className="text-xl font-semibold text-slate-600">{count}</h1>
+        <h1 className="text-xl font-semibold text-slate-500">{count}</h1>
       </div>
-      <h1 className="text-md font-bold text-slate-400">{title}</h1>
+      <h1 className="text-md font-bold text-slate-500">{title}</h1>
     </div>
   );
 };

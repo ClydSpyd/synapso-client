@@ -29,7 +29,7 @@ export default function HabitsPage() {
   }, [selectedView]);
 
   return (
-    <div className="h-full w-full bg-slate-50/50">
+    <div className="h-full w-full">
       <div className="h-full w-full max-w-[1250px] mx-auto flex flex-col py-8 px-12">
         <PageHeader
           title="Habit Tracker"

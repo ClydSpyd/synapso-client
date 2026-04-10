@@ -101,9 +101,9 @@ export default function WikiBlockWrapper({
                 onClick={handlePin}
                 leftSection={
                   pinned ? (
-                    <PiPushPinSlashLight className="text-lg text-slate-500 cursor-pointer" />
+                    <PiPushPinSlashLight className="text-lg text-slate-700 cursor-pointer" />
                   ) : (
-                    <MdOutlinePushPin className="text-lg text-slate-500 cursor-pointer" />
+                    <MdOutlinePushPin className="text-lg text-slate-700 cursor-pointer" />
                   )
                 }
               >
@@ -112,7 +112,7 @@ export default function WikiBlockWrapper({
               {!pinned && (
                 <Menu.Item
                   leftSection={
-                    <MdDeleteForever className="text-lg text-slate-500 cursor-pointer" />
+                    <MdDeleteForever className="text-lg text-slate-700 cursor-pointer" />
                   }
                 >
                   <Text size="xs">Delete item</Text>

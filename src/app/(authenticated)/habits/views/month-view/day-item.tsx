@@ -42,7 +42,7 @@ export default function DayItem({
     accentColor:
       completed || hovered
         ? colorCombo.accentColor
-        : disabledColorCombo.hintColor,
+        : disabledColorCombo.mainColor,
     hintColor: completed || hovered ? colorCombo.hintColor : "#f7f6f2",
     scale:[]
   };
@@ -89,18 +89,25 @@ export default function DayItem({
         className="w-11 h-11 border rounded-md flex items-center justify-center transition duration-500 ease-out cursor-pointer"
         style={{
           // backgroundColor: highlighted ? colorConfig.hintColor : "transparent",
-          backgroundColor: completed || highlighted ? colorConfig.hintColor : "transparent",
+          backgroundColor:
+            completed || highlighted ? colorConfig.hintColor : "transparent",
           border: completed
             ? "none"
             : `1px ${completed ? "solid" : "dashed"} ${
-                colorConfig[highlighted ? "mainColor" : "mainColor"]
+                colorConfig[
+                  highlighted
+                    ? "mainColor"
+                    : completed
+                      ? "mainColor"
+                      : "accentColor"
+                ]
               }`,
           transform:
             highlighted && completed
               ? "scale(1.12)"
               : hovered
-              ? "scale(1.05)"
-              : "scale(1)",
+                ? "scale(1.05)"
+                : "scale(1)",
           opacity: !!highlightHabit && !highlighted && completed ? 0.25 : 1,
         }}
       >

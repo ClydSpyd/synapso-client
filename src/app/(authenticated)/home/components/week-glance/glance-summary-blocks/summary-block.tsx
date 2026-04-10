@@ -31,10 +31,10 @@ export default function SummaryBlock({
       <div
         className="flex flex-col rounded-xl p-3 px-4 h-full"
         style={{
-          borderWidth: "1px",
+          borderWidth: "2px",
           borderStyle: "solid",
           borderColor: colorConfig.accentColor,
-          backgroundColor: colorConfig.accentColor,
+          // backgroundColor: colorConfig.accentColor,
         }}
       >
         <div className="flex w-full items-center justify-between">

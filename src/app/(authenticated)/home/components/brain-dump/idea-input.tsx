@@ -35,10 +35,10 @@ export default function IdeaInput() {
         e.preventDefault();
         handleSave();
       }}
-      className="border rounded-lg p-4"
+      className="rounded-lg p-4"
       style={{
-        borderColor: moduleColorConf.accentColor,
-        backgroundColor: moduleColorConf.hintColor,
+        border: `1px solid ${moduleColorConf.accentColor}`,
+        backgroundColor: moduleColorConf.accentColor + "20",
       }}
     >
       <textarea

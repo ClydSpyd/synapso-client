@@ -4,19 +4,22 @@ import BrainDump from "./components/brain-dump";
 import PinnedItems from "./components/pinned-items";
 import { CheckIn } from "./components/check-in";
 import FocusBlocks from "./components/week-glance/focus-blocks";
+import ActivitySnapshot from "./components/activity-snapshot";
 
 export default function Home() {
 
   return (
-    <div className="h-[calc(100vh-60px)] w-full grid grid-rows-[auto_1fr] grid-cols-12 gap-4 bg-gray-100/40 p-4">
-      <div className="col-span-8 flex flex-col gap-4 pb-4">
-        <WeekGlance />
+    <div className="h-[calc(100vh-60px)] w-full grid grid-rows-[auto_1fr] grid-cols-12 gap-4 p-4">
+      <div className="col-span-7 flex flex-col gap-4 pb-4">
+        <ActivitySnapshot />
         <BrainDump />
+        <FocusBlocks />
+        {/* <PinnedItems /> */}
       </div>
-      <div className="flex flex-col col-span-4 gap-5 pb-4">
+      <div className="flex flex-col col-span-5 gap-5 pb-4">
         {/* <SummaryBlocks /> */}
         <CheckIn />
-        <PinnedItems />
+        <WeekGlance />
       </div>
     </div>
   );
@@ -48,7 +51,7 @@ export default function Home() {
 
 //   {/* Row 2: Stretches and fills remaining height */}
 //   <div className="col-span-12 self-stretch pb-2 rounded-xl bg-white shadow-lg p-4 border border-gray-100">
-//     <h1 className="font-semibold text-slate-500 mb-3">Your Pinned Items</h1>
+//     <h1 className="font-semibold text-slate-700 mb-3">Your Pinned Items</h1>
 //     <div className="grid grid-cols-4 min-h-[calc(100%-50px)] gap-2">
 //       {pinnedItems?.map((item) => (
 //         <StaggerContainer key={item.id}>

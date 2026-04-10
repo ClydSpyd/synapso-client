@@ -25,16 +25,16 @@ export default function SpaceHeader() {
           </div>
         </div>
       </div>
-      <div className="w-full px-8 py-12 pb-10 bg-white text-slate-500 flex justify-between">
+      <div className="w-full px-8 py-12 pb-10 bg-white text-slate-700 flex justify-between">
         <div>
           <h1 className="text-3xl font-bold mb-1">Health + Wellbeing</h1>
-          <p className="leading-snug text-slate-400">
+          <p className="leading-snug text-slate-500">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci
             quae facere nulla maiores
           </p>
         </div>
         <div className="flex gap-1 items-center">
-          <button className="w-fit h-[40px] bg-white border !border-gray-200 flex items-center text-slate-500 rounded-md gap-1 px-2 py-1 !transition-transform ease-in-out !duration-300 cursor-pointer btn-hvr-border">
+          <button className="w-fit h-[40px] bg-white border !border-gray-200 flex items-center text-slate-700 rounded-md gap-1 px-2 py-1 !transition-transform ease-in-out !duration-300 cursor-pointer btn-hvr-border">
             <HiOutlineAdjustmentsHorizontal className="text-2xl" />
           </button>
           <ModulePickerModal>

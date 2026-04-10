@@ -55,7 +55,7 @@ export default function WeekView() {
   });
 
   return (
-    <div className="w-full flex flex-col gap-3 py-4">
+    <div className="w-full flex flex-col gap-3 py-4 bg-white/40 rounded-lg border border-t-0 border-gray-300 shadow-lg p-4 px-6 mt-2">
       <WeekHeader weekIdx={weekIdx} setWeekIdx={setWeekIdx} />
       <div className="flex flex-col gap-3">
         {habitsData && habitsData?.length > 0 ? (

@@ -74,7 +74,7 @@ export default function GlanceHistoryModal({
                 }}
                 maxDate={new Date()}
                 dateFormat="dd-MM-yyyy"
-                className="font-bold min-w-[120px] text-center text-slate-500 p-1 border border-gray-300 rounded-sm cursor-pointer"
+                className="font-bold min-w-[120px] text-center text-slate-700 p-1 border border-gray-300 rounded-sm cursor-pointer"
                 customInput={<p>{getThisWeekRange(weekOffset)}</p>}
                 dayClassName={(day) =>
                   isSameWeek(day, referenceWeek, { weekStartsOn: 1 })
