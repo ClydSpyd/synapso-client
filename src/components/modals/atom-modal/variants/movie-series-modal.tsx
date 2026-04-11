@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 import { formatMinutes } from "@/lib/utils";
 import { FaRegClock, FaRegCalendar } from "react-icons/fa6";

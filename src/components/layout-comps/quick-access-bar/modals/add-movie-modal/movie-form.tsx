@@ -10,10 +10,10 @@ export default function MovieForm({
   searchType,
   setSearchType,
 }: {
-  defaultData?: OMDBMovie;
-  searchType?: MediaType;
-  setSearchType?: (type: MediaType) => void;
+  searchType: MediaType;
+  setSearchType: (type: MediaType) => void;
   handleFormSubmission: (imdbId: string, mediaType: MediaType) => void;
+  defaultData?: OMDBMovie;
   submitError?: string | null;
 }) {
   const [textInput, setTextInput] = useState<string>("");

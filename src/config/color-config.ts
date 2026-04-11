@@ -2,10 +2,16 @@ import { NotificationVariant } from "@/stores/toast-store";
 
 export const colorCombos: ColorCombo[] = [
   {
-    mainColor: "#d648ff",
-    accentColor: "#ecb8ff",
-    hintColor: "#f7e6fc",
-    scale: ["#eac4ff", "#e699ff", "#d648ff", "#9900cc", "#660099"],
+    mainColor: "#7d4dff",
+    accentColor: "#b8b8ff",
+    hintColor: "#e6e6ff",
+    scale: ["#bfaaff", "#998cff", "#7d4dff", "#4d00cc", "#260080"],
+  },
+  {
+    mainColor: "#3570ff",
+    accentColor: "#a9c6ff",
+    hintColor: "#e6f0fd",
+    scale: ["#c7dbff", "#8fb6ff", "#3570ff", "#0047b3", "#00214d"],
   },
   {
     mainColor: "#4db8ff",
@@ -24,12 +30,6 @@ export const colorCombos: ColorCombo[] = [
     accentColor: "#b3c3f7",
     hintColor: "#e6ebfa",
     scale: ["#b1e5ff", "#66cfff", "#008ae6", "#0066b3", "#00334d"],
-  },
-  {
-    mainColor: "#ff4dd4",
-    accentColor: "#ffb8ec",
-    hintColor: "#ffe6f7",
-    scale: ["#ffbfee", "#ff99e5", "#ff4dd4", "#cc0099", "#800066"],
   },
   {
     mainColor: "#6a5acd",

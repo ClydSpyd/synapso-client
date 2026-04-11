@@ -70,7 +70,7 @@ const FocusBlock = ({
         className="w-full h-full flex gap-4 items-center rounded-lg overflow-hidden relative p-4 bg-slate-50/50"
         style={{
           border: `2px solid ${colorConfig.accentColor}`,
-          // backgroundColor: colorConfig.hintColor,
+          backgroundColor: colorConfig.hintColor + "50",
         }}
       >
         <div
@@ -178,7 +178,7 @@ export default function FocusBlocks() {
       {focusItems && (
         <div className="relative">
           <div
-            className="w-full grid grid-cols-2 max-grid-rows-2 gap-2 opacity-60"
+            className="w-full grid grid-cols-1 max-grid-rows-2 gap-2 opacity-60"
             style={{ gridAutoRows: "85px" }}
           >
             {focusItems?.map((item, index) => (

@@ -1,7 +1,7 @@
 "use client";
 import WeekGlance from "./components/week-glance";
 import BrainDump from "./components/brain-dump";
-import PinnedItems from "./components/pinned-items";
+// import PinnedItems from "./components/pinned-items";
 import { CheckIn } from "./components/check-in";
 import FocusBlocks from "./components/week-glance/focus-blocks";
 import ActivitySnapshot from "./components/activity-snapshot";
@@ -11,15 +11,15 @@ export default function Home() {
   return (
     <div className="h-[calc(100vh-60px)] w-full grid grid-rows-[auto_1fr] grid-cols-12 gap-4 p-4">
       <div className="col-span-7 flex flex-col gap-4 pb-4">
+        <WeekGlance />
         <ActivitySnapshot />
         <BrainDump />
-        <FocusBlocks />
         {/* <PinnedItems /> */}
       </div>
       <div className="flex flex-col col-span-5 gap-5 pb-4">
         {/* <SummaryBlocks /> */}
         <CheckIn />
-        <WeekGlance />
+        <FocusBlocks />
       </div>
     </div>
   );

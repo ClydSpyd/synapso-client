@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { Modal } from "@mantine/core";
 import BooksModal from "./variants/book-modal";
 import MovieSeriesModal from "./variants/movie-series-modal";
@@ -34,8 +33,6 @@ export default function AtomModal({ item }: { item: WikiItem }) {
       modalVariant = <PlaceholderModal item={item} />;
       break;
   }
-
-  // return <>{modalVariant}</>;
 
   return (
     <Modal

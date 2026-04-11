@@ -35,7 +35,7 @@ export default function IdeaInput() {
         e.preventDefault();
         handleSave();
       }}
-      className="rounded-lg p-4"
+      className="rounded-lg p-4 bg-white"
       style={{
         border: `1px solid ${moduleColorConf.accentColor}`,
         backgroundColor: moduleColorConf.accentColor + "20",
@@ -47,12 +47,12 @@ export default function IdeaInput() {
         onChange={(e) =>
           setInputVals((prev) => ({ ...prev, text: e.target.value }))
         }
-        className="resize-none bg-transparent outline-none w-full p-2 rounded-md"
+        className="resize-none bg-transparent outline-none w-full p-2 rounded-md border border-gray-300"
         style={{
           // color: moduleColorConf.mainColor,
           color: "#7a7a7a",
           backgroundColor: "white",
-          border: `2px dashed ${moduleColorConf.accentColor}`,
+          // border: `2px dashed ${moduleColorConf.accentColor}`,
         }}
       />
       <div className="flex gap-1 items-center">
@@ -62,14 +62,14 @@ export default function IdeaInput() {
             onChange={(e) =>
               setInputVals((prev) => ({ ...prev, tags: e.target.value }))
             }
-            className="w-full rounded-md border p-2"
+            className="w-full rounded-md p-2 border border-gray-300"
             type="text"
             placeholder="Tags: work, idea, urgent..."
             style={{
               // color: moduleColorConf.mainColor,
               color: "#7a7a7a",
               backgroundColor: "white",
-              border: `2px dashed ${moduleColorConf.accentColor}`,
+              // border: `2px dashed ${moduleColorConf.accentColor}`,
             }}
           />
         </div>

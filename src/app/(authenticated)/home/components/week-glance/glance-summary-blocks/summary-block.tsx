@@ -34,7 +34,7 @@ export default function SummaryBlock({
           borderWidth: "2px",
           borderStyle: "solid",
           borderColor: colorConfig.accentColor,
-          // backgroundColor: colorConfig.accentColor,
+          backgroundColor: colorConfig.hintColor + "80",
         }}
       >
         <div className="flex w-full items-center justify-between">

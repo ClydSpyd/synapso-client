@@ -47,9 +47,9 @@ export default function GlanceSummaryBlocks({ weekOffset }: { weekOffset: number
           completed={totalCompletions}
           total={totalTarget}
           colorConfig={colorCombos[0]}
-          colSpan={2}
+          colSpan={1}
         />
-        <div className="grid grid-cols-2 col-span-2 grid-rows-2 gap-2">
+        <div className="grid grid-cols-2 col-span-1 grid-rows-2 gap-2">
           <SummaryBlock
             title="Mood"
             icon={

@@ -3,9 +3,12 @@ import { getThisWeekRange } from "@/lib/dates";
 import GlanceSummaryBlocks from "./glance-summary-blocks";
 import GlanceHistoryModal from "./glance-history-modal";
 import { FaHistory } from "react-icons/fa";
-import FocusBlocks from "./focus-blocks";
+// import FocusBlocks from "./focus-blocks";
+import { MdFactCheck } from "react-icons/md";
+import { colorCombos } from "@/config/color-config";
 
 export default function WeekGlance() {
+  const colorConfig = colorCombos[4];
 
   return (
     <ModuleWrapper className="flex flex-col gap-3">
@@ -21,10 +24,28 @@ export default function WeekGlance() {
         </p>
       </div> */}
       <div className="flex w-full justify-between items-center h-fit">
-        <h1 className="font-semibold text-slate-700">
+        {/* <h1 className="font-semibold text-slate-700">
           Week At A Glance{" "}
           <span className="text-xs">({getThisWeekRange()})</span>
-        </h1>
+        </h1> */}
+        <div className="flex gap-2 mb-2">
+          <div
+            className="w-11 h-11 flex items-center justify-center rounded-lg"
+            style={{
+              backgroundColor: colorConfig.hintColor,
+              color: colorConfig.mainColor,
+            }}
+          >
+            <MdFactCheck size={27} />
+          </div>
+          <div className="grow">
+            Week At A Glance{" "}
+            <span className="text-xs">({getThisWeekRange()})</span>
+            <p className="text-xs text-slate-500">
+              A summary of your week based on your check-ins and habits,
+            </p>
+          </div>
+        </div>
         <GlanceHistoryModal>
           <div className="p-1 border rounded-sm border-gray-200 cursor-pointer transition-all duration-300 hover:bg-gray-200/50 hover:border-gray-300">
             <FaHistory className="text-gray-400" size={14} />

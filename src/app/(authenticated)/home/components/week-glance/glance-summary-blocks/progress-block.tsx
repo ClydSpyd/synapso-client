@@ -32,6 +32,7 @@ export default function ProgressBlock({
           borderWidth: "2px",
           borderStyle: "solid",
           borderColor: colorConfig.accentColor,
+          backgroundColor: colorConfig.hintColor + "80",
         }}
       >
         <div className="flex w-full items-center justify-between">
@@ -60,10 +61,13 @@ export default function ProgressBlock({
 
           <Progress
             value={percentage}
-            size={"lg"}
+            size={"xl"}
             radius={"md"}
-            color="grape"
+            color="violet"
             className="h-2 rounded-md mb-1 mantine-progress"
+            style={{
+              border: `1px solid ${colorConfig.accentColor}`,
+            }}
           />
         </div>
         <p className="text-xs text-slate-500">

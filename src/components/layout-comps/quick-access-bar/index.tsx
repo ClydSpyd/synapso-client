@@ -36,7 +36,7 @@ export default function QuickAccessBar() {
         className="h-5 w-5 vert-center right-[-10px] cursor-pointer flex items-center justify-center"
       >
         <FaChevronCircleRight
-          className={`text-lg text-slate-300 transition-transform duration-500 ease-in-out bg-white rounded-full ${
+          className={`text-lg text-slate-400/80 transition-transform duration-500 ease-in-out bg-white rounded-full ${
             sidebarOpen ? "rotate-180" : "rotate-0"
           }`}
         />

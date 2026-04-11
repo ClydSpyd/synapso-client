@@ -38,7 +38,7 @@ export default function IdeaListItem({
         ref={ref}
         className="p-3 border-gray-200 rounded-lg flex justify-between items-between relative overflow-hidden bg-white h-full"
         style={{
-          // backgroundColor: moduleColorConf.accentColor + "80",
+          backgroundColor: moduleColorConf.hintColor + "60",
           border: `2px solid ${moduleColorConf.accentColor}`,
         }}
       >
