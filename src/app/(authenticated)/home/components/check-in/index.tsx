@@ -9,7 +9,7 @@ import { colorCombos } from "@/config/color-config";
 
 export const CheckIn = () => {
   const today = formatDatePayload(0);
-  const colorConfig = colorCombos[3];
+  const colorConfig = colorCombos[2];
 
   return (
     <ModuleWrapper>

@@ -12,6 +12,7 @@ import AddQuoteModal from "@/components/layout-comps/quick-access-bar/modals/add
 import AddMovieModal from "@/components/layout-comps/quick-access-bar/modals/add-movie-modal";
 import AddLinkModal from "@/components/layout-comps/quick-access-bar/modals/add-link-modal";
 import AtomModal from "@/components/modals/atom-modal";
+import ActivityEntryModal from "@/components/modals/activity-entry-modal";
 
 export default function ModalHost() {
   const { isOpen, type, payload, close, modalStyles, title } = useModalStore();
@@ -44,10 +45,26 @@ export default function ModalHost() {
           <AddQuoteModal defaultData={payload as WikiQuote} />
         )}
         {type === "atom_movie_series" && (
-          <AddMovieModal defaultData={payload as { data: OMDBMovie; type: MediaType }} />
+          <AddMovieModal
+            defaultData={payload as { data: OMDBMovie; type: MediaType }}
+          />
         )}
         {type === "atom_link" && (
           <AddLinkModal defaultData={payload as WikiLink} />
+        )}
+        {type === "activity_snapshot" && (
+          <ActivityEntryModal
+            defaultData={
+              payload && "title" in payload
+                ? (payload as ActivityEntry)
+                : undefined
+            }
+            colorConfig={
+              payload && "colorConfig" in payload
+                ? (payload as { colorConfig: number }).colorConfig
+                : undefined
+            }
+          />
         )}
       </ModalContentWrapper>
     </Modal>

@@ -21,7 +21,7 @@ export const colorCombos: ColorCombo[] = [
   },
   {
     mainColor: "#a64dff",
-    accentColor: "#ecb8ff",
+    accentColor: "#e1b8ff",
     hintColor: "#f0e6fc",
     scale: ["#dcbffc", "#c699ff", "#a64dff", "#7300cc", "#4d0080"],
   },

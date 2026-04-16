@@ -16,7 +16,7 @@ export default function ModalContentWrapper({
 }) {
   return (
     <>
-      <div className={`w-full bg-zen-shift rounded-none p-6 relativ`}>
+      <div className={`w-full bg-zen-shift rounded-none p-6 relative overflow-visible`}>
         <div className="absolute top-4 right-4">
           <RxCross2
             className="text-white cursor-pointer"

@@ -58,12 +58,22 @@ const BarRow = ({
         className="grow h-2 rounded-full bg-gray-200 cursor-pointer"
       >
         <div
-          className="h-2 rounded-full transition-all duration-200 ease-in-out"
+          className="h-2 rounded-full transition-all duration-200 ease-in-out relative"
           style={{
             width: `${localVal}%`,
             backgroundColor: colorConfig.mainColor,
           }}
-        ></div>
+        >
+          {/* Slider handle */}
+          <div
+            className="absolute top-1/2 -right-2 w-4 h-4 bg-white border-2 border-gray-300 rounded-full shadow transition-transform duration-200 ease-in-out"
+            style={{
+              transform: 'translateY(-50%)',
+              borderColor: colorConfig.mainColor,
+              boxShadow: `0 0 0 2px ${colorConfig.mainColor}33`, // subtle colored glow
+            }}
+          ></div>
+        </div>
       </div>
       <p className="text-xs font-medium text-gray-600 w-[30px]">{localVal}%</p>
     </div>

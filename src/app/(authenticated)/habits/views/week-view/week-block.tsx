@@ -38,14 +38,14 @@ export default function WeekBlock({
     habitData && (
       <div
         className={cn(
-          "w-full flex items-center justify-between py-6 px-4 border bg-white rounded-lg shadow-sm relative group",
+          "w-full flex items-center justify-between py-6 px-4 bg-white rounded-lg shadow-xs relative group",
           {
             "pulse-once-sm": goalReached,
           }
         )}
         style={{
-          backgroundColor: colorConfig.hintColor,
-          borderColor: colorConfig.accentColor,
+          backgroundColor: colorConfig.hintColor + "70",
+          border: `2px solid ${colorConfig.accentColor}`,
         }}
       >
         <div

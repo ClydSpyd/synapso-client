@@ -52,8 +52,8 @@ export default function TaskItem({
     transform: CSS.Transform.toString(transform),
     transition,
     padding: "16px 12px",
-    backgroundColor: colorConfig?.hintColor,
-    border: `1px solid ${borderColor}`,
+    backgroundColor: colorConfig?.hintColor + "80",
+    border: `2px solid ${borderColor}`,
     borderRadius: "8px",
     cursor: "grab",
     boxShadow: "2px 2px 6px rgba(0,0,0,0.1)",
@@ -118,10 +118,11 @@ export default function TaskItem({
         </Menu>
       </div>
       <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <div className="absolute top-0 left-0 bg-white rounded-sm z-[-1] h-full w-full" />
         <div className="flex items-center justify-between gap-2 leading-tight">
-          <h1 className="font-bold text-gray-500/80">{title}</h1>
+          <h1 className="font-bold text-slate-600">{title}</h1>
         </div>
-        <p className="text-xs font-medium text-gray-400 line-clamp-3">
+        <p className="text-xs font-medium text-slate-500/70 line-clamp-3">
           {description}
         </p>
         <div
@@ -140,7 +141,7 @@ export default function TaskItem({
             </div>
           )}
           <p
-            className="text-xs text-gray-500 font-bold"
+            className="text-xs text-slate-500/70 font-bold"
             style={{
               color: borderColor,
             }}

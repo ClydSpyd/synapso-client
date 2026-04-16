@@ -65,8 +65,9 @@ export default function WikiBlockWrapper({
       id={`pin_${pinId}`}
       className="w-full rounded-lg px-8 py-4 min-h-[200px] h-full flex flex-col relative cursor-pointer transition-all duration-100 scale-100 hover:scale-[1.01]"
       style={{
-        backgroundColor: config.accentColor,
-        border: `1px solid ${isHovered ? config.mainColor : "transparent"}`,
+        backgroundColor: config.accentColor + "50",
+        border: `2px solid ${config.mainColor}`,
+        // border: `2px solid ${isHovered ? config.mainColor : "transparent"}`,
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

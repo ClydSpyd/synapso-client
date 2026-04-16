@@ -23,7 +23,7 @@ export default function WikiPage() {
   return (
     <div className="h-full w-full flex flex-col py-8 px-12">
       <PageHeader
-        title="Atoms"
+        title="Atöms"
         subtitle="Your collection of atomic ideas and insights"
         rightSideElements={
           <button

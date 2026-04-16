@@ -77,6 +77,7 @@ const FocusBlock = ({
           className="w-[50px] h-[50px] rounded-lg flex items-center justify-center"
           style={{
             background: colorConfig.accentColor,
+            border: `1px solid ${colorConfig.mainColor}`,
           }}
         >
           <Icon name={data.icon} size={30} color={colorConfig.mainColor} />
@@ -116,7 +117,7 @@ const FocusBlock = ({
             "absolute w-full h-full backdrop-blur-md bg-gray-200/10 flex flex-col gap-2 transition-all ease-in-out duration-200 left-0 items-center justify-center z-20",
             confState
               ? "bottom-0 opacity-100 pointer-events-auto"
-              : "bottom-1/3 opacity-0 pointer-events-none"
+              : "bottom-1/3 opacity-0 pointer-events-none",
           )}
         >
           <p className="text-sm text-slate-500 font-semibold">Are you sure?</p>

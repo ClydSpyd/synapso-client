@@ -1,29 +1,34 @@
 import { useEffect, useState } from "react";
 import { Modal } from "@mantine/core";
 import { useDisclosure, useDebouncedCallback } from "@mantine/hooks";
-import { defaultIconList, iconList } from "./icon-list";
+import { defaultIconList, activityIconList, iconList } from "./icon-list";
 
 export default function IconPicker({
   onSelect,
   children,
+  baseIconSet = "general",
 }: {
   onSelect: (iconName: string) => void;
+  baseIconSet?: "activity" | "general";
   children?: React.ReactNode;
 }) {
+  const defaultOptions =
+    baseIconSet === "activity" ? activityIconList : defaultIconList;
+    
   const [search, setSearch] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
-  const [icons, setIcons] = useState(defaultIconList);
+  const [icons, setIcons] = useState(defaultOptions);
 
   const handleIcon = (iconName: string) => {
     onSelect(iconName);
     close();
     setSearch("");
-    setIcons(defaultIconList);
+    setIcons(defaultOptions);
   };
 
   const handleInputChange = useDebouncedCallback((value: string) => {
     if (!value) {
-      setIcons(defaultIconList);
+      setIcons(defaultOptions);
       return;
     }
     const filteredIcons = iconList.filter(({ name }) =>
@@ -52,7 +57,7 @@ export default function IconPicker({
           onChange={(e) => setSearch(e.target.value)}
           className="p-2 border w-full rounded-sm"
         />
-        <div className="max-h-[70vh] min-h-[200px] w-[70vw] flex flex-wrap justify-center gap-2 mt-2 overflow-y-auto">
+        <div className="max-h-[70vh] min-h-[200px] w-[650px] max-w-[70vw] flex flex-wrap justify-center gap-2 mt-2 overflow-y-auto">
           {icons.map(({ name, IconComponent }) => (
             <div
               key={name}

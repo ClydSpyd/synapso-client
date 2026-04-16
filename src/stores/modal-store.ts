@@ -6,6 +6,7 @@ import { create } from "zustand";
 export type ModalType =
   | "task"
   | "habit"
+  | "activity_snapshot"
   | "atom"
   | "atom_book"
   | "atom_quote"
@@ -16,6 +17,7 @@ export type ModalType =
 type ModalPayloadMap = {
   task: Task | undefined;
   habit: HabitPayload | undefined;
+  activity_snapshot: ActivityEntry | { colorConfig: number };
   atom: Record<string, unknown>;
   atom_book: OpenLibBook | undefined;
   atom_quote: WikiQuote | undefined;
@@ -24,7 +26,7 @@ type ModalPayloadMap = {
   atom_details: WikiItem | undefined;
 };
 
-type Handlers<T extends ModalType> = {
+type Handlers = {
   onClose?: () => void;
 };
 
@@ -32,7 +34,7 @@ type OpenProps<T extends ModalType> = {
   title: string | React.JSX.Element;
   type: T;
   payload?: ModalPayloadMap[T];
-  handlers?: Handlers<T>;
+  handlers?: Handlers;
   modalStyles?: Record<string, Record<string, string | number>>;
 };
 
@@ -42,7 +44,7 @@ type ModalState = {
   type?: ModalType;
   // Payload is keyed to the modal type
   payload?: ModalPayloadMap[ModalType];
-  handlers?: Handlers<ModalType>;
+  handlers?: Handlers;
   modalStyles?: Record<string, Record<string, string | number>>;
   open: <T extends ModalType>({}: OpenProps<T>) => void;
   close: () => void;
