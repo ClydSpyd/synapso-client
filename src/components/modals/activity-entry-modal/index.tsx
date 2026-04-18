@@ -1,11 +1,10 @@
-import { TextInput, Button } from "@mantine/core";
+import { Button } from "@mantine/core";
 
 import ActivityTypePicker from "@/components/utility-comps/activity-type-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IconPicker from "@/components/icon-picker";
 import { cn } from "@/lib/utils";
 import { activityColorOptions } from "@/app/(authenticated)/home/components/activity-snapshot/config";
-import { CiLocationOn } from "react-icons/ci";
 import { MdLocationOn } from "react-icons/md";
 import { BsClockFill } from "react-icons/bs";
 import { FaRoute } from "react-icons/fa6";
@@ -15,77 +14,121 @@ import TimeField from "@/components/utility-comps/time-input";
 import StyledInput from "@/components/utility-comps/styled-input";
 import Icon from "@/components/icon-picker/icon";
 
+const requiredFields: (keyof ActivityEntry)[] = [
+  "title",
+  "type",
+  "time",
+  "duration",
+  "icon",
+  "location",
+];
 
 export default function ActivityEntryModal({
   defaultData,
   colorConfig,
 }: {
   defaultData?: ActivityEntry;
-    colorConfig?: number;
+  colorConfig?: number;
 }) {
-    const [config, setConfig] = useState<Partial<ActivityEntry>>(
-      defaultData ?? {
-        title: "",
-        time: "",
-        // duration: 0,
-        location: "",
-        // kcals: 0,
-      },
-    );
-    const colorCombo =
-      activityColorOptions[colorConfig ?? defaultData?.colorConfig ?? 0];
+  const [formState, setFormState] = useState<{
+    error: string | null;
+    submitting: boolean;
+    completed: boolean;
+  }>({
+    error: null,
+    submitting: false,
+    completed: false,
+  });
 
-    const handleInput = (key: keyof ActivityEntry, value: string | number) => {
-      setConfig((prev) => ({
+  const [config, setConfig] = useState<Partial<ActivityEntry>>(
+    defaultData ?? {
+      title: "",
+      time: "",
+      location: "",
+    },
+  );
+
+  useEffect(() => {
+    const isComplete = requiredFields.every(
+      (key) =>
+        config[key as keyof ActivityEntry] !== undefined &&
+        config[key as keyof ActivityEntry] !== "",
+    );
+    setFormState((prev) => ({
+      ...prev,
+      error: null,
+      completed: isComplete,
+    }));
+  }, [config]);
+  
+
+  const colorCombo =
+    activityColorOptions[colorConfig ?? defaultData?.colorConfig ?? 0];
+
+  const handleInput = (key: keyof ActivityEntry, value: string | number) => {
+    setConfig((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleSubmission = async (): Promise<void> => {
+    if(!formState.completed) {
+      setFormState((prev) => ({
         ...prev,
-        [key]: value,
+        error: "Please fill in all required fields.",
       }));
+      return;
     }
+
+    setFormState((prev) => ({
+      ...prev,
+      submitting: true,
+      error: null,
+    }));
+  };
 
   return (
     <div className="flex flex-col gap-4">
       <div className="w-full flex mb-4 gap-2 items-end cursor-pointer">
         <div className="grow h-full flex flex-col gap-2 justify-between">
           <StyledInput
+            required
             data-autofocus={true}
             title="Title"
-            value={config.title ?? ""}
+            value={config.title}
             onChange={(value) => handleInput("title", value)}
             placeholder='e.g. "Morning Run"'
           />
           <div className="flex flex-col gap-2">
-            <p className="text-xs">Activity Type</p>
+            <p className="text-xs">
+              Activity Type{" "}
+              <span className="text-indigo-500 text-base leading-none">*</span>
+            </p>
             <ActivityTypePicker
               onChange={(activityType: ActivityType) => {
                 handleInput("type", activityType);
               }}
-              value={config.type !== undefined ? config.type : undefined}
+              value={config.type}
             />
           </div>
         </div>
         <IconPicker
           baseIconSet="activity"
-          onSelect={(val: string) =>
-            setConfig((prev) => ({
-              ...prev,
-              icon: val,
-            }))
-          }
+          onSelect={(val: string) => handleInput("icon", val)}
         >
           <div
             className={cn(
-              "h-[135px] w-[135px] flex items-center justify-center border border-slate-200 rounded-md hover:border-[var(--accent-three)] transition-colors duration-300",
+              "h-[135px] w-[135px] flex items-center justify-center border-slate-200 rounded-md hover:border-[var(--accent-three)] transition-colors duration-300",
             )}
             style={{
               backgroundColor: colorCombo.accentColor,
-              borderColor: config.icon
-                ? colorCombo.accentColor
-                : "border-slate-200",
+              border: `2px solid ${colorCombo.mainColor}`,
             }}
           >
             {!config.icon ? (
               <p
-                className="text-sm"
+                className="text-sm font-medium"
                 style={{
                   color: colorCombo.mainColor,
                 }}
@@ -100,14 +143,16 @@ export default function ActivityEntryModal({
       </div>
       <div className="grid grid-cols-2 gap-2 w-full">
         <StyledInput
+          required
           title="Location"
-          value={config.location !== undefined ? String(config.location) : ""}
+          value={config.location}
           onChange={(value) => handleInput("location", value)}
           placeholder="Enter location"
           leftSection={<MdLocationOn className="text-gray-400" size={21} />}
           inputClasses="!border-gray-400 focus:!border-[var(--accent-three)] !text-base"
         />
         <StyledInput
+          type="number"
           title="Calories Burned"
           leftSection={
             <FaFireFlameCurved className="text-gray-400" size={16} />
@@ -122,83 +167,75 @@ export default function ActivityEntryModal({
         />
       </div>
       <div className="grid grid-cols-3 gap-2 w-full">
+        <div className="flex flex-col">
+          <p className="text-xs mb-1">
+            Time{" "}
+            <span className="text-indigo-500 text-base leading-none">*</span>
+          </p>
+          <TimeField
+            valueProp={config.time !== undefined ? String(config.time) : ""}
+            onChange={(time) => handleInput("time", time)}
+            leftSection={<BsClockFill className="text-gray-400" size={16} />}
+            rightSection={
+              <div style={{ fontSize: 12, opacity: 0.7 }}>24hrs</div>
+            }
+          />
+        </div>
         <StyledInput
-          title="Distance"
-          leftSection={<FaRoute className="text-gray-400" size={16} />}
-          rightSection={<span className="text-gray-400 text-sm">km</span>}
-          placeholder="0.0"
-          value={config.distance !== undefined ? String(config.distance) : ""}
-          name="distance"
-          onChange={(value: string) => handleInput("distance", Number(value))}
-        />
-        <StyledInput
+          required
+          type="number"
           title="Duration"
           leftSection={
             <BsFillStopwatchFill className="text-gray-400" size={16} />
           }
           rightSection={
-            <span className="text-gray-400 text-sm mr-1">hh:mm</span>
+            <span className="text-gray-400 text-sm mr-1">mins</span>
           }
-          placeholder="00:00"
+          placeholder="0"
           value={config.duration !== undefined ? String(config.duration) : ""}
           name="duration"
-          onChange={(value: string) => handleInput("duration", value)}
+          onChange={(value: string) => handleInput("duration", Number(value))}
         />
 
-        <div className="flex flex-col">
-          <p className="text-xs mb-1">Time</p>
-          <TimeField
-            valueProp={config.time !== undefined ? String(config.time) : ""}
-            onChange={(time) =>
-              setConfig((prev) => ({
-                ...prev,
-                time,
-              }))
-            }
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2 w-full">
-        {/* <div className="flex flex-col gap-2">
-          <p className="text-xs">Calories Burned</p>
-          <TextInput
-            placeholder="Calories burned (kcals)"
-            value={config.kcals !== undefined ? String(config.kcals) : ""}
-            name="kcals"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setConfig((prev) => ({
-                ...prev,
-                kcals: Number(e.target.value),
-              }))
-            }
-          />
-        </div> */}
+        <StyledInput
+          type="number"
+          title="Distance"
+          leftSection={<FaRoute className="text-gray-400" size={16} />}
+          rightSection={<span className="text-gray-400 text-sm">km</span>}
+          placeholder="0.0"
+          value={config.distance ?? ""}
+          name="distance"
+          onChange={(value: string) => handleInput("distance", Number(value))}
+        />
       </div>
 
       <Button
-        // onClick={() => {
-        //   if (formCompleted) {
-        //     handleFormSubmission(config);
-        //   }
-        // }}
-        // loading={submitting}
+        onClick={handleSubmission}
+        loading={formState.submitting}
         className="mt-4 button-zen h-[50px]"
         fullWidth
         size="lg"
         variant="gradient"
         gradient={{ from: "indigo", to: "grape", deg: 147 }}
-        // style={
-        //   !formCompleted
-        //     ? {
-        //         opacity: 0.5,
-        //         pointerEvents: "none",
-        //       }
-        //     : {}
-        // }
+        style={
+          !formState.completed
+            ? {
+                opacity: 0.5,
+                pointerEvents: "none",
+              }
+            : {}
+        }
       >
         SUBMIT
       </Button>
+      <div
+        className={cn(
+          "text-sm text-red-500 flex items-end justify-center w-full overflow-hidden transition-all duration-300",
+          formState.error ? "opacity-100 h-4" : "opacity-0 h-0",
+        )}
+      >
+        {formState.error}
+      </div>
     </div>
   );
 }

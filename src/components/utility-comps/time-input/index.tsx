@@ -1,18 +1,24 @@
 import { TextInput } from "@mantine/core";
-import { BsClockFill } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function TimeField({
   onChange,
   valueProp,
+  placeholder,
+  leftSection,
+  rightSection,
 }: {
-  valueProp?: string;
-  onChange?: (time: string) => void;
+  valueProp: string;
+  onChange: (time: string) => void;
+  leftSection: React.ReactNode;
+  rightSection?: React.ReactNode;
+  placeholder?: string;
 }) {
-  const [value, setValue] = useState(valueProp ?? "");
+  const [value, setValue] = useState(valueProp);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (onChange) onChange(value);
+    onChange(value);
   }, [value]);
 
   const formatTimeInput = (input: string) => {
@@ -22,35 +28,58 @@ export default function TimeField({
     return `${digits.slice(0, 2)}:${digits.slice(2)}`;
   };
 
+  const getDigitIndexFromCaret = (input: string, caret: number) => {
+    return input.slice(0, caret).replace(/\D/g, "").length;
+  };
+
+  const getCaretFromDigitIndex = (formatted: string, digitIndex: number) => {
+    if (digitIndex <= 0) return 0;
+
+    let digitsSeen = 0;
+
+    for (let i = 0; i < formatted.length; i++) {
+      if (/\d/.test(formatted[i])) {
+        digitsSeen++;
+      }
+
+      if (digitsSeen === digitIndex) {
+        return i + 1;
+      }
+    }
+
+    return formatted.length;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.currentTarget.value;
+    const caret = e.currentTarget.selectionStart ?? input.length;
+
+    const digitIndex = getDigitIndexFromCaret(input, caret);
+    const formatted = formatTimeInput(input);
+
+    setValue(formatted);
+
+    requestAnimationFrame(() => {
+      const el = inputRef.current;
+      if (!el) return;
+
+      const nextCaret = getCaretFromDigitIndex(formatted, digitIndex);
+      el.setSelectionRange(nextCaret, nextCaret);
+    });
+  };
+
   return (
-    // <TextInput
-    //             leftSection={<BsClockFill className="text-gray-400" size={16} />}
-    //             rightSection={<span className="text-gray-400 text-sm pr-2">am/pm</span>}
-    //             size="lg"
-    //             placeholder="--:--"
-    //             value={config.time !== undefined ? String(config.time) : ""}
-    //             name="time"
-    //             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-    //               setConfig((prev) => ({
-    //                 ...prev,
-    //                 time: e.target.value,
-    //               }))
-    //             }
-    //             classNames={{
-    //               input:
-    //                 "!border-gray-400 focus:!border-[var(--accent-three)] h-8 !text-base",
-    //             }}
-    //           />
     <TextInput
+      ref={inputRef}
       value={value}
-      onChange={(e) => setValue(formatTimeInput(e.currentTarget.value))}
-      placeholder="--:--"
+      onChange={handleChange}
+      placeholder={placeholder ?? "--:--"}
       inputMode="numeric"
       maxLength={5}
       // LEFT ICON
-      leftSection={<BsClockFill className="text-gray-400" size={16} />}
+      leftSection={leftSection}
       // RIGHT SECTION (am/pm toggle example)
-      rightSection={<div style={{ fontSize: 12, opacity: 0.7 }}>am/pm</div>}
+      rightSection={rightSection}
       size="lg"
       classNames={{
         input:

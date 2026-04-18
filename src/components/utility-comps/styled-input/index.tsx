@@ -4,6 +4,7 @@ interface StyledInputProps extends Omit<TextInputProps, "onChange"> {
   title: string;
   onChange?: (value: string) => void;
   inputClasses?: string;
+  required?: boolean;
 }
 
 export default function StyledInput({
@@ -14,12 +15,15 @@ export default function StyledInput({
   leftSection,
   rightSection,
   inputClasses,
+  required,
   ...rest
 }: StyledInputProps) {
     
   return (
     <div className="flex flex-col">
-      <p className="text-xs mb-1">{title}</p>
+      <p className="text-xs mb-1">
+        {title} {required && <span className="text-indigo-500 text-base leading-none">*</span>}
+      </p>
       <TextInput
         {...rest}
         leftSection={leftSection}
