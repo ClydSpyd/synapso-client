@@ -1,8 +1,12 @@
-import { activityColorOptions, activityIcons, activityTypes } from "./config";
+import { activityColorOptions, activityTypes } from "./config";
 import { SlLocationPin } from "react-icons/sl";
 import { FaRegClock } from "react-icons/fa6";
 import { FaFireFlameCurved } from "react-icons/fa6";
 import { getIconByName } from "@/components/icon-picker/icon-list";
+import { Menu, Text } from "@mantine/core";
+import { BiDotsVertical } from "react-icons/bi";
+import { MdDeleteForever, MdEdit } from "react-icons/md";
+import { useModalStore } from "@/stores/modal-store";
 
 export default function ActivityListItem({
   item,
@@ -11,6 +15,7 @@ export default function ActivityListItem({
   item: ActivityEntry;
   idx: number;
 }) {
+  const { open } = useModalStore();
   const EntryIcon = getIconByName(item.icon)!;
   const colorCofig: ColorCombo =
     activityColorOptions[idx % activityColorOptions.length];
@@ -91,22 +96,65 @@ export default function ActivityListItem({
         </div>
       </div>
 
-      {/* DISTANCE or DURATION BLOCK */}
-      <div>
-        <h4
-          className="text-3xl font-bold"
-          style={{ color: colorCofig.mainColor }}
-        >
-          {item.distance ?? item.duration}{" "}
-          <span className="ml-[-2px] text-sm">
-            {item.distance ? "km" : "min"}
-          </span>
-        </h4>
-        {item.distance && (
-          <p className="text-sm" style={{ color: colorCofig.mainColor + "90" }}>
-            {item.duration} min
-          </p>
-        )}
+      <div className="flex gap-2 items-center">
+        {/* DISTANCE or DURATION BLOCK */}
+        <div className="flex flex-col items-end">
+          <h4
+            className="text-3xl font-bold"
+            style={{ color: colorCofig.mainColor }}
+          >
+            {item.distance ?? item.duration}{" "}
+            <span className="ml-[-2px] text-sm">
+              {item.distance ? "km" : "min"}
+            </span>
+          </h4>
+          {item.distance && (
+            <p
+              className="text-sm"
+              style={{ color: colorCofig.mainColor + "90" }}
+            >
+              {item.duration} min
+            </p>
+          )}
+        </div>
+        <Menu trigger="click">
+          <Menu.Target>
+            <div className="h-[30px] w-[30px] rounded-sm flex items-center justify-center cursor-pointer">
+              <BiDotsVertical className="text-slate-400" size={18} />
+            </div>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item
+              onClick={() =>
+                open({
+                  type: "activity_snapshot",
+                  title: "Edit Activity Entry",
+                  payload: item,
+                  modalStyles: {
+                    content: {
+                      maxWidth: "600px",
+                      width: "600px",
+                      minWidth: "600px",
+                    },
+                  },
+                })
+              }
+              leftSection={
+                <MdEdit className="text-lg text-slate-700 cursor-pointer" />
+              }
+            >
+              <Text size="xs">Edit item</Text>
+            </Menu.Item>
+            <Menu.Item
+              // onClick={() => setConfState(true)}
+              leftSection={
+                <MdDeleteForever className="text-lg text-slate-700 cursor-pointer" />
+              }
+            >
+              <Text size="xs">Delete item</Text>
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </div>
     </div>
   );

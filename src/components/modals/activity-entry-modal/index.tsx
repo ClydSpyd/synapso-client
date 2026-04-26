@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Button, Textarea } from "@mantine/core";
 
 import ActivityTypePicker from "@/components/utility-comps/activity-type-picker";
 import { useEffect, useState } from "react";
@@ -13,6 +13,10 @@ import { BsFillStopwatchFill } from "react-icons/bs";
 import TimeField from "@/components/utility-comps/time-input";
 import StyledInput from "@/components/utility-comps/styled-input";
 import Icon from "@/components/icon-picker/icon";
+import { useActivitySnapshot } from "@/queries/useActivitySnapshot";
+import { API } from "@/api";
+import { useModalStore } from "@/stores/modal-store";
+import { formatDatePayload } from "@/lib/dates";
 
 const requiredFields: (keyof ActivityEntry)[] = [
   "title",
@@ -45,8 +49,14 @@ export default function ActivityEntryModal({
       title: "",
       time: "",
       location: "",
+      colorConfig
     },
   );
+
+  const isUpdate = !!defaultData;
+  const today = formatDatePayload(0);
+  const { refetch } = useActivitySnapshot(today);
+  const { close } = useModalStore();
 
   useEffect(() => {
     const isComplete = requiredFields.every(
@@ -86,6 +96,35 @@ export default function ActivityEntryModal({
       submitting: true,
       error: null,
     }));
+
+    let error: string | null = null;
+    if (isUpdate && defaultData?.id) {
+      const response = await API.activitySnapshot.edit(
+        defaultData.id,
+        config as Partial<Omit<ActivityEntry, "id">>
+      );
+      error = response.error ?? null;
+    } else {
+       error = (await API.activitySnapshot.create(config as ActivityEntry)).error ?? null;
+    }
+
+    if(error) {
+      console.error("Error creating activity entry:", error);
+      setFormState((prev) => ({
+        ...prev,
+        submitting: false,
+        error,
+      }));
+      return;
+    }
+
+    setFormState((prev) => ({
+      ...prev,
+      submitting: false,
+      completed: true,
+    }));
+    refetch();
+    close();
   };
 
   return (
@@ -206,6 +245,21 @@ export default function ActivityEntryModal({
           value={config.distance ?? ""}
           name="distance"
           onChange={(value: string) => handleInput("distance", Number(value))}
+        />
+      </div>
+      <div className="flex flex-col gap-1 mb-1">
+        <p className="text-xs">Activity Description</p>
+        <Textarea
+          minRows={6}
+          placeholder="Enter activity description"
+          value={config.description !== undefined ? config.description : ""}
+          name="description"
+        classNames={{
+          input: `!border-gray-400 focus:!border-[var(--accent-three)] !text-base`,
+        }}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            handleInput("description", e.target.value)
+          }
         />
       </div>
 

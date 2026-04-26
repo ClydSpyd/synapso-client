@@ -12,6 +12,7 @@ import { statsMethods } from "./stats";
 import { ideaMethods } from "./ideas";
 import { taskMethods } from "./tasks";
 import { spacesMethods } from "./spaces";
+import { activityMethods } from "./activity";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -120,4 +121,5 @@ export const API = {
   ideas: ideaMethods,
   tasks: taskMethods,
   spaces: spacesMethods,
+  activitySnapshot: activityMethods,
 };

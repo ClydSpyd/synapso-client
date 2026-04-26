@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // stores/modal-store.ts
 import React from "react";
 import { create } from "zustand";

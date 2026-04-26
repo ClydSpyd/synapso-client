@@ -21,13 +21,15 @@ export default function AuthenticatedLayout({
   return (
     <QueryProvider>
       <div className="hidden xl:flex flex-col h-screen w-screen overflow-hidden relative">
-        <div className="h-screen w-full border border-red-500 absolute z-[-1] spotlight-bg opacity-50" />
+        <div className="h-screen w-full absolute z-[-1] spotlight-bg opacity-50" />
         <Navbar />
         <div className="flex w-full h-fit">
           <QuickAccessBar />
-          <div className="h-[calc(100vh-60px)] grow overflow-y-auto border-l border-t border-gray-200/80">
+          <div className="h-[calc(100vh-60px)] w-full overflow-y-auto border-l border-t border-gray-200/80">
             {" "}
-            {children}
+            <div className="w-full max-w-[1500px] mx-auto h-full min-h-full">
+              {children}
+            </div>
           </div>
         </div>
       </div>

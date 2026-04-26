@@ -5,6 +5,7 @@ import CheckinModuleContent from "./checkin-history-modal/module-content";
 import CheckinHistoryModal from "./checkin-history-modal";
 import { RiMentalHealthFill } from "react-icons/ri";
 import { colorCombos } from "@/config/color-config";
+import HistoryBtn from "@/components/ui/history-btn";
 
 
 export const CheckIn = () => {
@@ -33,9 +34,7 @@ export const CheckIn = () => {
           </div>
         </div>
         <CheckinHistoryModal>
-          <div className="p-1 border rounded-sm border-gray-200 cursor-pointer transition-all duration-300 hover:bg-gray-200/50 hover:border-gray-300">
-            <FaHistory className="text-gray-400" size={14} />
-          </div>
+          <HistoryBtn />
         </CheckinHistoryModal>
       </div>
       <CheckinModuleContent date={today} />

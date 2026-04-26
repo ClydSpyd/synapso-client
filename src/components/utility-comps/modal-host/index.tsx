@@ -62,7 +62,7 @@ export default function ModalHost() {
             colorConfig={
               payload && "colorConfig" in payload
                 ? (payload as { colorConfig: number }).colorConfig
-                : undefined
+                : 0
             }
           />
         )}

@@ -5,6 +5,7 @@ import axios from "axios";
 import { AuthContextData, defaultAuthContext, User } from "./types";
 import { Loader } from "@mantine/core";
 import { baseClient } from "@/api";
+import ParticleField from "@/components/particle-field";
 
 const AuthContext = createContext<AuthContextData>(defaultAuthContext);
 
@@ -131,6 +132,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       {loading ? (
         <div className="h-screen w-screen flex items-center justify-center">
           <Loader type="dots" color="grape" size={70} />
+          <ParticleField particleCount={100} />
         </div>
       ) : (
         children

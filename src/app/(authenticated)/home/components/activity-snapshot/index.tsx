@@ -1,14 +1,29 @@
 import ModuleWrapper from "@/components/utility-comps/module-wrapper";
 import { colorCombos } from "@/config/color-config";
 import { RiRunFill } from "react-icons/ri";
-import { dummyActivityEntries } from "./config";
-import ActivityListItem from "./activity-list-item";
-import { FaHistory } from "react-icons/fa";
 import { useModalStore } from "@/stores/modal-store";
+import { useActivitySnapshot } from "@/queries/useActivitySnapshot";
+import { formatDatePayload } from "@/lib/dates";
+import HistoryBtn from "@/components/ui/history-btn";
+import ActivityModuleContent from "./module-content";
+import SnapshotHistoryModal from "./snapshot-history-modal";
+
 
 export default function ActivitySnapshot() {
   const moduleColorConf = colorCombos[3];
   const { open } = useModalStore();
+  const today = formatDatePayload(0);
+  const { data: activities } = useActivitySnapshot(today);
+
+  const totalCalories = activities?.reduce(
+    (total, activity) => total + (activity.kcals ?? 0),
+    0,
+  ) ?? 0;
+
+  const totalDuration =
+    activities?.reduce((total, activity) => total + activity.duration, 0) ?? 0;
+
+  const totalActivities = activities?.length ?? 0;
 
   return (
     <ModuleWrapper>
@@ -36,32 +51,31 @@ export default function ActivitySnapshot() {
                 type: "activity_snapshot",
                 title: "Log New Activity",
                 payload: {
-                  colorConfig: dummyActivityEntries.length,
+                  colorConfig: activities?.length ?? 0,
                 },
-                modalStyles:{
-                  content:{
+                modalStyles: {
+                  content: {
                     maxWidth: "600px",
                     width: "600px",
                     minWidth: "600px",
-                  }
-                }
+                  },
+                },
               });
             }}
-          className="w-[120px] bg-zen-shift h-fit flex justify-center items-center text-white rounded-md gap-1 px-2 py-1 !transition-all ease-in-out !duration-300">
+            className="w-[120px] bg-zen-shift h-fit flex justify-center items-center text-white rounded-md gap-1 px-2 py-1 !transition-all ease-in-out !duration-300"
+          >
             <h1 className="text-lg m-0 font-semibold relative bottom-0.5">+</h1>
             <p className="text-sm m-0 font-semibold">LOG ENTRY</p>
           </button>
 
-          <div className="p-1 border rounded-sm border-gray-200 cursor-pointer transition-all duration-300 hover:bg-gray-200/50 hover:border-gray-300">
-            <FaHistory className="text-gray-400" size={14} />
-          </div>
+          <SnapshotHistoryModal>
+            <HistoryBtn />
+          </SnapshotHistoryModal>
         </div>
       </div>
-      <div className="flex flex-col gap-2 mt-4">
-        {dummyActivityEntries.map((item, index) => (
-          <ActivityListItem key={index} idx={index} item={item} />
-        ))}
-      </div>
+
+      {/* Activity items list */}
+      <ActivityModuleContent date={today} />
 
       {/* Activities Summary */}
       <div
@@ -78,7 +92,8 @@ export default function ActivitySnapshot() {
         >
           <p className="font-semibold text-sm text-slate-400">TOTAL DURATION</p>
           <h3 className="text-2xl font-bold">
-            125<span className="text-lg ml-1 font-normal">min</span>
+            {totalDuration > 0 ? totalDuration : "--"}
+            <span className="text-lg ml-1 font-normal">min</span>
           </h3>
         </div>
         <div
@@ -88,9 +103,12 @@ export default function ActivitySnapshot() {
             color: colorCombos[3].mainColor,
           }}
         >
-          <p className="font-semibold text-sm text-slate-400">CALORIES BURNED</p>
+          <p className="font-semibold text-sm text-slate-400">
+            CALORIES BURNED
+          </p>
           <h3 className="text-2xl font-bold">
-            1325<span className="text-lg ml-1 font-normal">kcal</span>
+            {totalCalories > 0 ? totalCalories : "--"}
+            <span className="text-lg ml-1 font-normal">kcal</span>
           </h3>
         </div>
         <div
@@ -100,7 +118,9 @@ export default function ActivitySnapshot() {
           }}
         >
           <p className="font-semibold text-sm text-slate-400">ACTIVITIES</p>
-          <h3 className="text-2xl font-bold">3</h3>
+          <h3 className="text-2xl font-bold">
+            {totalActivities > 0 ? totalActivities : "--"}
+          </h3>
         </div>
       </div>
     </ModuleWrapper>

@@ -1,10 +1,9 @@
-import "react-datepicker/dist/react-datepicker.css";
-import { useDisclosure } from "@mantine/hooks";
-import CheckinModuleContent from "./module-content";
-import { formatDatePayload } from "@/lib/dates";
 import HistoryModalWrapper from "@/components/utility-comps/history-modal-wrapper";
+import ActivityModuleContent from "./module-content";
+import { formatDatePayload } from "@/lib/dates";
+import { useDisclosure } from "@mantine/hooks";
 
-export default function CheckinHistoryModal({
+export default function SnapshotHistoryModal({
   children,
 }: {
   children: React.ReactNode;
@@ -16,10 +15,11 @@ export default function CheckinHistoryModal({
       <HistoryModalWrapper
         opened={opened}
         close={close}
-        title={"Mental Check-in History"}
+        title={"Activity Snapshot History"}
+        size={"xl"}
       >
         {({ dateOffset }) => (
-          <CheckinModuleContent
+          <ActivityModuleContent
             key={dateOffset}
             date={formatDatePayload(dateOffset)}
           />
