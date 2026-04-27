@@ -7,15 +7,23 @@ import { Menu, Text } from "@mantine/core";
 import { BiDotsVertical } from "react-icons/bi";
 import { MdDeleteForever, MdEdit } from "react-icons/md";
 import { useModalStore } from "@/stores/modal-store";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { useActivitySnapshot } from "@/queries/useActivitySnapshot";
+import { API } from "@/api";
 
 export default function ActivityListItem({
   item,
   idx,
+  date
 }: {
   item: ActivityEntry;
   idx: number;
+  date: string;
 }) {
   const { open } = useModalStore();
+  const { refetch } = useActivitySnapshot(date);
+  const [confState, setConfState] = useState(false);
   const EntryIcon = getIconByName(item.icon)!;
   const colorCofig: ColorCombo =
     activityColorOptions[idx % activityColorOptions.length];
@@ -27,9 +35,14 @@ export default function ActivityListItem({
     return ampm;
   };
 
+  const handleDelete = async() => {
+    await API.activitySnapshot.delete(item.id!);
+    refetch();
+  }
+
   return (
     <div
-      className="w-full flex justify-between items-center p-4"
+      className="w-full flex justify-between items-center p-4 relative"
       style={{
         backgroundColor: colorCofig.accentColor + "20",
         borderRadius: "8px",
@@ -146,7 +159,7 @@ export default function ActivityListItem({
               <Text size="xs">Edit item</Text>
             </Menu.Item>
             <Menu.Item
-              // onClick={() => setConfState(true)}
+              onClick={() => setConfState(true)}
               leftSection={
                 <MdDeleteForever className="text-lg text-slate-700 cursor-pointer" />
               }
@@ -155,6 +168,32 @@ export default function ActivityListItem({
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
+      </div>
+
+      {/* delete confirmation state */}
+      <div
+        className={cn(
+          "absolute w-full h-full backdrop-blur-md bg-gray-200/10 flex flex-col gap-2 transition-all ease-in-out duration-200 left-0 items-center justify-center z-20",
+          confState
+            ? "bottom-0 opacity-100 pointer-events-auto"
+            : "bottom-1/3 opacity-0 pointer-events-none",
+        )}
+      >
+        <p className="text-sm text-slate-500 font-semibold">Are you sure?</p>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setConfState(false)}
+            className="px-2 py-1 bg-slate-200 rounded-md !text-sm font-semibold cursor-pointer text-slate-700 border border-gray-400"
+          >
+            Cancel
+          </button>
+          <button
+            className="px-2 py-1 bg-red-500 rounded-md !text-sm font-semibold cursor-pointer text-white"
+            onClick={handleDelete}
+          >
+            Confirm
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { FaHistory } from "react-icons/fa";
 // import FocusBlocks from "./focus-blocks";
 import { MdFactCheck } from "react-icons/md";
 import { colorCombos } from "@/config/color-config";
+import HistoryBtn from "@/components/ui/history-btn";
 
 export default function WeekGlance() {
   const colorConfig = colorCombos[4];
@@ -47,9 +48,7 @@ export default function WeekGlance() {
           </div>
         </div>
         <GlanceHistoryModal>
-          <div className="p-1 border rounded-sm border-gray-200 cursor-pointer transition-all duration-300 hover:bg-gray-200/50 hover:border-gray-300">
-            <FaHistory className="text-gray-400" size={14} />
-          </div>
+          <HistoryBtn />
         </GlanceHistoryModal>
       </div>
       <GlanceSummaryBlocks weekOffset={0} />

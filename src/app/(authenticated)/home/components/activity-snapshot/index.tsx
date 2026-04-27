@@ -15,16 +15,6 @@ export default function ActivitySnapshot() {
   const today = formatDatePayload(0);
   const { data: activities } = useActivitySnapshot(today);
 
-  const totalCalories = activities?.reduce(
-    (total, activity) => total + (activity.kcals ?? 0),
-    0,
-  ) ?? 0;
-
-  const totalDuration =
-    activities?.reduce((total, activity) => total + activity.duration, 0) ?? 0;
-
-  const totalActivities = activities?.length ?? 0;
-
   return (
     <ModuleWrapper>
       <div className="flex gap-2">
@@ -69,60 +59,13 @@ export default function ActivitySnapshot() {
           </button>
 
           <SnapshotHistoryModal>
-            <HistoryBtn />
+            <HistoryBtn size={35} />
           </SnapshotHistoryModal>
         </div>
       </div>
 
       {/* Activity items list */}
       <ActivityModuleContent date={today} />
-
-      {/* Activities Summary */}
-      <div
-        className="grid grid-cols-3 p-4 pb-2 border-t-2 mt-4"
-        style={{
-          borderColor: colorCombos[1].hintColor,
-        }}
-      >
-        <div
-          className="h-18 flex flex-col items-center justify-center"
-          style={{
-            color: colorCombos[1].mainColor,
-          }}
-        >
-          <p className="font-semibold text-sm text-slate-400">TOTAL DURATION</p>
-          <h3 className="text-2xl font-bold">
-            {totalDuration > 0 ? totalDuration : "--"}
-            <span className="text-lg ml-1 font-normal">min</span>
-          </h3>
-        </div>
-        <div
-          className="h-18 flex flex-col items-center justify-center border-x-2"
-          style={{
-            borderColor: colorCombos[1].hintColor,
-            color: colorCombos[3].mainColor,
-          }}
-        >
-          <p className="font-semibold text-sm text-slate-400">
-            CALORIES BURNED
-          </p>
-          <h3 className="text-2xl font-bold">
-            {totalCalories > 0 ? totalCalories : "--"}
-            <span className="text-lg ml-1 font-normal">kcal</span>
-          </h3>
-        </div>
-        <div
-          className="h-18 flex flex-col items-center justify-center"
-          style={{
-            color: colorCombos[4].mainColor,
-          }}
-        >
-          <p className="font-semibold text-sm text-slate-400">ACTIVITIES</p>
-          <h3 className="text-2xl font-bold">
-            {totalActivities > 0 ? totalActivities : "--"}
-          </h3>
-        </div>
-      </div>
     </ModuleWrapper>
   );
 }

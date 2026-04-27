@@ -55,7 +55,7 @@ export default function ActivityEntryModal({
 
   const isUpdate = !!defaultData;
   const today = formatDatePayload(0);
-  const { refetch } = useActivitySnapshot(today);
+  const { refetch } = useActivitySnapshot(defaultData?.date ?? today);
   const { close } = useModalStore();
 
   useEffect(() => {

@@ -19,10 +19,13 @@ export default function SnapshotHistoryModal({
         size={"xl"}
       >
         {({ dateOffset }) => (
-          <ActivityModuleContent
-            key={dateOffset}
-            date={formatDatePayload(dateOffset)}
-          />
+          <div className="min-h-[200px] flex flex-col w-full">
+            <ActivityModuleContent
+              key={dateOffset}
+              isHistory
+              date={formatDatePayload(dateOffset)}
+            />
+          </div>
         )}
       </HistoryModalWrapper>
       <div onClick={open}>{children}</div>

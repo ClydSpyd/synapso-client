@@ -56,6 +56,7 @@ export default function HistoryModalWrapper({
   return (
     <Modal
       {...modalConfig}
+      zIndex={100}
       size={size}
       opened={opened}
       onClose={() => {

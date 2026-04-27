@@ -130,8 +130,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       {loading ? (
-        <div className="h-screen w-screen flex items-center justify-center">
-          <Loader type="dots" color="grape" size={70} />
+        <div className="h-screen w-screen flex items-center justify-center gradient-bg-zen">
+          {/* <Loader type="dots" color="grape" size={70} /> */}
+          <Loader type="dots" color="white" size={70} />
           <ParticleField particleCount={100} />
         </div>
       ) : (
