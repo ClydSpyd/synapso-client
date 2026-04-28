@@ -34,6 +34,9 @@ interface MediaBase {
   imdb_votes?: string;
   imdb_id: string;
   ratings?: { source: string; value: string }[];
+  my_rating?: number;
+  my_completed?: string;
+  my_notes?: string;
 }
 
 declare interface WikiMovie extends MediaBase {
@@ -65,6 +68,9 @@ declare interface WikiBook {
   edition_key: string;
   description?: string;
   type: "book";
+  my_rating?: number;
+  my_completed?: string;
+  my_notes?: string;
 }
 
 

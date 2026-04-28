@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
-export default function StarsPicker(){
+export default function StarsPicker({
+  defaultStars = 0,
+  onChange,
+}:{
+  defaultStars: number;
+  onChange: (stars: number) => void;
+}){
     const [hoveredStar, setHoveredStar] = useState<number | null>(null);
-    const [selectedStars, setSelectedStars] = useState<number>(0);
+    const [selectedStars, setSelectedStars] = useState<number>(defaultStars);
 
     const handleMouseEnter = (index: number) => {
         setHoveredStar(index);
@@ -15,6 +21,9 @@ export default function StarsPicker(){
 
     const handleClick = (index: number) => {
         setSelectedStars(index);
+        if (onChange) {
+          onChange(index);
+        }
     };
   return (
     <div className="flex">

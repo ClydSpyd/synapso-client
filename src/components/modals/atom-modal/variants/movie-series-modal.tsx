@@ -1,24 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 import { formatMinutes } from "@/lib/utils";
-import { FaRegClock, FaRegCalendar } from "react-icons/fa6";
+import { FaRegClock } from "react-icons/fa6";
 
 import { LuDot } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
-import { BiSolidEdit } from "react-icons/bi";
 import { TbExternalLink } from "react-icons/tb";
-import StarsPicker from "../components/stars-picker";
-import { Textarea } from "@mantine/core";
 import BottomBar from "../components/bottom-bar";
 import { API } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useModalStore } from "@/stores/modal-store";
 import { useToastStore } from "@/stores/toast-store";
+import { useState } from "react";
+import FeedbackBlock from "./feedback-block";
 
 export default function MovieSeriesModal({
   item,
 }: {
   item: WikiMovie | WikiSeries;
 }) {
+  const [myFeedback, setMyFeedback] = useState<MediaFeedback>({
+    my_rating: item.my_rating ?? 0,
+    my_completed: item.my_completed ?? "",
+    my_notes: item.my_notes ?? "",
+  });
+
   const queryClient = useQueryClient();
   const { close } = useModalStore();
   const { show } = useToastStore();
@@ -147,47 +152,17 @@ export default function MovieSeriesModal({
           </h2>
           <p>{item.actors}</p>
         </div>
-        <div className="py-4 px-4 rounded-md bg-gray-100/60 shadow-xs mt-4 border border-indigo-200/80">
-          <div className="flex gap-2 font-bold items-center">
-            <BiSolidEdit className="text-indigo-600 text-xl" />{" "}
-            <h1>My Thoughts</h1>
-          </div>
-          <div className="flex w-full gap-4">
-            <div className="w-1/2">
-              <p className="mb-1 text-xs font-extrabold text-gray-400 mt-2">
-                Watched on:
-              </p>
-              <div className="border border-gray-300 rounded-sm flex items-center p-2 text-gray-500 bg-white">
-                <FaRegCalendar className="mr-2" />
-                <p>01/06/2025</p>
-              </div>
-            </div>
-            <div className="w-1/2">
-              <p className="mb-1 text-xs font-extrabold text-gray-400 mt-2">
-                My Rating:
-              </p>
-              <StarsPicker />
-            </div>
-          </div>
-          <div>
-            <p className="mb-1 text-xs font-extrabold text-gray-400 mt-2">
-              Review/notes:
-            </p>
-            <Textarea
-              // value={inputVals.reflection}
-              // onChange={(e) => handleInputChange("reflection", e.target.value)}
-              placeholder={`What did you think of ${item.title}?`}
-              size="sm"
-              autosize
-              minRows={4}
-              maxRows={6}
-              classNames={{
-                input: "!border-gray-200 !rounded-lg",
-              }}
-            />
-          </div>
-        </div>
-        <BottomBar handleDelete={handleDelete} />
+        <FeedbackBlock
+          itemTitle={item.title}
+          myFeedback={myFeedback}
+          setMyFeedback={setMyFeedback}
+        />
+        <BottomBar
+          handleDelete={handleDelete}
+          myFeedback={myFeedback}
+          id={item.id}
+          type={item.type}
+        />
       </div>
     </div>
   );

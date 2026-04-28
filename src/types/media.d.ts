@@ -15,3 +15,9 @@ declare interface OpenLibBook {
   olid: string;
   edition_key: string;
 }
+
+declare interface MediaFeedback {
+  my_rating: number;
+  my_completed: string;
+  my_notes: string;
+}

@@ -22,7 +22,15 @@ export default function StyledInput({
   return (
     <div className="flex flex-col">
       <p className="text-xs mb-1">
-        {title} {required && <span className="text-indigo-500 text-base leading-none">*</span>}
+        {title}{" "}
+        {required && (
+          <span
+            className="text-indigo-500 text-base leading-none"
+            style={{ lineHeight: "0" }}
+          >
+            *
+          </span>
+        )}
       </p>
       <TextInput
         {...rest}

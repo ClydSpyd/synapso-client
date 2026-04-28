@@ -4,7 +4,7 @@ import { ApiResponse, baseClient } from ".";
 export const mediaMethods = {
   add: async (
     imdbId: string,
-    mediaType: MediaType
+    mediaType: MediaType,
   ): Promise<ApiResponse<WikiItem>> => {
     try {
       console.log("Adding media with IMDB ID:", imdbId, "and type:", mediaType);
@@ -24,7 +24,10 @@ export const mediaMethods = {
       };
     }
   },
-  delete: async (id: string, mediaType: MediaType): Promise<ApiResponse<null>> => {
+  delete: async (
+    id: string,
+    mediaType: MediaType,
+  ): Promise<ApiResponse<null>> => {
     try {
       const response = await baseClient.delete(`wiki/media/`, {
         data: { imdb_id: id, type: mediaType },
@@ -35,7 +38,32 @@ export const mediaMethods = {
       };
     } catch (error) {
       console.log("Error deleting media:", error);
-      const err = error as AxiosError<{detail: string}>;
+      const err = error as AxiosError<{ detail: string }>;
+      return {
+        status: err.code || 500,
+        error: err.response?.data.detail || err.message,
+      };
+    }
+  },
+  saveFeedback: async (
+    myFeedback: MediaFeedback,
+    id: string,
+    mediaType: MediaType | "book",
+  ): Promise<ApiResponse<MediaFeedback>> => {
+    try {
+      const response = await baseClient.patch(
+        `wiki/media/${id}/?type=${mediaType}`,
+        {
+          ...myFeedback,
+        },
+      );
+      return {
+        status: response.status,
+        data: response.data,
+      };
+    } catch (error) {
+      console.log("Error saving feedback:", error);
+      const err = error as AxiosError<{ detail: string }>;
       return {
         status: err.code || 500,
         error: err.response?.data.detail || err.message,
