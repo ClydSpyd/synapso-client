@@ -8,7 +8,6 @@ import { activityColorOptions } from "@/app/(authenticated)/home/components/acti
 import { MdLocationOn } from "react-icons/md";
 import { BsClockFill } from "react-icons/bs";
 import { FaRoute } from "react-icons/fa6";
-import { FaFireFlameCurved } from "react-icons/fa6";
 import { BsFillStopwatchFill } from "react-icons/bs";
 import TimeField from "@/components/utility-comps/time-input";
 import StyledInput from "@/components/utility-comps/styled-input";
@@ -17,6 +16,7 @@ import { useActivitySnapshot } from "@/queries/useActivitySnapshot";
 import { API } from "@/api";
 import { useModalStore } from "@/stores/modal-store";
 import { formatDatePayload } from "@/lib/dates";
+import CaloriesSection from "./calories-section";
 
 const requiredFields: (keyof ActivityEntry)[] = [
   "title",
@@ -180,31 +180,6 @@ export default function ActivityEntryModal({
           </div>
         </IconPicker>
       </div>
-      <div className="grid grid-cols-2 gap-2 w-full">
-        <StyledInput
-          required
-          title="Location"
-          value={config.location}
-          onChange={(value) => handleInput("location", value)}
-          placeholder="Enter location"
-          leftSection={<MdLocationOn className="text-gray-400" size={21} />}
-          inputClasses="!border-gray-400 focus:!border-[var(--accent-three)] !text-base"
-        />
-        <StyledInput
-          type="number"
-          title="Calories Burned"
-          leftSection={
-            <FaFireFlameCurved className="text-gray-400" size={16} />
-          }
-          placeholder="0"
-          rightSection={
-            <span className="text-gray-400 text-sm mr-1">kcals</span>
-          }
-          value={config.kcals !== undefined ? String(config.kcals) : ""}
-          name="kcals"
-          onChange={(value: string) => handleInput("kcals", Number(value))}
-        />
-      </div>
       <div className="grid grid-cols-3 gap-2 w-full">
         <div className="flex flex-col">
           <p className="text-xs mb-1">
@@ -247,6 +222,44 @@ export default function ActivityEntryModal({
           onChange={(value: string) => handleInput("distance", Number(value))}
         />
       </div>
+      <div className="grid grid-cols-2 gap-2 w-full">
+        <StyledInput
+          required
+          title="Location"
+          value={config.location}
+          onChange={(value) => handleInput("location", value)}
+          placeholder="Enter location"
+          leftSection={<MdLocationOn className="text-gray-400" size={21} />}
+          inputClasses="!border-gray-400 focus:!border-[var(--accent-three)] !text-base"
+        />
+        {/* <StyledInput
+          type="number"
+          title="Calories Burned"
+          leftSection={
+            <FaFireFlameCurved className="text-gray-400" size={16} />
+          }
+          placeholder="0"
+          rightSection={
+            <span className="text-gray-400 text-sm mr-1">kcals</span>
+          }
+          value={config.kcals !== undefined ? String(config.kcals) : ""}
+          name="kcals"
+          onChange={(value: string) => handleInput("kcals", Number(value))}
+        /> */}
+        <CaloriesSection
+          entryData={{
+            type: config.type!,
+            title: config.title!,
+            duration: config.duration!,
+            distance: config.distance,
+          }}
+          value={config.kcals ?? undefined}
+          onChange={(value) => handleInput("kcals", value)}
+          enableEstimation={
+            !!config.title && !!config.type && !!config.duration
+          }
+        />
+      </div>
       <div className="flex flex-col gap-1 mb-1">
         <p className="text-xs">Activity Description</p>
         <Textarea
@@ -254,9 +267,9 @@ export default function ActivityEntryModal({
           placeholder="Enter activity description"
           value={config.description !== undefined ? config.description : ""}
           name="description"
-        classNames={{
-          input: `!border-gray-400 focus:!border-[var(--accent-three)] !text-base`,
-        }}
+          classNames={{
+            input: `!border-gray-400 focus:!border-[var(--accent-three)] !text-base`,
+          }}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             handleInput("description", e.target.value)
           }
